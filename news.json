@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Sample Story One",
+    "source": "Example News",
+    "published_at": "2026-03-15T23:46:56.398034Z",
+    "url": "https://example.com/story-1",
+    "summary": "This is a test summary for the first sample story.",
+    "tags": [
+      "test",
+      "news"
+    ],
+    "score": 7.5
+  },
+  {
+    "title": "Sample Story Two",
+    "source": "Example Daily",
+    "published_at": "2026-03-15T23:46:56.398252Z",
+    "url": "https://example.com/story-2",
+    "summary": "This is a test summary for the second sample story.",
+    "tags": [
+      "test",
+      "feed"
+    ],
+    "score": 8.1
+  }
+]
