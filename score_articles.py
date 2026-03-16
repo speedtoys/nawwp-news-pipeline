@@ -70,7 +70,7 @@ URL: {article.get("url", "")}
                             "type": "array",
                             "items": {"type": "string"},
                             "minItems": 0,
-                            "maxItems": 5,
+                            "maxItems": 5
                         },
                         "summary": {"type": "string"},
                     },
