@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Latest Stories | NAWWP</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #121a2b;
+      --panel-2: #182238;
+      --text: #f3f6fb;
+      --muted: #aab6cc;
+      --accent: #d84b4b;
+      --border: #2a3650;
+      --tag: #22304b;
+      --link: #8eb8ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      padding: 32px 20px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #0f1728 0%, #0b1220 100%);
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+    }
+
+    .subhead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    main {
+      padding: 24px 20px 60px;
+    }
+
+    .status {
+      color: var(--muted);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .score {
+      color: #ffd27d;
+      font-weight: bold;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      line-height: 1.3;
+    }
+
+    h2 a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    h2 a:hover {
+      color: var(--link);
+      text-decoration: underline;
+    }
+
+    .summary {
+      margin: 0 0 14px;
+      color: #dbe5f6;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      background: var(--tag);
+      border: 1px solid var(--border);
+      color: #cfe0ff;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.82rem;
+    }
+
+    .actions a {
+      display: inline-block;
+      color: var(--link);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .actions a:hover {
+      text-decoration: underline;
+    }
+
+    .empty,
+    .error {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 24px 20px 40px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Latest Stories</h1>
+      <p class="subhead">AI-filtered news feed for NAWWP</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div id="status" class="status">Loading latest stories...</div>
+      <div id="feed" class="grid"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Links go to original sources. Summaries are generated from your pipeline.
+    </div>
+  </footer>
+
+  <script>
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function formatDate(isoString) {
+      if (!isoString) return "Unknown date";
+      const date = new Date(isoString);
+      if (Number.isNaN(date.getTime())) return isoString;
+      return date.toLocaleString();
+    }
+
+    function renderArticle(article) {
+      const tags = Array.isArray(article.tags)
+        ? article.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")
+        : "";
+
+      const score = typeof article.score === "number"
+        ? article.score.toFixed(1)
+        : escapeHtml(article.score ?? "0");
+
+      return `
+        <article class="card">
+          <div class="meta">
+            <span>${escapeHtml(article.source || "Unknown source")}</span>
+            <span>${escapeHtml(formatDate(article.published_at))}</span>
+            <span class="score">Score: ${score}</span>
+          </div>
+
+          <h2>
+            <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
+              ${escapeHtml(article.title || "Untitled")}
+            </a>
+          </h2>
+
+          <p class="summary">${escapeHtml(article.summary || "")}</p>
+
+          <div class="tags">${tags}</div>
+
+          <div class="actions">
+            <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
+              Read original article →
+            </a>
+          </div>
+        </article>
+      `;
+    }
+
+    async function loadFeed() {
+      const statusEl = document.getElementById("status");
+      const feedEl = document.getElementById("feed");
+
+      try {
+        const response = await fetch("news.json?v=" + Date.now(), { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error("Could not load news.json");
+        }
+
+        const articles = await response.json();
+
+        if (!Array.isArray(articles) || articles.length === 0) {
+          statusEl.textContent = "No stories available right now.";
+          feedEl.innerHTML = `<div class="empty">The feed is empty. Run the pipeline again and upload a fresh news.json.</div>`;
+          return;
+        }
+
+        statusEl.textContent = `Loaded ${articles.length} stories.`;
+        feedEl.innerHTML = articles.map(renderArticle).join("");
+      } catch (error) {
+        statusEl.textContent = "Failed to load stories.";
+        feedEl.innerHTML = `<div class="error">Error loading feed: ${escapeHtml(error.message)}</div>`;
+      }
+    }
+
+    loadFeed();
+  </script>
+</body>
+</html>
