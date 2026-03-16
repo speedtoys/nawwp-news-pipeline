@@ -1,0 +1,69 @@
+[
+  {
+    "title": "Billionaire Uber co-founder reveals he’s joined exodus from California",
+    "source": "New York Post",
+    "published_at": "2026-03-15T01:52:05Z",
+    "url": "https://nypost.com/2026/03/14/us-news/billionaire-uber-co-founder-reveals-hes-bolted-california-for-texas/",
+    "summary": "Uber co-founder Travis Kalanick says he has traded California for Texas, joining a growing list of billionaires abandoning the state as left-leaning lawmakers push for a one-off wealth tax. Speaking about his robotics startup Atoms on TPBN, Kalanick confirmed the move and framed it as a response to California’s fiscal and regulatory climate.",
+    "score": 0.85,
+    "pipeline_score": 1.0,
+    "topic": "General Culture War",
+    "section_slug": "general-culture-war",
+    "topic_tags": [
+      "exodus",
+      "tax-backlash",
+      "elite-migration"
+    ],
+    "tags": [
+      "newsapi",
+      "Travis Kalanick",
+      "California",
+      "Texas",
+      "wealth tax",
+      "billionaire exodus"
+    ]
+  },
+  {
+    "title": "Fmr. Obama Official Rattner: Lack of Immigration Isn't Hurting Job Market, There’s No Shortage",
+    "source": "Breitbart News",
+    "published_at": "2026-03-15T01:33:39Z",
+    "url": "https://www.breitbart.com/clips/2026/03/14/fmr-obama-official-rattner-lack-of-immigration-isnt-hurting-job-market-theres-no-shortage/",
+    "summary": "On Bloomberg's Wall Street Week, former Obama administration official Steve Rattner argued that while he favors more immigration, claims that a lack of immigrants is causing a labor shortage and hurting the job market are overblown. The remarks directly engage the ongoing political debate over immigration, jobs, and policy responses.",
+    "score": 1.0,
+    "pipeline_score": 1.0,
+    "topic": "Immigration / Identity",
+    "section_slug": "immigration-identity",
+    "topic_tags": [
+      "immigration"
+    ],
+    "tags": [
+      "newsapi",
+      "breitbart",
+      "jobs",
+      "labor",
+      "economy",
+      "rattner"
+    ]
+  },
+  {
+    "title": "French mayoral elections gauge far-right strength before presidential ballot",
+    "source": "The Star Online (Reuters)",
+    "published_at": "2026-03-15T01:11:00Z",
+    "url": "https://www.thestar.com.my/news/world/2026/03/15/french-mayoral-elections-gauge-far-right-strength-before-presidential-ballot",
+    "summary": "French municipal elections are being watched as a test of the far-right's momentum and a potential warning sign ahead of next year's presidential race, prompting concern among mainstream parties and debates about political stability and polarization.",
+    "score": 1.0,
+    "pipeline_score": 1.0,
+    "topic": "Voting / Civic Panic",
+    "section_slug": "voting-civic-panic",
+    "topic_tags": [
+      "far-right",
+      "mayoral-election",
+      "France",
+      "presidential-election",
+      "polarization"
+    ],
+    "tags": [
+      "newsapi"
+    ]
+  }
+]

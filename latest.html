@@ -1,1118 +1,1111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NAWWP News Wire</title>
-  <meta
-    name="description"
-    content="NAWWP News Wire: a topic-sorted culture-war and civic-backlash news front page."
-  />
-  <style>
-    :root {
-      --bg: #08101f;
-      --panel: #0e1930;
-      --panel-2: #12203d;
-      --panel-3: #16274b;
-      --line: rgba(161, 183, 232, 0.16);
-      --line-strong: rgba(161, 183, 232, 0.28);
-      --text: #edf3ff;
-      --muted: #a8b6d8;
-      --soft: #7f91b9;
-      --accent: #8fb5ff;
-      --accent-2: #d7e4ff;
-      --gold: #ffd066;
-      --danger: #ffb0b0;
-      --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
-      --serif: Georgia, "Times New Roman", Times, serif;
-      --sans: Inter, Arial, Helvetica, sans-serif;
-      --max: 1320px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      color: var(--text);
-      font-family: var(--sans);
-      background:
-        radial-gradient(circle at top center, rgba(62, 96, 170, 0.16), transparent 32%),
-        linear-gradient(180deg, #06101d 0%, #08101f 100%);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    a:hover {
-      color: var(--accent-2);
-    }
-
-    .page {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 18px 48px;
-    }
-
-    .top-strip {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: center;
-      padding: 12px 0 10px;
-      border-bottom: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .top-strip-left,
-    .top-strip-right {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .masthead {
-      padding: 22px 0 18px;
-      border-bottom: 2px solid var(--line-strong);
-    }
-
-    .brand-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .brand-lockup {
-      display: grid;
-      gap: 8px;
-    }
-
-    .brand-kicker {
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1.8px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .brand-title {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: clamp(34px, 5vw, 68px);
-      line-height: 0.95;
-      letter-spacing: 0.5px;
-      font-weight: 700;
-      color: var(--accent-2);
-    }
-
-    .brand-tagline {
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 760px;
-      line-height: 1.5;
-    }
-
-    .edition-box {
-      min-width: 250px;
-      padding: 14px 16px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: linear-gradient(180deg, rgba(20, 33, 62, 0.92), rgba(11, 21, 40, 0.92));
-      box-shadow: var(--shadow);
-    }
-
-    .edition-label {
-      color: var(--soft);
-      text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 1.4px;
-      margin-bottom: 6px;
-      font-weight: 700;
-    }
-
-    .edition-value {
-      color: var(--text);
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .main-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      align-items: center;
-      padding: 15px 0 6px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 24px;
-    }
-
-    .nav-link {
-      position: relative;
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 8px 0;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: var(--sans);
-    }
-
-    .nav-link:hover {
-      color: var(--text);
-    }
-
-    .nav-link.active {
-      color: var(--accent-2);
-    }
-
-    .nav-link.active::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -7px;
-      height: 2px;
-      background: var(--accent);
-      border-radius: 1px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.8fr) minmax(280px, 0.85fr);
-      gap: 26px;
-      align-items: start;
-    }
-
-    .content-col,
-    .sidebar-col {
-      min-width: 0;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.95fr);
-      gap: 20px;
-      margin-bottom: 26px;
-    }
-
-    .hero-card {
-      padding: 24px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(18, 31, 58, 0.98), rgba(11, 21, 40, 0.98));
-      box-shadow: var(--shadow);
-    }
-
-    .kicker {
-      display: inline-block;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
-      font-size: 11px;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .hero-headline {
-      margin: 0 0 14px;
-      font-family: var(--serif);
-      font-size: clamp(30px, 4vw, 50px);
-      line-height: 1.03;
-      font-weight: 700;
-    }
-
-    .hero-summary {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.65;
-    }
-
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 16px;
-      color: var(--soft);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .hero-actions {
-      margin-top: 18px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .read-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px 15px;
-      border-radius: 999px;
-      border: 1px solid var(--line-strong);
-      background: rgba(143, 181, 255, 0.1);
-      color: var(--accent-2);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .read-link:hover {
-      background: rgba(143, 181, 255, 0.16);
-    }
-
-    .score-badge {
-      color: var(--gold);
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .top-stories {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(16, 27, 49, 0.96), rgba(10, 19, 35, 0.96));
-      box-shadow: var(--shadow);
-    }
-
-    .block-title {
-      margin: 0 0 14px;
-      color: var(--accent-2);
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
-    }
-
-    .top-story-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .top-story-item {
-      display: grid;
-      gap: 5px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .top-story-item:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .top-story-item .topic-mini {
-      color: var(--accent);
-      text-transform: uppercase;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-    }
-
-    .top-story-item .headline-mini {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: 22px;
-      line-height: 1.15;
-      font-weight: 700;
-    }
-
-    .top-story-item .meta-mini {
-      color: var(--soft);
-      font-size: 12px;
-    }
-
-    .lead-row {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-
-    .story-card {
-      display: grid;
-      gap: 10px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(18, 29, 53, 0.96), rgba(10, 19, 35, 0.96));
-      box-shadow: var(--shadow);
-    }
-
-    .story-card .headline {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: 28px;
-      line-height: 1.1;
-      font-weight: 700;
-    }
-
-    .story-card .summary {
-      margin: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.55;
-    }
-
-    .story-card .topic-label {
-      color: var(--accent);
-      text-transform: uppercase;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-    }
-
-    .sections {
-      display: grid;
-      gap: 28px;
-    }
-
-    .section-block {
-      padding-top: 8px;
-      border-top: 2px solid var(--line-strong);
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: baseline;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .section-title {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: 34px;
-      line-height: 1.05;
-      color: var(--accent-2);
-    }
-
-    .section-count {
-      color: var(--soft);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 700;
-    }
-
-    .section-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(250px, 0.9fr);
-      gap: 16px;
-    }
-
-    .section-lead {
-      padding: 20px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(17, 29, 54, 0.95), rgba(10, 20, 37, 0.95));
-    }
-
-    .section-lead .headline {
-      margin: 0 0 10px;
-      font-family: var(--serif);
-      font-size: 34px;
-      line-height: 1.08;
-      font-weight: 700;
-    }
-
-    .section-lead .summary {
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .section-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .section-list-item {
-      padding: 15px 16px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: linear-gradient(180deg, rgba(14, 24, 44, 0.94), rgba(9, 17, 31, 0.94));
-    }
-
-    .section-list-item .headline-small {
-      margin: 0 0 8px;
-      font-family: var(--serif);
-      font-size: 22px;
-      line-height: 1.14;
-      font-weight: 700;
-    }
-
-    .section-list-item .summary-small {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .sidebar-box {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(15, 25, 47, 0.97), rgba(9, 17, 31, 0.97));
-      box-shadow: var(--shadow);
-      margin-bottom: 18px;
-    }
-
-    .sidebar-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .sidebar-item {
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .sidebar-item:last-child {
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
-    .sidebar-item-title {
-      margin: 0 0 5px;
-      font-family: var(--serif);
-      font-size: 21px;
-      line-height: 1.15;
-      font-weight: 700;
-    }
-
-    .sidebar-item-meta {
-      color: var(--soft);
-      font-size: 12px;
-    }
-
-    .topic-index {
-      display: grid;
-      gap: 8px;
-    }
-
-    .topic-index a {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .topic-index a:hover {
-      color: var(--text);
-      border-color: var(--line-strong);
-    }
-
-    .count-pill {
-      color: var(--accent-2);
-      font-size: 12px;
-    }
-
-    .about-copy {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.65;
-      margin: 0;
-    }
-
-    .tags-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 12px;
-    }
-
-    .tag {
-      padding: 5px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      color: var(--soft);
-      font-size: 11px;
-      line-height: 1;
-      text-transform: lowercase;
-    }
-
-    .empty,
-    .error-box {
-      padding: 24px 18px;
-      border-radius: 16px;
-      border: 1px dashed var(--line-strong);
-      background: rgba(255, 255, 255, 0.02);
-      color: var(--muted);
-    }
-
-    .error-box {
-      color: var(--danger);
-      border-color: rgba(255, 176, 176, 0.35);
-      background: rgba(255, 120, 120, 0.06);
-      white-space: pre-wrap;
-    }
-
-    .footer {
-      margin-top: 34px;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
-      color: var(--soft);
-      font-size: 13px;
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 1120px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 920px) {
-      .lead-row {
-        grid-template-columns: 1fr;
-      }
-
-      .section-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .page {
-        padding: 0 12px 32px;
-      }
-
-      .brand-title {
-        font-size: 42px;
-      }
-
-      .hero-card,
-      .top-stories,
-      .story-card,
-      .section-lead,
-      .section-list-item,
-      .sidebar-box {
-        padding-left: 15px;
-        padding-right: 15px;
-      }
-
-      .hero-headline {
-        font-size: 34px;
-      }
-
-      .section-title {
-        font-size: 28px;
-      }
-
-      .section-lead .headline,
-      .story-card .headline {
-        font-size: 28px;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NAWWP candidate stories</title>
+<style>
+:root {
+  --bg:#060b15; --panel:#0f1725; --panel2:#111c2d; --text:#e8eefc; --muted:#aeb9d0; --line:#284164; --tag:#152741;
+}
+body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif; }
+.wrap { max-width:1460px; margin:0 auto; padding:34px 28px 80px; }
+h1 { font-size:58px; line-height:1.05; margin:0 0 10px; }
+.sub { color:var(--muted); font-size:18px; margin-bottom:24px; }
+.stats { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:30px; }
+.pill { border:1px solid var(--line); background:var(--panel2); padding:10px 16px; border-radius:999px; color:var(--text); }
+.section { margin-top:36px; }
+.section h2 { font-size:34px; margin:0 0 18px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:22px; }
+.card { background:linear-gradient(180deg,var(--panel),#0c1421); border:1px solid var(--line); border-radius:24px; padding:22px; box-shadow:0 12px 32px rgba(0,0,0,.26); }
+.card h3 { margin:10px 0 12px; font-size:28px; line-height:1.18; }
+.card h3 a { color:var(--text); text-decoration:none; }
+.card h3 a:hover { text-decoration:underline; }
+.meta { display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:15px; }
+.reason { margin-top:14px; color:#97c7ff; font-weight:600; }
+.tags { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+.tag { border:1px solid var(--line); background:var(--tag); border-radius:999px; padding:7px 12px; color:var(--text); }
+.source { margin-top:16px; color:var(--muted); font-size:14px; }
+.small { color:var(--muted); font-size:14px; margin-top:8px; }
+</style>
 </head>
 <body>
-  <div class="page">
-    <div class="top-strip">
-      <div class="top-strip-left">
-        <span id="current-date">Loading date...</span>
-        <span id="story-count-top">0 stories</span>
-      </div>
-      <div class="top-strip-right">
-        <span id="last-updated">Awaiting feed</span>
-      </div>
-    </div>
+<div class="wrap">
+<h1>NAWWP candidate stories</h1>
+<div class="sub">Generated 2026-03-16 10:27 • tuned for U.S. identity-outrage coverage with a separate “In the wings” lane for borderline stories.</div>
+<div class="stats">
+  <div class="pill">kept: 66</div>
+  <div class="pill">in the wings: 15</div>
+  <div class="pill">reviewed: 84</div>
+  <div class="pill">rejected: 3</div>
+  <div class="pill">before dedupe: 107</div>
+  <div class="pill">after dedupe: 84</div>
+  <div class="pill">archive dedupe enabled</div>
+</div>
 
-    <header class="masthead">
-      <div class="brand-row">
-        <div class="brand-lockup">
-          <div class="brand-kicker">National Desk</div>
-          <h1 class="brand-title">NAWWP News Wire</h1>
-          <p class="brand-tagline">
-            Culture-war panic, civic backlash, and grievance politics — sorted into a front page that reads like a publication, not a dashboard.
-          </p>
-        </div>
-
-        <div class="edition-box">
-          <div class="edition-label">Today’s edition</div>
-          <div class="edition-value">
-            Topic-sorted headlines across education, religion, immigration, books, gender, DEI, and voting.
+<section class="section">
+  <h2>Kept</h2>
+  <div class="grid">
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 10.0</span>
           </div>
-        </div>
-      </div>
-    </header>
-
-    <nav class="main-nav" id="main-nav"></nav>
-
-    <div class="layout">
-      <main class="content-col">
-        <div id="main-content"></div>
-      </main>
-
-      <aside class="sidebar-col">
-        <div id="sidebar-content"></div>
-      </aside>
-    </div>
-
-    <footer class="footer">
-      <div>NAWWP News Wire</div>
-      <div>Built from <code>news.json</code> and topic-grouped in the pipeline.</div>
-    </footer>
-  </div>
-
-  <script>
-    const TOPIC_CONFIG = [
-      { slug: "all", label: "Home" },
-      { slug: "education", label: "Education" },
-      { slug: "religion-church-state", label: "Religion" },
-      { slug: "immigration-identity", label: "Immigration" },
-      { slug: "books-libraries-curriculum", label: "Books" },
-      { slug: "gender-lgbtq", label: "Gender" },
-      { slug: "dei-diversity-backlash", label: "DEI" },
-      { slug: "voting-civic-panic", label: "Voting" },
-      { slug: "general-culture-war", label: "General" }
-    ];
-
-    let currentFilter = "all";
-    let articles = [];
-
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
-    function safeArray(value) {
-      return Array.isArray(value) ? value : [];
-    }
-
-    function safeNumber(value, fallback = 0) {
-      const n = Number(value);
-      return Number.isFinite(n) ? n : fallback;
-    }
-
-    function getTopicLabel(slug, fallback = "General") {
-      const found = TOPIC_CONFIG.find(item => item.slug === slug);
-      return found ? found.label : fallback;
-    }
-
-    function formatDate(dateString) {
-      if (!dateString) return "Unknown date";
-      const d = new Date(dateString);
-      if (Number.isNaN(d.getTime())) return String(dateString);
-      return d.toLocaleString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit"
-      });
-    }
-
-    function formatDisplayDate(dateString) {
-      const d = new Date(dateString);
-      if (Number.isNaN(d.getTime())) {
-        return new Date().toLocaleDateString(undefined, {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-          year: "numeric"
-        });
-      }
-      return d.toLocaleDateString(undefined, {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-        year: "numeric"
-      });
-    }
-
-    function normalizeArticle(article) {
-      article = article && typeof article === "object" ? article : {};
-      return {
-        title: typeof article.title === "string" ? article.title : "Untitled",
-        source: typeof article.source === "string" ? article.source : "Unknown source",
-        published_at: typeof article.published_at === "string" ? article.published_at : "",
-        url: typeof article.url === "string" && article.url ? article.url : "#",
-        summary: typeof article.summary === "string" ? article.summary : "",
-        score: safeNumber(article.score, 0),
-        pipeline_score: safeNumber(article.pipeline_score, 0),
-        topic: typeof article.topic === "string" ? article.topic : "General Culture War",
-        section_slug: typeof article.section_slug === "string" && article.section_slug
-          ? article.section_slug
-          : "general-culture-war",
-        topic_tags: safeArray(article.topic_tags).map(v => String(v).trim()).filter(Boolean),
-        tags: safeArray(article.tags).map(v => String(v).trim()).filter(Boolean)
-      };
-    }
-
-    function sortArticles(items) {
-      return [...items].sort((a, b) => {
-        const scoreDiff = safeNumber(b.score, 0) - safeNumber(a.score, 0);
-        if (scoreDiff !== 0) return scoreDiff;
-
-        const dateA = new Date(a.published_at || 0).getTime();
-        const dateB = new Date(b.published_at || 0).getTime();
-        return dateB - dateA;
-      });
-    }
-
-    function uniqueTags(article, limit = 5) {
-      return [...article.topic_tags, ...article.tags]
-        .map(tag => String(tag).trim())
-        .filter(Boolean)
-        .filter((tag, index, arr) => arr.findIndex(t => t.toLowerCase() === tag.toLowerCase()) === index)
-        .slice(0, limit);
-    }
-
-    function buildNav() {
-      const nav = document.getElementById("main-nav");
-      nav.innerHTML = "";
-
-      TOPIC_CONFIG.forEach(item => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "nav-link" + (item.slug === currentFilter ? " active" : "");
-        btn.textContent = item.label;
-        btn.addEventListener("click", () => {
-          currentFilter = item.slug;
-          buildNav();
-          renderPage();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-        nav.appendChild(btn);
-      });
-    }
-
-    function articleMeta(article) {
-      return `
-        <div class="meta-row">
-          <span><strong>Source:</strong> ${escapeHtml(article.source)}</span>
-          <span><strong>Published:</strong> ${escapeHtml(formatDate(article.published_at))}</span>
-        </div>
-      `;
-    }
-
-    function buildHero(article) {
-      return `
-        <section class="hero-card">
-          <div class="kicker">${escapeHtml(getTopicLabel(article.section_slug, article.topic))}</div>
-          <h2 class="hero-headline">
-            <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
-              ${escapeHtml(article.title)}
-            </a>
-          </h2>
-          <p class="hero-summary">${escapeHtml(article.summary)}</p>
-          ${articleMeta(article)}
-          <div class="hero-actions">
-            <a class="read-link" href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">Read full story →</a>
-            <span class="score-badge">Score: ${escapeHtml(article.score.toFixed(1))}</span>
-          </div>
-        </section>
-      `;
-    }
-
-    function buildTopStoryItem(article) {
-      return `
-        <article class="top-story-item">
-          <div class="topic-mini">${escapeHtml(getTopicLabel(article.section_slug, article.topic))}</div>
-          <h3 class="headline-mini">
-            <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
-              ${escapeHtml(article.title)}
-            </a>
-          </h3>
-          <div class="meta-mini">${escapeHtml(article.source)} · ${escapeHtml(formatDate(article.published_at))}</div>
+          <h3><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxNQzRjNnpaNzEzeXNkNDQ5UG9rNmczYmFQbTNqRHFDMUhvZUR2N1pMQlljanZ6QVR5d3NESEFfUHRreWd0ZFlLWEFGVnVGNkhrOWpOUlZkUkxFbmhYWUoyYkN0ZmRtYzdvWGFsbDlfUzVYTmZhdGV3REcwYU1RaTNtZWtmdUxJVmFpVjNMWlM2YzhId3JMMlFPaFd3?oc=5" target="_blank" rel="noopener noreferrer">Republican Officials Fuel Vitriol Against Muslims and Islamic School in Alabama - The New York Times</a></h3>
+          <p>Republican Officials Fuel Vitriol Against Muslims and Islamic School in Alabama The New York Times</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
         </article>
-      `;
-    }
-
-    function buildLeadCard(article) {
-      return `
-        <article class="story-card">
-          <div class="topic-label">${escapeHtml(getTopicLabel(article.section_slug, article.topic))}</div>
-          <h3 class="headline">
-            <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
-              ${escapeHtml(article.title)}
-            </a>
-          </h3>
-          <p class="summary">${escapeHtml(article.summary)}</p>
-          ${articleMeta(article)}
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>US</span>
+            <span>score 10.0</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiUkFVX3lxTE0zVWF6bHhrSEd2aExKS0xycnFoYmxPS01xVVdaRVMyc2UyVFhNaU5qdWhNS24wX2djQk4tTVZlSUJNaW51STJkYWctOXg4OW9TcXfSAWRBVV95cUxQZWY4TFoxMEdPRzZsakw4cjE1NW96UDdYdUlDNFR1SDFDclJFTFRpc2RHM3liamdDc0l2bDVCVlNEcG51cGZ3bUJDRVhGd3NGMHZQOVhEb3dVemxESW9qYmRYZGw1?oc=5" target="_blank" rel="noopener noreferrer">MAGA fans freak out over Trump&#x27;s secret new appointment: &#x27;DEI on steroids&#x27; - rawstory.com</a></h3>
+          <p>MAGA fans freak out over Trump&#x27;s secret new appointment: &#x27;DEI on steroids&#x27; rawstory.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span><span class="tag">book-bans</span><span class="tag">schools</span></div>
+          <div class="source">Book bans and curriculum</div>
         </article>
-      `;
-    }
-
-    function buildSectionLead(article) {
-      const tags = uniqueTags(article, 5);
-      return `
-        <article class="section-lead">
-          <div class="kicker">${escapeHtml(getTopicLabel(article.section_slug, article.topic))}</div>
-          <h3 class="headline">
-            <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
-              ${escapeHtml(article.title)}
-            </a>
-          </h3>
-          <p class="summary">${escapeHtml(article.summary)}</p>
-          ${articleMeta(article)}
-          ${tags.length ? `<div class="tags-row">${tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>TX</span>
+            <span>score 10.0</span>
+          </div>
+          <h3><a href="https://feeds.texastribune.org/link/16799/17288140/texas-lawsuit-school-vouchers-muslim-parent" target="_blank" rel="noopener noreferrer">Muslim parents, private schools sue Texas over exclusion of Islamic institutions in voucher program</a></h3>
+          <p>The federal lawsuits argue Texas officials are engaging in religious discrimination by preventing Islamic private schools from accessing state voucher money.</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">schools</span><span class="tag">religion</span></div>
+          <div class="source">Texas Tribune Main</div>
         </article>
-      `;
-    }
-
-    function buildSectionListItem(article) {
-      return `
-        <article class="section-list-item">
-          <h4 class="headline-small">
-            <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
-              ${escapeHtml(article.title)}
-            </a>
-          </h4>
-          <p class="summary-small">${escapeHtml(article.summary)}</p>
-          <div class="meta-row">
-            <span>${escapeHtml(article.source)}</span>
-            <span>${escapeHtml(formatDate(article.published_at))}</span>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>US</span>
+            <span>score 10.0</span>
           </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxOYkd6eklnbWxrYm9KRjliTkU2OWhibmFlWWR5MTVDM2FZSXNfWVktZ3F2cWRjMnJyWm1QUFZOeV9VcW9XMnJZQWdBTnJsVl9WSXFzd1VMUWNSVFBnZVB3Vk9STnZGdkk1eWc3LUVhbUZlYWhlNEVHOURFWS0zRjdlNDhJN2JlaC1hTldySThsb2llSFRLVTRzdHlrRi01VVpWcm13SjdWYWV5RUpONkFsbVQ0VXo4LUdmQjlzblRfaw?oc=5" target="_blank" rel="noopener noreferrer">Conservative Attacks on Diversity, Equity, and Inclusion Intensify - National Today</a></h3>
+          <p>Conservative Attacks on Diversity, Equity, and Inclusion Intensify National Today</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span></div>
+          <div class="source">DEI backlash</div>
         </article>
-      `;
-    }
-
-    function buildSectionBlock(label, slug, items) {
-      if (!items.length) return "";
-
-      const lead = items[0];
-      const others = items.slice(1, 4);
-
-      return `
-        <section class="section-block" id="section-${escapeHtml(slug)}">
-          <div class="section-header">
-            <h2 class="section-title">${escapeHtml(label)}</h2>
-            <div class="section-count">${items.length} stor${items.length === 1 ? "y" : "ies"}</div>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 9.3</span>
           </div>
-
-          <div class="section-grid">
-            ${buildSectionLead(lead)}
-            <div class="section-list">
-              ${others.length ? others.map(buildSectionListItem).join("") : `<div class="empty">No additional stories in this section yet.</div>`}
-            </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxOeUZlNkZLTzVTREpHaEZJWmFhNTBoQlo5c1paVUJWTzh3d3pYdjhyUWdCVndMaTgwMGZqOUJDd2lsN1Q5VmhrYjFKbjFMZm5sT005QmVYdjVwcFNMenNDVktuUXM5Wmx4d2tqbzV5cUZQUUVoS2RRVnYwQ3JkczZIVlktWFctdlJySE5zR0llZERpbWpRTDJoTEt1ZnlOa2dfWU9HbUxfdG5UX1dWdFNXX0VjcGh0cHplZFRrMHU2ZG4tQ2V0Tm1XVFdEdUw4MTVkQTJz?oc=5" target="_blank" rel="noopener noreferrer">GOP Rep Who Trashed Islam in a Tweet Had the Perfect Response to the Backlash - townhall.com</a></h3>
+          <p>GOP Rep Who Trashed Islam in a Tweet Had the Perfect Response to the Backlash townhall.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 9.3</span>
           </div>
-        </section>
-      `;
-    }
-
-    function buildSidebar(allArticles, visibleArticles) {
-      const latest = [...allArticles]
-        .sort((a, b) => new Date(b.published_at || 0).getTime() - new Date(a.published_at || 0).getTime())
-        .slice(0, 6);
-
-      const counts = TOPIC_CONFIG
-        .filter(item => item.slug !== "all")
-        .map(item => ({
-          ...item,
-          count: allArticles.filter(article => article.section_slug === item.slug).length
-        }))
-        .filter(item => item.count > 0);
-
-      return `
-        <div class="sidebar-box">
-          <h3 class="block-title">Latest Headlines</h3>
-          <div class="sidebar-list">
-            ${latest.map(article => `
-              <article class="sidebar-item">
-                <h4 class="sidebar-item-title">
-                  <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
-                    ${escapeHtml(article.title)}
-                  </a>
-                </h4>
-                <div class="sidebar-item-meta">${escapeHtml(article.source)} · ${escapeHtml(formatDate(article.published_at))}</div>
-              </article>
-            `).join("")}
+          <h3><a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxQeU1uMW4yaFAtU3VXREhDOFV2X0JobktIbmhaaWdkbGh5U3V2RFhxdnBFUU5KRUVMTU5xa1U1eWJFb0JDS0FqVGlSNUNpWEptblA4UFFpenhZalFlcml4WVpoeVdqbU1VWWd4ZURpT0ptSU4yNGRRSjJDcU1oR1ZjOVowekxpcHFReHBZNGdNMnZFR0ZUV0Vn?oc=5" target="_blank" rel="noopener noreferrer">House Republican Faces Backlash to Islamophobic Post Suggesting He Prefers Dogs to Muslims - The New York Times</a></h3>
+          <p>House Republican Faces Backlash to Islamophobic Post Suggesting He Prefers Dogs to Muslims The New York Times</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>US</span>
+            <span>score 9.2</span>
           </div>
-        </div>
-
-        <div class="sidebar-box">
-          <h3 class="block-title">Sections</h3>
-          <div class="topic-index">
-            ${counts.map(item => `
-              <a href="#section-${escapeHtml(item.slug)}" onclick="event.preventDefault(); jumpToSection('${escapeHtml(item.slug)}')">
-                <span>${escapeHtml(item.label)}</span>
-                <span class="count-pill">${item.count}</span>
-              </a>
-            `).join("")}
+          <h3><a href="https://news.google.com/rss/articles/CBMi0AFBVV95cUxPcWJocXkzcmlkNGdIQlQzU3B6cGM5aGZfX0paNVFvZ0hjZWNYRkFNRjJ0TU9SVjBLVlBPLUhZY0tCYmg1a0FjRkhyMmhnVFNqX1VyckkxbDczVEZpcDFmUmY5ZlR6bzJPRXpaZk45VzZrVmR6WkNsQ0RpMzhrdVlmODZ6OE9LYnF6ZURBMHdtakEzZ1hwR3dwc29sMU42Z3ljNHR0UmUxRkFLVUNRQ0JRUlUtenRXcGFFVWNXb2NUWVB6ZzdsRzZWbkYyVXN6N01j0gHWAUFVX3lxTE1ReUg1cDYxODk4YWNwU3RJLVdzOUJacnplZzBnLWYzZkpTb1NadnlZUjBRamFscFV1aGNXNzB6Y003cFByUWJVZG5pbS1SS0lwU0JoS1JZU3dVSXZYNFpPS1dLb0QteHVNNjNtTnBzUVR4QmlRbGRHR2JBSWxNMTdOTlB0aV93bDY0RnRlU2VNbzVJem9ocmZHMndOSFdoMmVQVFRtVzlNSE83S1YzVkh1U1Y3VS1WbjNST1gtbGJNOWdtY0JFRHhxRy1DUUE1UXIxeDZta1E?oc=5" target="_blank" rel="noopener noreferrer">House conservative unveils bill to end chain migration, scrap diversity visa in sweeping immigration overhaul - Fox News</a></h3>
+          <p>House conservative unveils bill to end chain migration, scrap diversity visa in sweeping immigration overhaul Fox News</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span><span class="tag">immigration</span></div>
+          <div class="source">DEI backlash</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 8.5</span>
           </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMihgJBVV95cUxQcVBTTVFJczlpcEhOa1RfLW5pUDVLYkNrT1dsZ1hwQzNHSnNwSmZXWFZsQ2ZCei1EMUZTWllEVTFzendaTkt2ZEJPTkxSWjlGbzUyZ2tnMVJpS3RObkc2V1pHcGQwT09SVkM0bW5IQWs4NXdzXzBEX01XcENZRVg2SXI4R2pkODFmSnZ6bzJhYzRvS1NOWGRfMTkzQmdtckFGNVpuZ0NtXzBjeXBnNG1CUVdqek9nenJCVkFlUW5lQzJNRlF5ZzZvSnJUdnF6alZDcFkwaHhmRU1OVlhZMEdRMk9GMzMyVjZJaTNVV2N1d3NmWFluWGdOUmU2WmxpQ3F6Wk5LT1lR0gGLAkFVX3lxTE5PUEtNYmVQQ3BYeG1nZ3pnODFYWFV4OU9BOHlYM2NRQ0xGZVl1d0c3QjRGYkxqR2pOM0NUNTc1WUNtcWJLYUdjUG5KVXR3VmNWT2RWTUVmZ1JndE1hQm05Mms3X19qdnpXWnhnc1ZibGFycTRnTGp0VGNYMDA0ZlU4S1hBMy1iX21jV1A5cEdVV21rbTVmVm1KTVR0UFV5SERic1otNjVJWVdRTktEMS16UEplTm5USzgtaExTZU51eFlET2NTR1NLVnVWUlpjcTh5WDh2S1doZ1I2cGZSeEpBODRzY2pMR2NsQzdSZy1mRUVVQ2RFcUwyTFVYajRhS3VrdWxPVXNBaldIdw?oc=5" target="_blank" rel="noopener noreferrer">Trump removes ex-Miss California from religious panel after anti-Zionism remarks at antisemitism hearing - The Times of India</a></h3>
+          <p>Trump removes ex-Miss California from religious panel after anti-Zionism remarks at antisemitism hearing The Times of India</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Religious liberty pluralism backlash</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>white grievance rhetoric</span>
+            <span>US</span>
+            <span>score 8.3</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxQaUNlc215cDduS1E3dmNGX3hBbHVIRVhYZGhFaFRLc3NTNkFMUUhaVGM3Z21JaUItRkY2WVlmcWttZk85Z3dGbW5WamVGV3UtU0tXelNSeXozT3M4MEktMmJxdFBfVHBNRXhHQWJ6aGt2OE05U29YMnNiZE9nVU9hLXFLY1pKQkdfWFZEX0Q1V2xPNDBsS3JKWVo5bko5dk85TXhpZUxtVQ?oc=5" target="_blank" rel="noopener noreferrer">Erika Kirk Slammed Over Remarks About Disenfranchised ‘Young White Male’ Men - National Enquirer</a></h3>
+          <p>Erika Kirk Slammed Over Remarks About Disenfranchised ‘Young White Male’ Men National Enquirer</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">white-grievance</span></div>
+          <div class="source">White grievance personalities</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>OK</span>
+            <span>score 8.2</span>
+          </div>
+          <h3><a href="https://oklahomavoice.com/2026/03/12/oklahoma-ag-challenges-jewish-charter-school-vote/" target="_blank" rel="noopener noreferrer">Oklahoma AG challenges Jewish charter school vote</a></h3>
+          <p>OKLAHOMA CITY — Attorney General Gentner Drummond again took a state board to court over its vote on a religious charter school. The Statewide Charter School Board on Monday rejected an application to open Ben Gamla Jewish Charter School because its curriculum would include religious teaching. Drummond alleged the vote was deliberately rigged to benefit […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">schools</span></div>
+          <div class="source">Oklahoma Voice</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>US</span>
+            <span>score 7.5</span>
+          </div>
+          <h3><a href="https://www.newsfromthestates.com/article/iranian-americans-rally-detroit-both-supporting-effort-topple-tehran-regime-and-opposition" target="_blank" rel="noopener noreferrer">Iranian Americans rally in Detroit both supporting effort to topple Tehran regime and in opposition</a></h3>
+          <p>While many Americans remain opposed to the undeclared war launched against Iran last month by President Donald Trump and Israeli Prime Minister Benjamin Netanyahu, downtown Detroit Sunday featured supporters of the military action against the Islamic regime and its proxies. Mark Masoud, 63, wearing a Trump hat and holding a Persian flag, arrived with his family from Novi Sunday at Campus Martius Park for a demonstration to celebrate the ongoing attempt to topple the Islamic regime in Iran, now entering its third week. “I came down here to be a voice for the Iranian people,” Masoud said. The ga</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">islam</span><span class="tag">islamic</span></div>
+          <div class="source">News From The States</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>OK</span>
+            <span>score 7.4</span>
+          </div>
+          <h3><a href="https://oklahomavoice.com/2026/03/11/oklahoma-house-approves-bill-banning-state-from-displaying-lgbtq-pride-flags/" target="_blank" rel="noopener noreferrer">Oklahoma House approves bill banning state from displaying LGBTQ+ pride flags</a></h3>
+          <p>OKLAHOMA CITY — House lawmakers advanced legislation Wednesday that would ban any Oklahoma state government entity, including public schools, from recognizing Pride Month and from displaying LGBTQ+ pride flags. The bill passed the House floor along party lines despite concerns it would harm and minimize LGBTQ+ Oklahomans. The House also approved a prohibition on changes […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">lgbtq-panic</span></div>
+          <div class="source">Oklahoma Voice</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>KS</span>
+            <span>score 7.4</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxOMnBGeS1pOWJMWkpTdXozRVczQmdmQzRKWkpKdlgwRzBKTDdvQW1rcFN3WTRuNzhvWlZNYUhZVGZPWlptZkFMekJwbnZqNm1aa3c3MUpqaS1yektvMmNuTzNRS1VGNV9makFwQ1VBZVQ2QzliREgtNFZqTFZ0MVF0Qk8zQjRkM0xzbWVPLV9KWGtjc2t3NExJTGNTSnBqenpaMmZldmR3aUdXY1Y5enNoWWloamdNclNQeWc?oc=5" target="_blank" rel="noopener noreferrer">Kansas Law Wipes Out 1,700 LGBTQ Driver&#x27;s Licences — Trans Residents Fight Back With Lawsuits - International Business Times UK</a></h3>
+          <p>Kansas Law Wipes Out 1,700 LGBTQ Driver&#x27;s Licences — Trans Residents Fight Back With Lawsuits International Business Times UK</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span><span class="tag">lgbtq-panic</span></div>
+          <div class="source">Kansas</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>US</span>
+            <span>score 7.4</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMi7AFBVV95cUxPYUFiYjk2QzhTejRTcWZWQnFXU0xjQ0gyV29aQUUzWVRvUkY5QTNjbzgtQmJzU3BxUVpNSmxZYmhXZ0NzYlV6dWdIYkNWYmFLU3RvSlV0b0dpcURMRzVpTUxoTEhHNkxQYUozU0pKbXU2QzRNd0dlSUNpV0JMaGM5VU9WVXM0NVBoMnF3cThadVN1YmEwZGhWdkt2YlZ3a2VnMXNDOEFoWXlodVZNMlZ5cHNNeTdUN2hhc0IyWlNhSlJaUEx6TjRjTGNTYTh5NU5PMWxKVFlNTUtBS3laTllaWEEzR1hPQ2dpbjdDQQ?oc=5" target="_blank" rel="noopener noreferrer">United Airlines Faces Criticism Over CEO’s Merit-Based Hiring Comments Amid Diversity Commitments in the U.S. - Travel And Tour World</a></h3>
+          <p>United Airlines Faces Criticism Over CEO’s Merit-Based Hiring Comments Amid Diversity Commitments in the U.S. Travel And Tour World</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span></div>
+          <div class="source">DEI backlash</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>white grievance rhetoric</span>
+            <span>US</span>
+            <span>score 7.3</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxQd2l3bTBnZHdWVXhzYkJ2Q1pEQ1FCZnV5cTl0bDNLWks0ZFBNMnU5OW83b0VTd0Z4TFhBbEJ4WEtEYmlOeS12RVBSYVAyb3ZFWnBKTlQydkdfT3l6YXVpVzlWX09LRkZKbUp4QlY0cjdWSDZmMGRCQ0hKRlRkdFZobHo5UEh3by13dWtDWDdNUnZUaUVUSHdaWHlEbzFIVVlCMVB4S2lsclI?oc=5" target="_blank" rel="noopener noreferrer">Erika Kirk draws scrutiny with &#x27;young white male man&#x27; remark at Arkansas TPUSA event - news.meaww.com</a></h3>
+          <p>Erika Kirk draws scrutiny with &#x27;young white male man&#x27; remark at Arkansas TPUSA event news.meaww.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">white-grievance</span></div>
+          <div class="source">White grievance personalities</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>white grievance rhetoric</span>
+            <span>US</span>
+            <span>score 7.3</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMijAFBVV95cUxNZ2JsWVA0VkpnTkNDRjNZMkJ4ZFMyVmpTRmJoQV9ZQkRpWEZNamhWSktYMV8wWF9VZ3ppaVNSMGx5ZVJ5NkxWVS12ZHB3QWpzUWI1em1JZWZXMzRPOXZtbFk3TXJMTHNGNTkydHprNkRuRmF3RjFob2JtaDNFb01vRUpxQUNfaHEtNmVWQg?oc=5" target="_blank" rel="noopener noreferrer">Erika Kirk Under Fire After Controversial Remarks About “Young White Male Man” at Arkansas Event - AOL.com</a></h3>
+          <p>Erika Kirk Under Fire After Controversial Remarks About “Young White Male Man” at Arkansas Event AOL.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">white-grievance</span></div>
+          <div class="source">White grievance personalities</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>white grievance rhetoric</span>
+            <span>US</span>
+            <span>score 7.3</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxPTC1IXzZyWnRFbkVFZDM5SGZmUHA0YmF6YXg2MlpWVll0SVFMRlJnREpiV3ZENVB1QTdCT2lDWlJKMFVFMmJnU3d6T25KVGhja1MwQm1yMmRpcFBfOEdJazZLSm5uaXRnTHhXYjZKNFdoR2c4Zk85YTVfbzVreEZib3VlUFVZSjZNZEkzdnNSSQ?oc=5" target="_blank" rel="noopener noreferrer">Erika Kirk Under Fire After Controversial Remarks About “Young White Male Man” at Arkansas Event - Yahoo</a></h3>
+          <p>Erika Kirk Under Fire After Controversial Remarks About “Young White Male Man” at Arkansas Event Yahoo</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">white-grievance</span></div>
+          <div class="source">White grievance personalities</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>AZ</span>
+            <span>score 7.3</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMibEFVX3lxTE1kVFViRU5lZ25HNVpqWnlvMGZFU0J5aW9aWS1IUnVicllhSzNfYk9ZajQ5V0Q0OHoyUVNhQ2wzR3k3SUZOUkdMVlVjMjhjLVU0ZGRhX3hGc21JaWRGWEpPakU2WjJIbGN0WFNISQ?oc=5" target="_blank" rel="noopener noreferrer">Jewish conservatives &#x27;gobsmacked&#x27; as MAGA faces &#x27;reckoning&#x27; over antisemitism - Alternet</a></h3>
+          <p>Jewish conservatives &#x27;gobsmacked&#x27; as MAGA faces &#x27;reckoning&#x27; over antisemitism Alternet</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">antisemitism</span><span class="tag">jewish</span></div>
+          <div class="source">Arizona battleground</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>TX</span>
+            <span>score 6.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMixAFBVV95cUxOSkhPb21qUnBHdVpqWWxMOThnQzg1RDhMNGhTeVliWVFuTDJxc1RQZXRZNC1PY1ZWRUhKdTE2YjZtVXc1WU5QY1VLRmNzaDFJblhYZjNkVzAxRlM5UzJRSGY0SWE2UEhfN3lldDdOLVE2UWstd2U0djVJcnNRMGJfVXIzLWZCeHY4RHp2eEpVcnh0ZE0yclVvVllrUVduYWxSMEp3U3kxNko2elEtZktvYTlSck1xYkRieXlWMEs1bmZNbjNH?oc=5" target="_blank" rel="noopener noreferrer">Banning Islam, deporting Muslims discussed at Fort Worth church after primary elections - Fort Worth Report</a></h3>
+          <p>Banning Islam, deporting Muslims discussed at Fort Worth church after primary elections Fort Worth Report</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Texas</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>US</span>
+            <span>score 6.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxPQm44a3ZGLVpsQVNIN200N3RxRjJnQTctSXRveEFQT0UyWms3WG1UdmtLaS1SYTY5bVQ1bWpZeVhVZ2pfcmFTZFFrNkxfczVsRTdtcVUtdi00RUdnQ2RTOEpTY2lGTW9PM29rMklWaG1fNldrWFVWT1ROZl9CU0o0MVFMd09aWV9fRnlMWUlIV3lhU1RPMDFkQTRTc0xyWmF4MHVyd1V5SzFBMFJ1TUNBS0pkaUdwNk9ONU51bk5jVUItUVhCMDJ4OQ?oc=5" target="_blank" rel="noopener noreferrer">Even as Cy-Fair ISD reverses a book ban, some say the harm can&#x27;t be undone - Houston Chronicle</a></h3>
+          <p>Even as Cy-Fair ISD reverses a book ban, some say the harm can&#x27;t be undone Houston Chronicle</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">book-bans</span><span class="tag">schools</span></div>
+          <div class="source">Book bans and curriculum</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>US</span>
+            <span>score 6.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPeUZiamdrMGhmb0NZeHpfWU9uYjVmVHM3RDk1MkdjM243Y0hLbGUtaC1UdWdzMU5wdU0wNm9mbmplaU1fc0Z1RV91bndSamc3U2h5TWVQY0NoYUd4V09FOF80Mzk1Nzc2MnZyaDFnTmM3bVZGOV9vNy1jb0VOX0NCeGNNNFltaUlnMWpjLWVJVzY3SE9IWmhUMTdBTzNGbV9JOWdFZkJUQ3JJNTdy?oc=5" target="_blank" rel="noopener noreferrer">Amex, Deere, J&amp;J Abandon Board Diversity Rule, Activist Says - Bloomberg.com</a></h3>
+          <p>Amex, Deere, J&amp;J Abandon Board Diversity Rule, Activist Says Bloomberg.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span></div>
+          <div class="source">DEI backlash</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 6.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMijgFBVV95cUxPNGNRd3NxYUR0RWVRY0hHc3pTbWtjampJTkVWVjBONlRIdFBtN1o0SWVFNm04Y0tYaHNLY2xlNjNBX2VkRkpWaEROVGdUY0dTcUQ5Vl82QjV1enhtdW1IeVhDMVFNQUJEbkR2NHRmUjNTVVRZelFvSlJmX1ZreE9GbGhQeWNnSHJ1Z3pSTVZn?oc=5" target="_blank" rel="noopener noreferrer">Republican facing huge backlash after declaring &#x27;Muslims don&#x27;t belong in America&#x27; - AOL.com</a></h3>
+          <p>Republican facing huge backlash after declaring &#x27;Muslims don&#x27;t belong in America&#x27; AOL.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 6.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5Gc28wcndYSXJ6V0k4c0thZE5sYXhIdFQ1Y1dHZ2dxQjFmOGNJU1lEazk4bE5GWTJSVjZWQUdiV3BRTkZ2SjBGSV9RNG1YSV9sUTh6c0lYNk0yU1JvZUh6Tm9ZUzVYU2NkVUhTRlZjWnBGZ1gwblB6blhTYzc3QQ?oc=5" target="_blank" rel="noopener noreferrer">Republican says ‘Muslims don’t belong in American society,’ draws fierce Democratic backlash - AOL.com</a></h3>
+          <p>Republican says ‘Muslims don’t belong in American society,’ draws fierce Democratic backlash AOL.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 6.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxOVmtxTnFFNEVfU3MwdXJhRW42ZUxrTW5WVFo4Qm9wcW1zSDV2WXF1a180OEVZOUpzbFp5VUZHVk42V0tWak9tTUdZTzhpcEkwZnVhSGFKRmpPWE1KRjRsQTM0SDd6eThLN1JtMHVDTVhjYW5wSFdDc19acEJyWU84bU1yWVRBTFMyV0tTaFRhZ2E2RElvSm5jMHdVblZzdFUtV3N2VE5DOWp3LVlf?oc=5" target="_blank" rel="noopener noreferrer">GU Republican Chapter Deletes Post About Muslim Americans After Community Backlash - The Hoya</a></h3>
+          <p>GU Republican Chapter Deletes Post About Muslim Americans After Community Backlash The Hoya</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 6.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMieEFVX3lxTE45T3N5dzlqUkpQSWMzanJLcVVhRzlkcXZ5c29oVHlySW1xcERvbjRIUFBaR2U0U2Njd1kzVzNpSDFPdUZHaU9RRW81aW5zdzhsN2R0eEsyZmNLbDhpbUh3RjR4b2xTZVJqeE1EUUFGd1BWZFpaWmw4dQ?oc=5" target="_blank" rel="noopener noreferrer">GOP Rep. Andy Ogles sparks backlash after saying Muslims &#x27;don&#x27;t belong&#x27; in America - AOL.com</a></h3>
+          <p>GOP Rep. Andy Ogles sparks backlash after saying Muslims &#x27;don&#x27;t belong&#x27; in America AOL.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>US</span>
+            <span>score 6.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQNHJCRS03bnJqR3lrTkRjWmxrWVRaVTc3WVpROGJPdDFiNlNMTlhCcHIxLXRDSHhnQ2VDSmR6MXpNRXlMclU1NFNVTjg4dlhaS1R4NzA1T3NDbjdjODBiZ2xVQVFsT1hnUDhkMV9nQkJfUF9CVk1CTWFENmVxMlE5TEpTVDNNNUlsdEpVZHBOcEhnckFIUm81S3FWRVZPRWZ3dGxpSXlwb2VpcndhbHRGSnlFSkpEckNC?oc=5" target="_blank" rel="noopener noreferrer">PM Starmer Faces Backlash after Calling Muslims the ‘Face of Modern Britain’ - Hungarian Conservative</a></h3>
+          <p>PM Starmer Faces Backlash after Calling Muslims the ‘Face of Modern Britain’ Hungarian Conservative</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span><span class="tag">religion</span></div>
+          <div class="source">DEI backlash</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 6.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxOVUJ4OFJUd3M1bTk5eHdVbVRxanRERWE3c3B0dktybUJOX0FnZmh6T0dlejNUb24xWVE0VTZTdGcyNmxsVVl0Z2NEYjNJVXFEVmRpdWh5MXJLQXh6bms1a2pwX1NsTFp3LW4yVVg5bnM0T2RzWUZXNUttVl9Ob293RU5uVGJmX3l3cmthZWRPZjd5d0U0NlB4MUZBLUc0VDZ4WmVQNzlvcUpfUmtCQ3FISWRyRjRSdVVPNVJNb2lR?oc=5" target="_blank" rel="noopener noreferrer">Conservative Activist Laura Loomer Faces Backlash Over Anti-Muslim Post Involving Her Dog ‘Mecca’ - Inquisitr News</a></h3>
+          <p>Conservative Activist Laura Loomer Faces Backlash Over Anti-Muslim Post Involving Her Dog ‘Mecca’ Inquisitr News</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>US</span>
+            <span>score 6.4</span>
+          </div>
+          <h3><a href="https://www.newsfromthestates.com/article/kansas-house-democrats-exit-election-committee-meeting-after-accusing-chair-antisemitism" target="_blank" rel="noopener noreferrer">Kansas House Democrats exit election committee meeting after accusing chair of antisemitism</a></h3>
+          <p>TOPEKA — Three Democrats walked out of a Kansas House committee last week, adding physical emphasis to vocal objections against Rep. Pat Proctor’s commentary, including alleged antisemitic statements about a philanthropist whose family survived the Nazi occupation of Hungary. Proctor, a Leavenworth Republican seeking the GOP nomination for Kansas secretary of state, defended his critique of businessman George Soros and rejected assertions by Democratic Reps. Heather Meyer of Overland Park and Alexis Simmons of Topeka that his statements were prejudicial against Jewish people. The icy exchange</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">antisemitism</span><span class="tag">jewish</span></div>
+          <div class="source">News From The States</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 6.4</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxNcVhVdGhtRk9VMWZZWkxIVVVwV2NWdW1iVi1kNURCVkRrSFFxMG03QmMtSjY4UXhGTjlGZ2p6TmlGd3h5Z2gybVB1dDJ6X0lRUTdraHY2R0VkMUJVVjg2ZUVDR2pIdDZiSFFjME9wUjFXQkRVNnVrOFJMdnE3Tm1SdW03djh5cTZkZTdJX3BOMmRLYk9LUU1VMTJnbjlQLUgxdVdtdzFFWkxxQ3UtcHhWZ1loMTI?oc=5" target="_blank" rel="noopener noreferrer">Multiple Republicans in Congress post openly anti-Muslim statements - NBC News</a></h3>
+          <p>Multiple Republicans in Congress post openly anti-Muslim statements NBC News</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 6.4</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxPcllPVlRkazJTbjRudGh5elh4Zi13TDNkY01ia3VDUlVjM19wVVM1b3pLTkxwd2I4QlY3SVdhd2E1SldsVzlzR1Rtak1lQzFnbTZsYkxVNnF1OFRpNS1fbFBnbEZoU05fUG9DWlEweDBOTjlXUjVKVy0zYWozWG5LRE5KRzV6RDZSUDVv?oc=5" target="_blank" rel="noopener noreferrer">Republicans Risk Wiping Out Gains With Muslim Voters - Newsweek</a></h3>
+          <p>Republicans Risk Wiping Out Gains With Muslim Voters Newsweek</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>TX</span>
+            <span>score 6.4</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPVkdVS080M3JSWWlLcHJzYTZ4M3ZscUdYTVpMVnF4dC1OQm8xbmNJb1l5OU9TYU52VDBqWWdkakI4dHRNcC1FOTF1TExpSWdqYmFzUzdUcUJzRmhod3lGZ1NNMkVxTFNyeUZmeU9aRngySHNib1gtN0YtdmZRMnBwYUR1QnZYTmF5dmRxTlZ2QW02MUczQ2Q5NGpRVzYzQTdmNUt0MGVQRFBwVm9xWWNZVmRPS2U?oc=5" target="_blank" rel="noopener noreferrer">Ken Paxton rolls out &quot;bathroom bill&quot; snitch line allegation ahead of heated Senate run-off - LGBTQ Nation</a></h3>
+          <p>Ken Paxton rolls out &quot;bathroom bill&quot; snitch line allegation ahead of heated Senate run-off LGBTQ Nation</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span><span class="tag">lgbtq-panic</span></div>
+          <div class="source">Texas</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>US</span>
+            <span>score 6.4</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxPRU9WTXlITnRFc1NfNGRWTnZwS2NsY1FPa3NEWjFxcDJlSVdsaWUzQnR2VmxGbjNnNWgtUWtNTG9pWWpnRWJQSWtMU21GOEk0YWpVaDNhd3R6OHRFREtCdnM0R1dZaFA2QzFtT3lKMEtHQmhSRG5yaTRwSWlLN0NmNjRKdUx1UVBESEJJY3hkV1NOQWgwRUdPdkRR?oc=5" target="_blank" rel="noopener noreferrer">Who is Nick Fuentes and Why Is His Antisemitism Dangerous for America? - American Jewish Committee</a></h3>
+          <p>Who is Nick Fuentes and Why Is His Antisemitism Dangerous for America? American Jewish Committee</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">antisemitism</span><span class="tag">jewish</span></div>
+          <div class="source">White grievance rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>PA</span>
+            <span>score 6.4</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPb082cnJ5d2JQaEZFQmFUQUdlRW1TUXZpeWRjUkJ5ZUc2YUcwZnJMN0xidENfd0k2NEhwczJ4YnBWYm1KVmRHV2ZUSlZBR3RxQ2xKVkhiM3MzeDZqcThpUW1nQ0FoWUtSdjlESjRKODBWLVVaSFV2dElyR19USGdSTnp3WHJJTjFqSEFMVWlKeWFudjk1bUZZeFlsd09YRHlXWEtlVw?oc=5" target="_blank" rel="noopener noreferrer">Rebranded DEI offices won’t ensure religious liberty - Washington Examiner</a></h3>
+          <p>Rebranded DEI offices won’t ensure religious liberty Washington Examiner</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span><span class="tag">religion</span></div>
+          <div class="source">Pennsylvania battleground</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>TN</span>
+            <span>score 6.4</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxNZTBvNzgxQnZRZnFzOFRYT215cU53RE5fNDhDeWpOYXptY3dWM2RNTU5CUDJLWGRLbDg2NkFSaGJ0dkdnZ0pEUWxyeXFjZEluYXpjZXpfcDhkbU5DNUhqbmxqRlpLdjREWUItbE5pNXhMOHV0VHRhLUM3bl9jWF9iMUtWUFlka0o5V2tKS3FaMGdsclZHTzRtSno0bElldzk5MTNMdm5ReDYxUmF4Tmo1a3h0TEVQQXBBMG16OC1JeVhwNlBPZWc?oc=5" target="_blank" rel="noopener noreferrer">Tennessee Republicans pass law that singles out same-sex couples that marry for discrimination - LGBTQ Nation</a></h3>
+          <p>Tennessee Republicans pass law that singles out same-sex couples that marry for discrimination LGBTQ Nation</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">lgbtq-panic</span></div>
+          <div class="source">Tennessee</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>OK</span>
+            <span>score 5.8</span>
+          </div>
+          <h3><a href="https://oklahomavoice.com/2026/03/11/senate-fights-over-bill-banning-sexually-explicit-library-books-in-oklahoma-schools/" target="_blank" rel="noopener noreferrer">Oklahoma senators warn effort to ban sexually explicit books could block students’ Bible access</a></h3>
+          <p>OKLAHOMA CITY – A bill advancing through the Legislature aimed at removing sexually explicit books from schools could take the Bible off of library shelves and would be a nightmare to navigate, critics said. Senate Bill 1250 creates a process where a parent or guardian could seek to remove books deemed offensive from the library […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">book-bans</span></div>
+          <div class="source">Oklahoma Voice</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>ID</span>
+            <span>score 5.7</span>
+          </div>
+          <h3><a href="https://idahocapitalsun.com/2026/03/12/idaho-house-to-consider-bills-amending-2024-harmful-to-minors-library-law/" target="_blank" rel="noopener noreferrer">Idaho House to consider bills amending 2024 ‘harmful to minors’ library law</a></h3>
+          <p>Amid two lawsuits challenging Idaho’s 2024 law restricting access to library materials deemed harmful for minors, a House committee advanced two bills amending definitions in the law. Together they would remove some vague language in the existing law and create different standards for private and public school libraries books. Nampa Republican Rep. Jaron Crane said […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">book-bans</span></div>
+          <div class="source">Idaho Capital Sun</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 5.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxNUlJNM2Qta1NGZmh3WVBKVGVfVmJKNUg0YnIxZlROQk1IWGRpVlg5QmNIdFpTeHRLUFNUX0dvendxRG5CZ2ROQ3phalpxTVVsbzRlZFpCaW1sX29PQjBBYXpIUWh2VE9mNEVrX0NyUTlydXhkTy1oTnUtSVpVYU5rQmxQVlk3Y0NjNHQwaU9OOWlvdVNvUk5Ma2RfLXduX0hf?oc=5" target="_blank" rel="noopener noreferrer">Tennessee Congressman sparks outrage with anti-Muslim rant - ArabAmericanNews</a></h3>
+          <p>Tennessee Congressman sparks outrage with anti-Muslim rant ArabAmericanNews</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Religious liberty pluralism backlash</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>AZ</span>
+            <span>score 5.6</span>
+          </div>
+          <h3><a href="https://azmirror.com/2026/03/12/arizona-gop-moves-to-defund-teachers-union-after-it-targeted-school-voucher-program/" target="_blank" rel="noopener noreferrer">Arizona GOP moves to defund teachers union after it targeted school voucher program</a></h3>
+          <p>The Arizona Education Association is the state’s largest teachers union, and it frequently advocates for or against legislation and political candidates on behalf of its more than 22,000 members. Republican lawmakers want to make it harder for the union to exist. Last month, GOP legislators gutted a bill about minimum wage to create a proposal […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">schools</span></div>
+          <div class="source">Arizona Mirror</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>AL</span>
+            <span>score 5.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE54ZWZJaWlULS0zOGVrOHloZ2swSjdMZDl6ZVE2MWdfN2dBUkVOdjhONk9peWthamxTd01CeFlBYmhRSlZiaUlWMUgwZkJlc285bHFNa1YxRGxBWHpibFpTSg?oc=5" target="_blank" rel="noopener noreferrer">Iranian Revolution (1979) | Summary, Causes, Effects, Islamic Republic, Ayatollah, &amp; Facts - Britannica</a></h3>
+          <p>Iranian Revolution (1979) | Summary, Causes, Effects, Islamic Republic, Ayatollah, &amp; Facts Britannica</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">islam</span><span class="tag">islamic</span></div>
+          <div class="source">Alabama</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>ID</span>
+            <span>score 5.6</span>
+          </div>
+          <h3><a href="https://idahocapitalsun.com/2026/03/11/idaho-house-passes-bill-to-force-schools-and-doctors-to-out-transgender-minors-to-their-parents/" target="_blank" rel="noopener noreferrer">Idaho House passes bill to force schools and doctors to out transgender minors to their parents</a></h3>
+          <p>The Idaho House widely passed a bill Wednesday that would require school officials and health professionals to out transgender minors to their parents, or face lawsuits. House Bill 822 would require schools, health care providers and child care providers to notify parents within three days after the entities receive “any request by the minor student […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span></div>
+          <div class="source">Idaho Capital Sun</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>US</span>
+            <span>score 5.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMihwFBVV95cUxOWnRkLWJTSklqT0JSMFRza1NmR045VHBzWUJhd2lLNndlSHhTVGE1Vi14OTZkcTVFS0Z5ZldxTFhGQXIzellYRkJYdkxtTXpfVXZ5aWFmRVpoZkVlaGc5Q0pkeFZabEI0WEZKc2FhYnFmWXNtczVucG5GQzliemNka1lMUjg1Vmc?oc=5" target="_blank" rel="noopener noreferrer">United CEO’s Merit Hiring Comment Spurs DEI Backlash - thetraveler.org</a></h3>
+          <p>United CEO’s Merit Hiring Comment Spurs DEI Backlash thetraveler.org</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span></div>
+          <div class="source">DEI backlash</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>GA</span>
+            <span>score 5.6</span>
+          </div>
+          <h3><a href="https://georgiarecorder.com/2026/03/10/repub/state-local-policies-on-immigration-enforcement-targeted-by-us-senate-republicans/" target="_blank" rel="noopener noreferrer">State, local policies on immigration enforcement targeted by US Senate Republicans</a></h3>
+          <p>WASHINGTON — Senate Republicans during a Tuesday hearing laid the groundwork for legislation that would prevent state and local governments from making decisions on whether to limit cooperation with the federal government on immigration enforcement. Senate Budget Committee Chair Lindsey Graham of South Carolina argued that sanctuary cities — a term used by critics — […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Georgia Recorder</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 5.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMi7gFBVV95cUxQeF8xSVpUdS12M09KeG9uM01PUUVlandKXzFmeUg3UEh1R3U1QVlQX0xtQ2E1UldKbWpLbjVKd2xOR1JUS01NdDhFcmpYYXZya1hXanVGb2VpX0x3c3NFa2h5ZFhEUldESnJ5MVFmREtLVmpIWUNhM1BsNkNEUjQxSjI2SXRWWnF6S0oyTE5kcE5objByR0hBUHluZ1I4c1d2X2NySmY0MC01UUhyN0g1bi1yT0NFSDVPUWcxbk12ZVZNYkhvU1NRbm9YanRmNFo3NmpzdTktX0VZLXpfZ3pVN0dibXpVdkdkWkFfdk9B?oc=5" target="_blank" rel="noopener noreferrer">Florida Rep. Fine faces backlash for tweet about dogs being preferable than Muslims - KRCR</a></h3>
+          <p>Florida Rep. Fine faces backlash for tweet about dogs being preferable than Muslims KRCR</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://thehill.com/opinion/immigration/5783389-ice-detention-centers-surge/" target="_blank" rel="noopener noreferrer">Enforcement is not punishment: ICE must stop treating immigrants like criminals</a></h3>
+          <p>Trump’s expansion of immigration detention violates basic human rights and turns release and legal review into a pay-to-play system for due process.</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">The Hill</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>AL</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE1XLXc2THBKYlF5ZVRGX2ItbnJ3Zld2cWl0ZEVPZl9QeVlKVDlTY0s3bkNad29HUWZtQnpOZUtUa2tQSHNLaDJXdWo5bDM2X1hfT0x2OXFFNHVmM3R2ZDZKVVFFUmNtTzNxeGlyaEpxMUJaUE51ZmFTVF9zZzhsc1U?oc=5" target="_blank" rel="noopener noreferrer">Trump, religious rights and transgender care: Supreme Court&#x27;s major decisions coming soon - AOL.com</a></h3>
+          <p>Trump, religious rights and transgender care: Supreme Court&#x27;s major decisions coming soon AOL.com</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span></div>
+          <div class="source">Alabama</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>white grievance rhetoric</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxQMVFzZ3Q2bFlVOEJOUTlCSzRQa1YtNUdxNDl3c1lDU0NwMnFDaUl5Z3E5bjRjb3hES1Byd2tuQ3lqeGdqMlo5ZnRndGF3TmFVTU0zQVoyWC1DZE0xNHJSN19Hd2tWTWlXbDdwdjZnVGNDSnQ5LWw1enpZUkZKUU1NdmdvQnc3ZW5pNUJ4SjAzODNFUkpfQTZpWkdn?oc=5" target="_blank" rel="noopener noreferrer">Emotional Erika Kirk Torched Over Bizarre Remarks About &#x27;Young White Men&#x27; During Speech — &#x27;She&#x27;s So Repulsive&#x27; - RadarOnline</a></h3>
+          <p>Emotional Erika Kirk Torched Over Bizarre Remarks About &#x27;Young White Men&#x27; During Speech — &#x27;She&#x27;s So Repulsive&#x27; RadarOnline</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">white-grievance</span></div>
+          <div class="source">White grievance personalities</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>WI</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://wisconsinexaminer.com/2026/03/13/helping-refugees-in-wisconsin-navigate-upheaval-uncertainty-and-fear/" target="_blank" rel="noopener noreferrer">Helping refugees in Wisconsin navigate upheaval, uncertainty and fear</a></h3>
+          <p>Zabi Sahibzada, refugee resettlement director for Jewish Social Services (JSS) in Madison, Wisconsin, has lived through war, displacement, the collapse of Afghanistan and the cataclysmic consequences of shifting U.S. policies abroad and at home. Today, even as our country plunges into a new war in the Middle East, the Trump administration has pulled back from […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Wisconsin Examiner</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxOMzdJSXdGa2xWSW0yRE15amFqUzRReXVHV0ZEOG1YVUN4WEFDdURaRWtJeTFudEtwMEdlWVhLcWpCbU1wcHZYb243TVBNeU9ia0JWanlKVzVVNzltRGhoeEtKY1dnSjR6UkxUVnhzTUFaem9FNnJLUjB1UGt0OXBZN0FzdVNSUldWaEkzTm5Hb0hzMWVESGF3a2pnOHBfMFVNQTJuLWR4OXRhSU1fODVMWFlIeV8zekNtb0F0TDJvU3VSRmfSAcsBQVVfeXFMTzEtTUNfSEdHR3lKTUtsRUZGb2l0OUV3bG9DWE1YQjZfX2lKVnJDZDdlWHdZdGtwSFB6cXRNd1ZNZEMxdEkzOW1aOVFMaFZjalNGVkNuYkZfbFd5Y2UzbnJOQ1VlX29tY0VRUExMSHF4REFadG9UdjdNUldPWDBPWmlON2k1TlhRUlVZV05admluNDRLdmNyekRsM0p1Uzc1REFGNThtUkIzT2RWc0NXb1NnNjFkRm9hT3FOYVZkNExiT3NuVWRQWm1qbVk?oc=5" target="_blank" rel="noopener noreferrer">Georgetown University Republican group sparks outrage with anti-Muslim post - NBC4 Washington</a></h3>
+          <p>Georgetown University Republican group sparks outrage with anti-Muslim post NBC4 Washington</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>TX</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://feeds.texastribune.org/link/16799/17298380/james-talarico-texas-senate-republicans-attacks-god-is-nonbinary" target="_blank" rel="noopener noreferrer">“God is nonbinary”: GOP activates over Talarico’s past comments characterizing him as too radical for Texas</a></h3>
+          <p>Talarico has suggested he would communicate some of his views differently today, but stood by the principles behind the comments Republicans are using to tar him as an extreme liberal.</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">lgbtq-panic</span></div>
+          <div class="source">Texas Tribune Main</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>TN</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://tennesseelookout.com/2026/03/12/tennessee-republican-immigration-2026-agenda-bills-advance-in-legislature/" target="_blank" rel="noopener noreferrer">Tennessee Republican ‘Immigration 2026’ agenda bills advance in legislature</a></h3>
+          <p>Republican House members on Wednesday advanced a bill to create a new state crime for immigrants who remain in Tennessee after receiving a final deportation order — a measure that, by design, is intended to trigger a Supreme Court challenge. The bill (HB1704/SB 1779) by House Leader William Lamberth, a Gallatin Republican, would create a […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Tennessee Lookout</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>TN</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://tennesseelookout.com/2026/03/12/tennessee-senators-move-amended-english-only-drivers-license-testing/" target="_blank" rel="noopener noreferrer">Tennessee senators move amended English-only driver’s license testing</a></h3>
+          <p>Tennessee lawmakers are pushing a watered-down version of an English-only driver’s license testing bill as part of their 2026 immigration package formulated with the White House. Senate Bill 1889 sponsored by Republican Sen. Brent Taylor of Shelby County passed the Transportation Committee Wednesday with an amendment that allows applicants to take the initial test in […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span><span class="tag">immigration</span></div>
+          <div class="source">Tennessee Lookout</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOUFZwRGdCUEtDZUx2VGVGMk1QbTFQUF96bzVMa0JQdkxsX09PcFFjYmJjRHM4R2VHZE1PeHNBYjVTbXNaZEVuX0MwZTdDYnM5WjdxTk9vWlhieVRHNk9vdGZicElJY1ZTRFV6SEJnMXlVSkZIMGFPa1lmdXZJNFlydl9Vam44Y0JLakdaM0tQLXdHTEtxZTY2X2VCZlNpSHl1RE9rZ1BxaDRrVUwwMy1leUZjZFV2UQ?oc=5" target="_blank" rel="noopener noreferrer">Anti-Muslim Congressman&#x27;s District Includes Large Muslim Community - Time Magazine</a></h3>
+          <p>Anti-Muslim Congressman&#x27;s District Includes Large Muslim Community Time Magazine</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxNay1TVFJQMGdDOEhiYU5lcW9fM1VnajdjMkh6b3dvY0owbjRja3dacEUyc2FkZGpmTVM4X1Y5T09XM1ViNURxN2lxSElTVFNMYVJBVmhqRTJGdjZYeEgtZ292NnVYdGZscW9iV0pBNzNvZ1FsdlNVMEZIREFaTWJvWGdhN1VvOFJmelJJV0ZSZ3VycGtFOGdVS25TWHRBdlVpZmtF?oc=5" target="_blank" rel="noopener noreferrer">Republican Congressman Saying Muslims ‘Don’t Belong’ in US Sparks Fury - Newsweek</a></h3>
+          <p>Republican Congressman Saying Muslims ‘Don’t Belong’ in US Sparks Fury Newsweek</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>white grievance rhetoric</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxOVVVCcXlKWjRlTngtQ0QzMzFoLVY0SmFXLVhsZ0t0c2dQdmJTbkl2T0lkNlRnN0NFT1Q5d1RYWWVoNXdPUEU2NGZIc0dvenFYeUNTajJ5cXp1OEtvaTBFZ1ZEZmNjS09ZWjM5VFEtM3dhXzNnWHZYdHhLN3NyTjNuM2k2OWVfTEZ4MVBCZWtaM3I3dGdnZ3B6WXZpMk1oS3c5N3lJdHdKcUw?oc=5" target="_blank" rel="noopener noreferrer">The Decline of the Book and the Fall of Western Civilization - The Imaginative Conservative</a></h3>
+          <p>The Decline of the Book and the Fall of Western Civilization The Imaginative Conservative</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">white-grievance</span></div>
+          <div class="source">White grievance rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxOV2kwVDA5aUg1RzJPYmNQSjhjOEJSY01QVldObjBUdUkwUFFPLVpsaFBJUGFMR1N3YzEwQ2V6WksxQ1lYRGpvVlhqdDBkd1Y3R09IQjZGRmNSenRFYUd3cWJSQml4V2ZfeWEyb1VLcERTeldoMFhzbXpHY0xWaS1DX3pEYmJVZm1IbW9TUE9nVUtXbWJFbldMMUtHZktkcHkyTWdTVWJJbw?oc=5" target="_blank" rel="noopener noreferrer">Anti-Muslim &#x27;dogs&#x27; post prompts calls for Republican congressman to resign - USA Today</a></h3>
+          <p>Anti-Muslim &#x27;dogs&#x27; post prompts calls for Republican congressman to resign USA Today</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxPaGFMR1d0Y2N6Vi1pekszMnZLYkEtSldwWWptMEhka3JsNHlKbmRqV01RWkdSbDFkUVJmc1hiUXFMYURqQ1MyMVhESU5raWF3eXZ2MjNzNzdyTU54cXl6VzdWRC1Cb1hqc0tpQ2xHVTk5R2ZEMHRadTZVUE4wRXFjZHVNaDY1enpJUVFXalUzeVVGUFdwTkc40gGcAUFVX3lxTE5sbkpmMk03VzZJNXRzSThQV2swdUZ5NUJ3WXJ5TkRMLTV5UVo5bm5na2FRektjSW5tNF8ySmNnZWdUQmpZbXFuRmFMTDc4emtqQll4YUZXOU9qWUV0TDRxOHdwYWJwWUVEdlFPam5RWXgzazJjZ3dWSkdIeDBGV0JHNWVHUGx4R2dydkhJcTc0anM2SzJSQWhzb2Jfaw?oc=5" target="_blank" rel="noopener noreferrer">Progressive pundits blast Republican lawmaker who said dogs are better than Muslims - dailymail.co.uk</a></h3>
+          <p>Progressive pundits blast Republican lawmaker who said dogs are better than Muslims dailymail.co.uk</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Sharia and anti-Muslim rhetoric</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>US</span>
+            <span>score 5.5</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiygFBVV95cUxNSE5Tb2VBYlhBYVFBdE5vejB1RzdhX3J3c3lMMi1YT2xLZ0QxNG5sSWdzai1IR3RRcWN5ejY2X0NJcXRVY05UbFlUdlhJZDZtZE4xTHV4R1pEWXgwdzZrZEpmUU5USTFicFJ1WEJaSmFPZjJBTzlwYUVxaTZUTTBGWkQzdWJSV1dSQUNzbGpGem1yVzZhX0VBdVp6dWVNamhBUDc1Q2tDcjRBT2VOeW01bWtIZzVGZWRLMkxtNDc1bTdnY3VoTUhSOXV3?oc=5" target="_blank" rel="noopener noreferrer">Munich Meltdown: Hillary Clinton Clashes With Czech Leader Over ‘Woke’ Politics - The European Conservative</a></h3>
+          <p>Munich Meltdown: Hillary Clinton Clashes With Czech Leader Over ‘Woke’ Politics The European Conservative</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span></div>
+          <div class="source">Anti-trans panic</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>OK</span>
+            <span>score 4.7</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxPb1JzVVdySXhBV0poYlhKVmR4c2Z5SmRzM1g0UThDaHlOMjl1NkhTTGlKamFrVXotX2l6WU1QWFZQWDR2ZjRkWnZ2S2puX3Awai12aHVXRDl5bmNXNG85QVZOTjFWTkpVbXBTU2tWV192dm43cFVzOFFhbXl1VjRoMHZrLXB6dklXMW90cERpNzgzRUhOaVJwNlFiS3NSWWtGWmlOdndqNmNwRENPbTAzbElzaw?oc=5" target="_blank" rel="noopener noreferrer">Why are Republican senators protecting woke corporations from lawsuits? - Washington Examiner</a></h3>
+          <p>Why are Republican senators protecting woke corporations from lawsuits? Washington Examiner</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">woke</span></div>
+          <div class="source">Oklahoma</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>US</span>
+            <span>score 4.7</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxPaVhmUWgxalpFRkotN2k1TldQVDJaYUU3N2NTRlJhZ2M0MHRDNENVbWJNUFhUbXVQYUE1X0hlTjVmajdYZ0c5QWdsQ3EzWnZwam1fc1VEZnFPc1dJaXB5clF6a2QyWHZwZVhNcDJkbFFnZGsxSk8tY3k0dHJPdUdHVGdMaUtIM01tRW5iTVJqUWt1dHJhX2tlRjlyS19YSHRiYnFKYTRPbGZVajl0cWF5cEo4UklvUkZxeHRad1E4dEYyTUJtcVVFeXoyZzl2ak1kM3FkMA?oc=5" target="_blank" rel="noopener noreferrer">Landry calls on Trump administration to expand its DEI investigation into Louisiana universities - Louisiana Illuminator</a></h3>
+          <p>Landry calls on Trump administration to expand its DEI investigation into Louisiana universities Louisiana Illuminator</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span></div>
+          <div class="source">DEI backlash</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>OH</span>
+            <span>score 4.6</span>
+          </div>
+          <h3><a href="https://ohiocapitaljournal.com/2026/03/16/repub/homeland-security-repair-job-awaits-trumps-next-pick-oklahomas-mullin/" target="_blank" rel="noopener noreferrer">Homeland Security repair job awaits Trump’s next pick, Oklahoma’s Mullin</a></h3>
+          <p>WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Ohio Capital Journal</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>NV</span>
+            <span>score 4.6</span>
+          </div>
+          <h3><a href="https://nevadacurrent.com/2026/03/16/candidate-filing-ends-with-a-congressional-throng-a-smattering-of-perennials-and-a-couple-fords/" target="_blank" rel="noopener noreferrer">Candidate filing ends with a congressional throng, a smattering of perennials, and a couple Fords</a></h3>
+          <p>U.S. Rep. Mark Amodei’s unexpected retirement announcement last month prompted more than two dozen candidates to file to represent Nevada’s 2nd Congressional District. The crowded field includes 15 Republicans hoping to succeed Amodei as the only member of their party in the state’s congressional delegation and 11 Democrats who likely see this as their party’s […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span></div>
+          <div class="source">Nevada Current</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>AZ</span>
+            <span>score 4.6</span>
+          </div>
+          <h3><a href="https://azmirror.com/2026/03/13/repub/trumps-dhs-pick-markwayne-mullin-would-inherit-kristi-noems-messes/" target="_blank" rel="noopener noreferrer">Trump’s DHS pick Markwayne Mullin would inherit Kristi Noem’s messes</a></h3>
+          <p>WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Arizona Mirror</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>IA</span>
+            <span>score 4.6</span>
+          </div>
+          <h3><a href="https://iowacapitaldispatch.com/2026/03/13/repub/homeland-security-repair-job-awaits-trumps-next-pick-markwayne-mullin/" target="_blank" rel="noopener noreferrer">Homeland Security repair job awaits Trump’s next pick, Markwayne Mullin</a></h3>
+          <p>WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Iowa Capital Dispatch</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>TN</span>
+            <span>score 4.6</span>
+          </div>
+          <h3><a href="https://tennesseelookout.com/2026/03/12/repub/long-security-lines-start-popping-up-at-airports-as-tsa-officers-go-without-pay/" target="_blank" rel="noopener noreferrer">Long security lines start popping up at airports as TSA officers go without pay</a></h3>
+          <p>Passengers at a handful of airports this week waited in hours-long security lines as the government shutdown of the Department of Homeland Security dragged on. Though Transportation Security Administration officers are required by law to work during a lapse in funding, more than usual have been absent after receiving only a partial paycheck during the […]</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span><span class="tag">lgbtq-panic</span></div>
+          <div class="source">Tennessee Lookout</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>FL</span>
+            <span>score 4.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxPdkc0R3BfTE9BTHQ4NHI5RXJESnJaMl9Rdzk0eFJ3Q25TR0kyaEM0R3hMTkplcXZmSUZJQk1aLU9FYnpyVEFjaDVhUHBqWFdYTk5jOXUwSEtXQVAyZHhQRTJPWk1qdHA5bTEzUUpjRmtfNVdPdTRKc3FVRHpUOXc1dVVEaUlXYUVyOWNxdmlIUW9NUEpsQmw5WllZTFlyMm5IdE0wQXRaQU9kYVc1MUdV?oc=5" target="_blank" rel="noopener noreferrer">Editorial: Trans rights are human rights — and religious liberty is on the line - wildhunt.org</a></h3>
+          <p>Editorial: Trans rights are human rights — and religious liberty is on the line wildhunt.org</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span><span class="tag">religion</span></div>
+          <div class="source">Florida</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>DEI backlash</span>
+            <span>WI</span>
+            <span>score 4.6</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxPeFM1cW1DdXdEajhkOGVuMVlLbnRpVjI1QWgtWDEycDB5WElmWExrR0JmbzV3Nmpmc2Rwek1MelJEd01LeVY4MGItV2N3M2VGbHd3Rkh2QUFoOUdHVVpiOU1qYkVQdlpjWmpXWWVLdFJWQkVGX3NfMkhzWlNDbnZfV20wNE1FckhnWHVDa19wWmVUdGozUFdlOHRRUEdYMUh1RWJ3a1NxeS0zS3VfNzVrbi1XZw?oc=5" target="_blank" rel="noopener noreferrer">Republicans advance DEI constitutional amendment to November ballot - The Daily Cardinal</a></h3>
+          <p>Republicans advance DEI constitutional amendment to November ballot The Daily Cardinal</p>
+          <div class="reason">Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-dei</span></div>
+          <div class="source">Wisconsin battleground</div>
+        </article>
         </div>
+</section>
 
-        <div class="sidebar-box">
-          <h3 class="block-title">About This Edition</h3>
-          <p class="about-copy">
-            This front page highlights the strongest culture-war and backlash stories from the current feed. 
-            The lead story is the highest-scoring item in the active view, while section blocks sort the rest into publication-style desks.
-          </p>
+<section class="section">
+  <h2>In the wings</h2>
+  <div class="small">Borderline, adjacent, or weak-signal stories worth a second look.</div>
+  <div class="grid">
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>TN</span>
+            <span>score 3.8</span>
+          </div>
+          <h3><a href="https://tennesseelookout.com/2026/03/16/monday-bond-hearing-in-louisiana-set-for-nashville-reporter-detained-by-ice/" target="_blank" rel="noopener noreferrer">Monday bond hearing in Louisiana set for Nashville reporter detained by ICE</a></h3>
+          <p>Estefany Rodríguez, a Nashville Spanish-language news reporter detained earlier this month by ICE agents, is scheduled to appear in a Louisiana immigration court for a bond hearing today, court records show. Separately, a federal judge set a hearing in Nashville on Tuesday to consider constitutional challenges to the detention brought by Rodríguez’ attorneys. Rodríguez was […]</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Tennessee Lookout</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>PA</span>
+            <span>score 3.8</span>
+          </div>
+          <h3><a href="https://penncapital-star.com/2026/03/13/repub/court-orders-two-week-halt-on-construction-at-maryland-immigration-detention-warehouse/" target="_blank" rel="noopener noreferrer">Court orders two-week halt on construction at Maryland immigration detention warehouse</a></h3>
+          <p>The emergency order was in response to a request from the state of Maryland, which has sued to block the detention center project but feared ICE would begin construction while the suit was pending.</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Pennsylvania Capital-Star</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>PA</span>
+            <span>score 3.8</span>
+          </div>
+          <h3><a href="https://penncapital-star.com/commentary/ice-buys-87m-warehouse-in-pennsylvania-%e2%88%92-can-local-officials-block-a-detention-facility/" target="_blank" rel="noopener noreferrer">ICE buys $87M warehouse in Pennsylvania − can local officials block a detention facility?</a></h3>
+          <p>Currently, there are roughly 220 facilities being used to detain immigrants nationwide.</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Pennsylvania Capital-Star</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>OH</span>
+            <span>score 3.8</span>
+          </div>
+          <h3><a href="https://ohiocapitaljournal.com/briefs/immigration-judges-speeding-up-removal-cases-involving-somali-people/" target="_blank" rel="noopener noreferrer">Immigration judges speeding up removal cases involving Somali people</a></h3>
+          <p>On Jan. 30, as immigration attorney Matthew Mockenhaupt was representing a client in a hearing, his email inbox flooded with calendar invites from the court. He’d never seen the court schedule so many hearings on such short notice — and, even stranger, all of the cases involved people from Somalia. Since then, the pattern has […]</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Ohio Capital Journal</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>AL</span>
+            <span>score 3.8</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiT0FVX3lxTE90aFMxT1JJUm1pVXgzd205RHBjbDRSX1c5MXZjODlaT2o1ZzFoNkxMdl9MNThFQWU0QkxSOHQzdlVyNmNvTThlSFZiTk4waU0?oc=5" target="_blank" rel="noopener noreferrer">Islam | Religion, Beliefs, Practices, &amp; Facts - Britannica</a></h3>
+          <p>Islam | Religion, Beliefs, Practices, &amp; Facts Britannica</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">islam</span></div>
+          <div class="source">Alabama</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>US</span>
+            <span>score 3.8</span>
+          </div>
+          <h3><a href="https://www.npr.org/2026/03/12/nx-s1-5744667/wake-now-in-the-fire-book-review" target="_blank" rel="noopener noreferrer">This tale of a Chicago school book ban was inspired by true events</a></h3>
+          <p>Librarian Jarrett Dapier&#x27;s graphic novel tells a fictionalized account of real-life events in 2013 that restricted access to Marjane Satrapi&#x27;s memoir Persepolis in Chicago Public Schools.</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">book-bans</span></div>
+          <div class="source">NPR Education</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>AL</span>
+            <span>score 3.8</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiUkFVX3lxTE1Cc0xiWFdiMVV1TXN0MlRfZVVvOU1WLXhERTg5WEp3OHpxbHlZOWRrbndva1hvaGxRTkVIamt6UGpNdmxneEc4bldselVHT0ktdWc?oc=5" target="_blank" rel="noopener noreferrer">Ramadan | Islam, Fasting, Timing, Traditions, Rules, Meanings, Iftar, &amp; Eid al-Fitr - Britannica</a></h3>
+          <p>Ramadan | Islam, Fasting, Timing, Traditions, Rules, Meanings, Iftar, &amp; Eid al-Fitr Britannica</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">islam</span></div>
+          <div class="source">Alabama</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>FL</span>
+            <span>score 3.8</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxPY1lEdmIyaU1MbHJqRjVCR3kxOHJtRGhDODFvZzkwbXdXc3FrZE1kajhwUDh3a2NpbWNjeGVaLXdFei13dC1tMHZkcDBrb0RTZTZ0Z0NHRVFWZkZTazZNT2pJU1psX0ZkZzlieW1Yc3RRWW1hS1EwcUVTM0ZxWFBsWlIxWnFLdTNFRmI2UnZBdEdXNUFDaFlmanhqX0hac3QwR203YTlTYU4?oc=5" target="_blank" rel="noopener noreferrer">FIRE warns HB 1119 will increase Florida school book banning - Florida Politics</a></h3>
+          <p>FIRE warns HB 1119 will increase Florida school book banning Florida Politics</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">book-bans</span></div>
+          <div class="source">Florida</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>MO</span>
+            <span>score 3.7</span>
+          </div>
+          <h3><a href="https://missouriindependent.com/briefs/rural-public-transit-advocates-in-push-back-on-missouri-governors-proposed-cuts/" target="_blank" rel="noopener noreferrer">Rural public transit advocates in push back on Missouri governor’s proposed cuts</a></h3>
+          <p>Gov. Mike Kehoe has proposed decreasing state spending for Missouri’s transportation industry. According to a chart from Citizens for Modern Transit and the Missouri Public Transit Association, Missouri counties were provided $6.7 million for transportation for this fiscal year. The governor is proposing that the state cut spending to $1.7 million. For the past three […]</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span></div>
+          <div class="source">Missouri Independent</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>ID</span>
+            <span>score 3.7</span>
+          </div>
+          <h3><a href="https://idahocapitalsun.com/2026/03/16/repub/ice-buys-a-salt-lake-city-warehouse-with-plans-for-a-new-detention-center/" target="_blank" rel="noopener noreferrer">ICE buys a Salt Lake City warehouse with plans for a new detention center</a></h3>
+          <p>A Salt Lake City warehouse is the latest in the nation to be purchased by U.S. Immigration Customs and Enforcement as the Trump administration plans a $45 billion expansion of detention centers. The U.S. Department of Homeland Security, which oversees ICE, and a Delaware company on Wednesday finalized the $145.4 million deal, county property records […]</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Idaho Capital Sun</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>OH</span>
+            <span>score 3.7</span>
+          </div>
+          <h3><a href="https://ohiocapitaljournal.com/2026/03/16/meet-the-republican-candidates-running-in-ohios-9th-congressional-district-primary/" target="_blank" rel="noopener noreferrer">Meet the Republican candidates running in Ohio’s 9th Congressional District primary</a></h3>
+          <p>Five candidates are running in Ohio’s 9th Congressional District’s Republican Primary to challenge the long-time incumbent Marcy Kaptur. The candidates are Ohio state Rep. Josh Williams, former Ohio state Rep. Derek Merrin, former Air National Guard Lieutenant Colonel in the Alea Nadeem, former deputy director of U.S. Immigration and Customs Enforcement Madison Sheahan, and health […]</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Ohio Capital Journal</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>borderline political grievance story</span>
+            <span>TN</span>
+            <span>score 3.7</span>
+          </div>
+          <h3><a href="https://tennesseelookout.com/2026/03/12/gop-push-to-expand-tennessee-voucher-program-to-40k-students-clears-first-hurdle/" target="_blank" rel="noopener noreferrer">GOP push to expand Tennessee voucher program to 40K students clears first hurdle</a></h3>
+          <p>This story was originally published by Chalkbeat. Sign up for their newsletters at ckbe.at/newsletters Sign up for Chalkbeat Tennessee’s free newsletter to keep up with statewide education policy and Memphis-Shelby County Schools. A GOP push to double the number of students in Tennessee’s voucher program cleared its first hurdle in the General Assembly on Tuesday. […]</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">schools</span></div>
+          <div class="source">Tennessee Lookout</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>immigrant identity panic</span>
+            <span>TN</span>
+            <span>score 3.7</span>
+          </div>
+          <h3><a href="https://tennesseelookout.com/briefs/bill-requiring-immigration-status-checks-in-tennessee-public-schools-advances-in-legislature/" target="_blank" rel="noopener noreferrer">Bill requiring immigration status checks in Tennessee public schools advances in legislature</a></h3>
+          <p>A bill requiring Tennessee public schools to gather data on student immigration status and report it to the state education department advanced out of a House legislative committee Tuesday. The bill (HB073/SB0836) was introduced last year as part of a Republican effort to challenge Supreme Court precedent requiring public schools to enroll all children regardless […]</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">immigration</span></div>
+          <div class="source">Tennessee Lookout</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>anti-trans moral panic</span>
+            <span>TN</span>
+            <span>score 3.7</span>
+          </div>
+          <h3><a href="https://tennesseelookout.com/2026/03/11/tennessee-lawmakers-skeptical-over-strings-attached-to-trump-rural-health-grant-program/" target="_blank" rel="noopener noreferrer">Tennessee lawmakers skeptical over strings attached to Trump rural health grant program</a></h3>
+          <p>The Trump administration’s Rural Health Transformation Program is being met with skepticism from Tennessee lawmakers over difficult-to-achieve policy changes, potential clawbacks and uncertainty about future funding. The state could receive up to $1 billion over a 5-year period, but the year-to-year grant amount to support Tennessee’s slate of rural health programs is unclear, making it […]</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">anti-trans</span></div>
+          <div class="source">Tennessee Lookout</div>
+        </article>
+        
+        <article class="card">
+          <div class="meta">
+            <span>religion / pluralism backlash</span>
+            <span>TX</span>
+            <span>score 3.7</span>
+          </div>
+          <h3><a href="https://news.google.com/rss/articles/CBMimAFBVV95cUxPdE9BV1dPMmo3Z1ZCc2Q2bnJoS21CMXV3bElqVUxrRkF0WEhDUGRKYjcwVUpJZl9pZGVRbzBQMVdJMm1vWnVRd3NWejBUa05TVUo5RmtHZzdpYmRoMGZYMVZubkw3OXVnbGZUZ1hRcjlRVGpxR2U4UDMzVnV3NWhZSzJIay1oZWlZelZrdjg5UElFY3h5ellyQw?oc=5" target="_blank" rel="noopener noreferrer">New GOP Caucus Signals Resurgence of Anti-Shariah Movement - Word&amp;Way</a></h3>
+          <p>New GOP Caucus Signals Resurgence of Anti-Shariah Movement Word&amp;Way</p>
+          <div class="reason">Demoted to wings due to score below KEEP_MIN_SCORE. Clear identity/pluralism-targeted outrage story.</div>
+          <div class="tags"><span class="tag">religion</span></div>
+          <div class="source">Texas</div>
+        </article>
         </div>
-      `;
-    }
-
-    function jumpToSection(slug) {
-      const el = document.getElementById(`section-${slug}`);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    window.jumpToSection = jumpToSection;
-
-    function updateHeaderMeta(allArticles) {
-      const currentDate = allArticles.length
-        ? formatDisplayDate(allArticles[0].published_at)
-        : formatDisplayDate(new Date().toISOString());
-
-      const latestDate = allArticles.length
-        ? formatDate(allArticles[0].published_at)
-        : "No stories loaded";
-
-      document.getElementById("current-date").textContent = currentDate;
-      document.getElementById("story-count-top").textContent = `${allArticles.length} stor${allArticles.length === 1 ? "y" : "ies"}`;
-      document.getElementById("last-updated").textContent = `Lead updated: ${latestDate}`;
-    }
-
-    function renderHome(allArticles) {
-      if (!allArticles.length) {
-        document.getElementById("main-content").innerHTML = `<div class="empty">No stories available yet.</div>`;
-        document.getElementById("sidebar-content").innerHTML = "";
-        return;
-      }
-
-      const hero = allArticles[0];
-      const topStories = allArticles.slice(1, 4);
-      const leadRow = allArticles.slice(4, 7);
-
-      const sections = TOPIC_CONFIG
-        .filter(item => item.slug !== "all")
-        .map(item => ({
-          ...item,
-          items: allArticles.filter(article => article.section_slug === item.slug)
-        }))
-        .filter(section => section.items.length > 0);
-
-      document.getElementById("main-content").innerHTML = `
-        <div class="hero-grid">
-          ${buildHero(hero)}
-          <section class="top-stories">
-            <h3 class="block-title">Top Stories</h3>
-            <div class="top-story-list">
-              ${topStories.length ? topStories.map(buildTopStoryItem).join("") : `<div class="empty">No additional top stories yet.</div>`}
-            </div>
-          </section>
-        </div>
-
-        <div class="lead-row">
-          ${leadRow.map(buildLeadCard).join("")}
-        </div>
-
-        <div class="sections">
-          ${sections.map(section => buildSectionBlock(section.label, section.slug, section.items)).join("")}
-        </div>
-      `;
-
-      document.getElementById("sidebar-content").innerHTML = buildSidebar(allArticles, allArticles);
-    }
-
-    function renderFiltered(allArticles, slug) {
-      const visible = allArticles.filter(article => article.section_slug === slug);
-      const label = getTopicLabel(slug);
-
-      if (!visible.length) {
-        document.getElementById("main-content").innerHTML = `<div class="empty">No stories matched ${escapeHtml(label)}.</div>`;
-        document.getElementById("sidebar-content").innerHTML = buildSidebar(allArticles, visible);
-        return;
-      }
-
-      const hero = visible[0];
-      const topStories = visible.slice(1, 5);
-
-      document.getElementById("main-content").innerHTML = `
-        <div class="hero-grid">
-          ${buildHero(hero)}
-          <section class="top-stories">
-            <h3 class="block-title">${escapeHtml(label)} Headlines</h3>
-            <div class="top-story-list">
-              ${topStories.length ? topStories.map(buildTopStoryItem).join("") : `<div class="empty">No additional stories in this section yet.</div>`}
-            </div>
-          </section>
-        </div>
-
-        <div class="sections">
-          ${buildSectionBlock(label, slug, visible)}
-        </div>
-      `;
-
-      document.getElementById("sidebar-content").innerHTML = buildSidebar(allArticles, visible);
-    }
-
-    function renderPage() {
-      const normalized = sortArticles(safeArray(articles).map(normalizeArticle));
-      updateHeaderMeta(normalized);
-
-      if (currentFilter === "all") {
-        renderHome(normalized);
-      } else {
-        renderFiltered(normalized, currentFilter);
-      }
-    }
-
-    function showError(message) {
-      document.getElementById("main-content").innerHTML = `<div class="error-box">${escapeHtml(message)}</div>`;
-      document.getElementById("sidebar-content").innerHTML = "";
-    }
-
-    async function loadNews() {
-      try {
-        const response = await fetch("news.json", { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error(`Fetch failed: HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (!Array.isArray(data)) {
-          throw new Error("news.json loaded, but its top-level JSON is not an array.");
-        }
-
-        articles = data;
-        renderPage();
-      } catch (err) {
-        console.error("latest.html error:", err);
-        showError(`latest.html error:\n${err && err.message ? err.message : String(err)}`);
-      }
-    }
-
-    buildNav();
-    loadNews();
-  </script>
+</section>
+</div>
 </body>
 </html>

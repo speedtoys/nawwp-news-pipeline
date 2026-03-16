@@ -1,874 +1,470 @@
+#!/usr/bin/env python3
+import datetime as dt
+import html
 import json
 import os
 import re
-from collections import Counter
+import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import UTC, datetime, timedelta
 from email.utils import parsedate_to_datetime
-from html import unescape
-from typing import Any
 
 import feedparser
-import requests
-from dotenv import load_dotenv
 
 from score_articles import evaluate_article
 
-load_dotenv()
-
-NEWS_API_KEY = (os.getenv("NEWS_API_KEY") or "").strip()
-NEWS_API_URL = "https://newsapi.org/v2/everything"
-
+CONFIG_FILE = "rss_sources.json"
 ARCHIVE_FILE = "archive.json"
 OUTPUT_FILE = "news.json"
-RSS_SOURCES_FILE = "rss_sources.json"
+HTML_FILE = "latest.html"
 
-NEWSAPI_ENABLED = (os.getenv("NEWSAPI_ENABLED", "true").strip().lower() == "true")
-RSS_ENABLED = (os.getenv("RSS_ENABLED", "true").strip().lower() == "true")
+MAX_CANDIDATES_PER_FEED = int(os.getenv("MAX_CANDIDATES_PER_FEED", "25"))
+MAX_AI_REVIEWS_PER_RUN = int(os.getenv("MAX_AI_REVIEWS_PER_RUN", "160"))
+KEEP_MIN_SCORE = float(os.getenv("KEEP_MIN_SCORE", "4.0"))
+WINGS_MIN_SCORE = float(os.getenv("WINGS_MIN_SCORE", "2.6"))
+FETCH_WORKERS = int(os.getenv("FETCH_WORKERS", "10"))
+AI_WORKERS = int(os.getenv("AI_WORKERS", "4"))
+IGNORE_SEEN = os.getenv("IGNORE_SEEN", "0").lower() in {"1", "true", "yes", "y"}
 
-NEWSAPI_DAYS_BACK = int((os.getenv("NEWSAPI_DAYS_BACK") or "3").strip())
-NEWSAPI_PAGE_SIZE = int((os.getenv("NEWSAPI_PAGE_SIZE") or "40").strip())
-
-RSS_DAYS_BACK = int((os.getenv("RSS_DAYS_BACK") or "7").strip())
-RSS_PER_FEED_LIMIT = int((os.getenv("RSS_PER_FEED_LIMIT") or "20").strip())
-RSS_MAX_WORKERS = int((os.getenv("RSS_MAX_WORKERS") or "8").strip())
-
-MAX_CANDIDATES_FOR_AI = int((os.getenv("MAX_CANDIDATES_FOR_AI") or "30").strip())
-FINAL_ARTICLE_COUNT = int((os.getenv("FINAL_ARTICLE_COUNT") or "12").strip())
-
-STRICT_MODE = (os.getenv("STRICT_MODE", "false").strip().lower() == "true")
-DEBUG_SHOW_REJECTIONS = (os.getenv("DEBUG_SHOW_REJECTIONS", "true").strip().lower() == "true")
-DEBUG_REJECTION_LIMIT = int((os.getenv("DEBUG_REJECTION_LIMIT") or "25").strip())
-
-KEYWORDS = (
-    '"school board" OR mosque OR islam OR immigrant OR "religious school" '
-    'OR "book ban" OR "christian values" OR "diversity program" OR islamophobia '
-    'OR synagogue OR "charter school" OR DEI OR "ethnic studies" OR "parental rights" '
-    'OR "religious liberty" OR voucher OR curriculum OR library OR "faith-based" '
-    'OR transgender OR LGBTQ OR "drag queen" OR "prayer in school" '
-    'OR immigration OR voter OR election OR ballot'
-)
-
-KEYWORD_FILTER_TERMS = {
-    "school board",
-    "school",
-    "teacher",
-    "student",
-    "classroom",
-    "district",
-    "voucher",
-    "charter school",
-    "public school",
-    "religious school",
-    "mosque",
-    "islam",
-    "muslim",
-    "synagogue",
-    "jewish",
-    "church",
-    "christian",
-    "faith-based",
-    "religious liberty",
-    "prayer",
-    "religion",
-    "immigrant",
-    "immigration",
-    "migrant",
-    "refugee",
-    "border",
-    "asylum",
-    "identity",
-    "ethnic",
-    "book ban",
-    "banned books",
-    "library",
-    "librarian",
-    "curriculum",
-    "reading list",
-    "textbook",
-    "dei",
-    "diversity",
-    "equity",
-    "inclusion",
-    "woke",
-    "ethnic studies",
-    "transgender",
-    "lgbtq",
-    "gay",
-    "lesbian",
-    "nonbinary",
-    "pronoun",
-    "drag",
-    "gender identity",
-    "election",
-    "voting",
-    "ballot",
-    "voter",
-    "polling place",
-    "civic",
-    "parental rights",
-    "lawsuit",
-    "ban",
-    "banned",
-    "backlash",
-    "controversy",
-    "outrage",
-    "dispute",
-    "restriction",
-    "excluded",
-    "exclusion",
-}
-
-BLOCKED_SOURCES = {
-    "Freerepublic.com",
-    "Thegatewaypundit.com",
-}
-
-BLOCKED_TITLE_TERMS = {
-    "witchhunter.exe",
-}
-
-NEGATIVE_TERMS_HARD = {
-    "mass shooting",
-    "terror attack",
-    "terrorist attack",
-    "bombing",
-    "airstrike",
-    "missile strike",
-    "war zone",
-    "hostages",
-}
-
-NEGATIVE_TERMS_SOFT = {
-    "attack",
-    "attacks",
-    "shooting",
-    "killed",
-    "murder",
-    "assault",
-    "arson",
-    "deadly",
-    "fatal",
-    "violence",
-    "hate crime",
-    "gunman",
-    "victims",
-    "memorial",
-    "remembrance",
-}
-
-OVERRIDE_CONTEXT_TERMS = {
-    "lawsuit",
-    "ban",
-    "banned",
-    "voucher",
-    "school board",
-    "curriculum",
-    "library",
-    "book ban",
-    "dei",
-    "diversity",
-    "immigration",
-    "election",
-    "voting",
-    "ballot",
-    "religious liberty",
-    "faith-based",
-    "church-state",
-    "backlash",
-    "outrage",
-    "controversy",
-    "exclusion",
-    "excluded",
-    "policy",
-    "restriction",
-    "restricted",
-    "school",
-    "public meeting",
-    "parents",
-    "protest over",
-    "state officials",
-    "board voted",
-}
-
-SITE_TOPICS = [
-    {"topic": "Education", "section_slug": "education"},
-    {"topic": "Religion / Church-State", "section_slug": "religion-church-state"},
-    {"topic": "Immigration / Identity", "section_slug": "immigration-identity"},
-    {"topic": "Books / Libraries / Curriculum", "section_slug": "books-libraries-curriculum"},
-    {"topic": "Gender / LGBTQ", "section_slug": "gender-lgbtq"},
-    {"topic": "DEI / Diversity Backlash", "section_slug": "dei-diversity-backlash"},
-    {"topic": "Voting / Civic Panic", "section_slug": "voting-civic-panic"},
-    {"topic": "General Culture War", "section_slug": "general-culture-war"},
+IDENTITY_TERMS = [
+    "dei", "diversity", "equity", "inclusion", "affirmative action",
+    "critical race theory", "crt", "anti-woke", "woke", "anti woke",
+    "transgender", "trans", "gender ideology", "gender identity", "pronoun",
+    "drag", "drag queen", "pride", "lgbt", "lgbtq", "nonbinary", "bathroom bill",
+    "girls sports", "women's sports", "book ban", "banned books", "library",
+    "curriculum", "school board", "parents' rights", "school choice", "voucher",
+    "religious liberty", "christian values", "traditional values", "western civilization",
+    "white grievance", "white people", "white boys", "young white men", "young white male",
+    "white male man", "disenfranchise", "replacement", "heritage",
+    "immigrant", "immigration", "illegal alien", "illegal aliens", "refugee",
+    "muslim", "islam", "islamic", "mosque", "islamophobia", "sharia", "sharia law",
+    "muslim school", "islamic school", "faith-based", "faith based",
+    "diversity office", "dei office", "inclusive", "multicultural", "antisemitism",
+    "jewish", "christian nationalist", "race-conscious", "race conscious",
+    "merit", "meritocracy", "patriotic education", "american values", "cair",
 ]
 
-TOPIC_RULES = [
-    {
-        "topic": "Education",
-        "section_slug": "education",
-        "terms": [
-            "school board", "school", "teacher", "student", "classroom",
-            "district", "public school", "charter school", "voucher",
-        ],
-    },
-    {
-        "topic": "Religion / Church-State",
-        "section_slug": "religion-church-state",
-        "terms": [
-            "church", "christian", "muslim", "mosque", "synagogue",
-            "religious liberty", "faith-based", "prayer", "religion", "pastor",
-        ],
-    },
-    {
-        "topic": "Immigration / Identity",
-        "section_slug": "immigration-identity",
-        "terms": [
-            "immigrant", "immigration", "migrant", "refugee",
-            "border", "asylum", "ethnic", "identity",
-        ],
-    },
-    {
-        "topic": "Books / Libraries / Curriculum",
-        "section_slug": "books-libraries-curriculum",
-        "terms": [
-            "book ban", "banned books", "library", "librarian",
-            "curriculum", "reading list", "textbook", "ethnic studies",
-        ],
-    },
-    {
-        "topic": "Gender / LGBTQ",
-        "section_slug": "gender-lgbtq",
-        "terms": [
-            "transgender", "lgbtq", "gay", "lesbian",
-            "nonbinary", "pronoun", "drag", "gender identity",
-        ],
-    },
-    {
-        "topic": "DEI / Diversity Backlash",
-        "section_slug": "dei-diversity-backlash",
-        "terms": [
-            "dei", "diversity", "equity", "inclusion",
-            "affirmative action", "ethnic studies", "woke",
-        ],
-    },
-    {
-        "topic": "Voting / Civic Panic",
-        "section_slug": "voting-civic-panic",
-        "terms": [
-            "election", "voting", "ballot", "polling place",
-            "voter", "school election", "civic",
-        ],
-    },
+OUTRAGE_TERMS = [
+    "backlash", "outrage", "criticized", "criticises", "criticizes", "slam", "slams",
+    "attacks", "targets", "opposes", "opposition", "bans", "ban", "blocks", "block",
+    "defund", "defunds", "eliminate", "eliminates", "removes", "remove",
+    "pull funding", "pulls funding", "exclude", "excluded", "excludes",
+    "protests", "complains", "complaint", "boycott", "boycotts", "lawsuit", "sues",
+    "hearing", "debate", "condemns", "denounces", "fights", "fighting",
+    "pressure campaign", "parents rights", "parents' rights", "anti-woke", "anti woke",
 ]
 
-TOPIC_MAP_BY_NAME = {item["topic"].lower(): item for item in SITE_TOPICS}
-TOPIC_MAP_BY_SLUG = {item["section_slug"]: item for item in SITE_TOPICS}
+RIGHT_ACTOR_TERMS = [
+    "maga", "trump", "republican", "republicans", "gop", "conservative",
+    "conservatives", "right-wing", "right wing", "fox news", "moms for liberty",
+    "heritage foundation", "family policy", "alliance defending freedom",
+    "liberty counsel", "turning point usa", "turning point", "charlie kirk", "erika kirk",
+    "christian nationalist", "evangelical", "state lawmakers", "attorney general",
+    "governor", "school board",
+]
 
-HTML_TAG_RE = re.compile(r"<[^>]+>")
-MULTISPACE_RE = re.compile(r"\s+")
+CRIME_VIOLENCE_TERMS = [
+    "shooting", "shot", "killed", "murder", "murdered", "bomb", "bombing",
+    "terror", "terrorism", "massacre", "arrested", "arrest", "charged with",
+    "indicted", "convicted", "sentenced", "police", "sheriff", "assault", "rape",
+    "sexual assault", "molest", "molestation", "trafficking", "abuse", "child porn",
+    "pornography", "dead", "death", "homicide", "violent", "violence",
+    "hate crime", "stabbing", "stabbed",
+]
 
+GENERIC_SCANDAL_TERMS = [
+    "alternate electors", "fake electors", "electors", "election fraud",
+    "voter fraud", "campaign finance", "bribery", "bribe", "corruption",
+    "indictment", "indicted", "prosecution", "prosecutor", "convicted",
+    "felony", "felonies", "forgery", "embezzlement", "money laundering",
+]
 
-class DebugStats:
-    def __init__(self) -> None:
-        self.counts = Counter()
-        self.rejections: list[str] = []
+FALSE_POSITIVE_CONTEXT = [
+    "weather", "sports recap", "earnings", "stock price", "concert review",
+    "movie review", "real estate", "recipe", "crossword", "horoscope",
+]
 
-    def inc(self, key: str, amount: int = 1) -> None:
-        self.counts[key] += amount
-
-    def reject(self, reason: str, article: dict[str, Any] | None = None) -> None:
-        self.counts[f"reject_{reason}"] += 1
-        if DEBUG_SHOW_REJECTIONS and len(self.rejections) < DEBUG_REJECTION_LIMIT and article:
-            self.rejections.append(f"{reason}: {article.get('title', 'Untitled')} [{article.get('source', 'Unknown')}]")
-
-    def print_report(self) -> None:
-        print("\n=== PIPELINE DEBUG REPORT ===")
-        for key in sorted(self.counts):
-            print(f"{key}: {self.counts[key]}")
-        if self.rejections:
-            print("\nSample rejections:")
-            for item in self.rejections:
-                print(f"- {item}")
-        print("=============================\n")
-
-
-stats = DebugStats()
-
-
-def iso_z(dt: datetime) -> str:
-    return dt.astimezone(UTC).isoformat().replace("+00:00", "Z")
-
-
-def parse_iso(dt_str: str | None) -> datetime:
-    if not dt_str:
-        return datetime.now(UTC)
-    try:
-        return datetime.fromisoformat(dt_str.replace("Z", "+00:00")).astimezone(UTC)
-    except ValueError:
-        return datetime.now(UTC)
-
-
-def strip_html(text: str) -> str:
-    text = unescape(text or "")
-    text = HTML_TAG_RE.sub(" ", text)
-    text = MULTISPACE_RE.sub(" ", text)
-    return text.strip()
-
-
-def normalize_url(url: str) -> str:
-    return (url or "").strip().lower()
-
-
-def load_json_file(path: str, fallback: Any) -> Any:
+def load_json(path, default):
+    if not os.path.exists(path):
+        return default
     try:
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return fallback
+    except Exception:
+        return default
 
-
-def save_json_file(path: str, data: Any) -> None:
+def save_json(path, payload):
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+        json.dump(payload, f, indent=2, ensure_ascii=False)
 
+def strip_html(text):
+    text = text or ""
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = html.unescape(text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
 
-def load_archive() -> list[dict[str, Any]]:
-    data = load_json_file(ARCHIVE_FILE, [])
-    return data if isinstance(data, list) else []
+def normalize_url(url):
+    if not url:
+        return ""
+    url = url.strip()
+    if url.startswith("http://"):
+        url = "https://" + url[len("http://"):]
+    return url
 
+def build_google_news_rss(query):
+    quoted = urllib.parse.quote(query)
+    return f"https://news.google.com/rss/search?q={quoted}+when:30d&hl=en-US&gl=US&ceid=US:en"
 
-def save_archive(archive: list[dict[str, Any]]) -> None:
-    save_json_file(ARCHIVE_FILE, archive)
-
-
-def load_rss_sources() -> list[dict[str, Any]]:
-    data = load_json_file(RSS_SOURCES_FILE, [])
-    if not isinstance(data, list):
-        return []
-
-    valid_sources: list[dict[str, Any]] = []
-    for item in data:
-        if not isinstance(item, dict):
+def parse_date(entry):
+    for raw in [getattr(entry, "published", None), getattr(entry, "updated", None), getattr(entry, "created", None)]:
+        if not raw:
             continue
-
-        name = (item.get("name") or "").strip()
-        url = (item.get("url") or "").strip()
-        if not name or not url:
+        try:
+            return parsedate_to_datetime(raw).astimezone(dt.timezone.utc).isoformat()
+        except Exception:
             continue
+    return dt.datetime.now(dt.timezone.utc).isoformat()
 
-        valid_sources.append(
-            {
-                "name": name,
-                "url": url,
-                "tags": item.get("tags", []) if isinstance(item.get("tags"), list) else [],
-                "base_weight": item.get("base_weight", 1.0),
-                "keyword_boosts": item.get("keyword_boosts", {}) if isinstance(item.get("keyword_boosts"), dict) else {},
-                "required_any": item.get("required_any", []) if isinstance(item.get("required_any"), list) else [],
-                "default_topic": (item.get("default_topic") or "").strip(),
-            }
-        )
+def load_feed_specs():
+    cfg = load_json(CONFIG_FILE, {})
+    specs = []
 
-    return valid_sources
+    for item in cfg.get("rss_feeds", []):
+        if item.get("enabled", True) and item.get("url"):
+            specs.append({
+                "label": item.get("label") or item.get("name") or item["url"],
+                "kind": "rss",
+                "url": item["url"],
+                "state": item.get("state"),
+                "bucket": item.get("bucket", "custom"),
+            })
 
+    for item in cfg.get("google_news_queries", []):
+        if item.get("enabled", True) and item.get("query"):
+            specs.append({
+                "label": item.get("label") or item["query"],
+                "kind": "google_news",
+                "url": build_google_news_rss(item["query"]),
+                "state": item.get("state"),
+                "bucket": item.get("bucket", "google-news"),
+            })
+    return specs
 
-def normalize_article(item: dict[str, Any]) -> dict[str, Any] | None:
-    title = strip_html(item.get("title") or "")
-    url = (item.get("url") or "").strip()
-    if not title or not url:
-        return None
+def analyze_text(text):
+    t = (text or "").lower()
+    include_hits = [term for term in IDENTITY_TERMS if term in t]
+    outrage_hits = [term for term in OUTRAGE_TERMS if term in t]
+    actor_hits = [term for term in RIGHT_ACTOR_TERMS if term in t]
+    crime_hits = [term for term in CRIME_VIOLENCE_TERMS if term in t]
+    scandal_hits = [term for term in GENERIC_SCANDAL_TERMS if term in t]
+    noise_hits = [term for term in FALSE_POSITIVE_CONTEXT if term in t]
 
-    source = item.get("source") or {}
-    source_name = source if isinstance(source, str) else (source.get("name") or "Unknown")
+    score = 0.0
+    score += min(len(include_hits), 5) * 1.8
+    score += min(len(outrage_hits), 4) * 1.0
+    score += min(len(actor_hits), 3) * 0.9
+    score -= min(len(crime_hits), 4) * 2.5
+    score -= min(len(scandal_hits), 3) * 2.6
+    score -= min(len(noise_hits), 2) * 1.5
+
+    has_identity = len(include_hits) >= 1
+    scandal_first = len(scandal_hits) >= 1 and not has_identity
+    crime_first = len(crime_hits) >= 2
+
+    maybe_relevant = (
+        (has_identity and len(outrage_hits) >= 1 and len(crime_hits) == 0)
+        or (has_identity and len(actor_hits) >= 1 and len(crime_hits) <= 1)
+        or (len(include_hits) >= 2 and len(crime_hits) == 0)
+        or (score >= 2.8 and has_identity)
+        or (len(actor_hits) >= 1 and len(outrage_hits) >= 1 and has_identity)
+    )
 
     return {
-        "title": title,
-        "source": str(source_name).strip() or "Unknown",
-        "published_at": item.get("published_at") or item.get("publishedAt") or iso_z(datetime.now(UTC)),
-        "url": url,
-        "summary": strip_html(item.get("summary") or item.get("description") or ""),
-        "tags": item.get("tags", []) if isinstance(item.get("tags"), list) else [],
-        "score": float(item.get("score", 0) or 0),
-        "pipeline_score": float(item.get("pipeline_score", 1.0) or 1.0),
+        "maybe_relevant": maybe_relevant and not crime_first and not scandal_first,
+        "lexical_score": round(score, 2),
+        "include_hits": include_hits[:10],
+        "outrage_hits": outrage_hits[:8],
+        "actor_hits": actor_hits[:8],
+        "crime_hits": crime_hits[:8],
+        "scandal_hits": scandal_hits[:8],
+        "noise_hits": noise_hits[:4],
     }
 
-
-def build_text_blob(article: dict[str, Any]) -> str:
-    parts = [
-        article.get("title", ""),
-        article.get("summary", ""),
-        article.get("source", ""),
-        " ".join(article.get("tags", [])) if isinstance(article.get("tags"), list) else "",
-    ]
-    return " ".join(parts).lower()
-
-
-def topic_from_name_or_slug(topic: str = "", section_slug: str = "") -> tuple[str, str]:
-    if section_slug and section_slug in TOPIC_MAP_BY_SLUG:
-        item = TOPIC_MAP_BY_SLUG[section_slug]
-        return item["topic"], item["section_slug"]
-
-    lowered = (topic or "").strip().lower()
-    if lowered in TOPIC_MAP_BY_NAME:
-        item = TOPIC_MAP_BY_NAME[lowered]
-        return item["topic"], item["section_slug"]
-
-    return "General Culture War", "general-culture-war"
-
-
-def enforce_site_topic(article: dict[str, Any], preferred_topic: str = "", preferred_slug: str = "") -> dict[str, Any]:
-    topic, section_slug = topic_from_name_or_slug(preferred_topic, preferred_slug)
-    article["topic"] = topic
-    article["section_slug"] = section_slug
-
-    topic_tags = article.get("topic_tags", [])
-    if not isinstance(topic_tags, list):
-        topic_tags = []
-    article["topic_tags"] = [str(tag).strip() for tag in topic_tags if str(tag).strip()][:8]
-
-    tags = article.get("tags", [])
-    if not isinstance(tags, list):
-        tags = []
-    article["tags"] = [str(tag).strip() for tag in tags if str(tag).strip()][:12]
-
-    return article
-
-
-def classify_topic(article: dict[str, Any], default_topic: str = "") -> tuple[str, str, list[str]]:
-    blob = build_text_blob(article)
-
-    best_topic = "General Culture War"
-    best_slug = "general-culture-war"
-    best_matches: list[str] = []
-    best_count = 0
-
-    for rule in TOPIC_RULES:
-        matches = [term for term in rule["terms"] if term in blob]
-        if len(matches) > best_count:
-            best_count = len(matches)
-            best_topic = rule["topic"]
-            best_slug = rule["section_slug"]
-            best_matches = matches[:5]
-
-    if best_count == 0 and default_topic:
-        mapped_topic, mapped_slug = topic_from_name_or_slug(default_topic, "")
-        return mapped_topic, mapped_slug, []
-
-    return best_topic, best_slug, best_matches
-
-
-def matches_keyword_filter(article: dict[str, Any]) -> bool:
-    blob = build_text_blob(article)
-    return any(term in blob for term in KEYWORD_FILTER_TERMS)
-
-
-def is_blocked(article: dict[str, Any]) -> bool:
-    source_name = (article.get("source") or "").strip()
-    title = (article.get("title") or "").lower()
-
-    if source_name in BLOCKED_SOURCES:
-        return True
-
-    return any(term in title for term in BLOCKED_TITLE_TERMS)
-
-
-def is_generic_tragedy_story(article: dict[str, Any]) -> bool:
-    blob = build_text_blob(article)
-
-    if any(term in blob for term in NEGATIVE_TERMS_HARD):
-        if not any(term in blob for term in OVERRIDE_CONTEXT_TERMS):
-            return True
-
-    soft_hits = sum(1 for term in NEGATIVE_TERMS_SOFT if term in blob)
-    override_hits = sum(1 for term in OVERRIDE_CONTEXT_TERMS if term in blob)
-
-    if STRICT_MODE:
-        return soft_hits >= 1 and override_hits == 0
-
-    return soft_hits >= 2 and override_hits == 0
-
-
-def compute_feed_profile_score(article: dict[str, Any], source_profile: dict[str, Any]) -> float:
-    blob = build_text_blob(article)
-
-    try:
-        score = float(source_profile.get("base_weight", 1.0) or 1.0)
-    except (TypeError, ValueError):
-        score = 1.0
-
-    required_any = [
-        str(term).lower().strip()
-        for term in source_profile.get("required_any", [])
-        if isinstance(term, str) and term.strip()
-    ]
-    if required_any and not any(term in blob for term in required_any):
-        return 0.0
-
-    keyword_boosts = source_profile.get("keyword_boosts", {})
-    if isinstance(keyword_boosts, dict):
-        for term, boost in keyword_boosts.items():
-            if not isinstance(term, str):
-                continue
-            if term.lower().strip() in blob:
-                try:
-                    score *= float(boost)
-                except (TypeError, ValueError):
-                    pass
-
-    return round(score, 3)
-
-
-def dedupe_articles(articles: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    by_url: dict[str, dict[str, Any]] = {}
-    seen_titles: set[str] = set()
-
-    def rank_key(article: dict[str, Any]) -> tuple[float, datetime]:
-        return (
-            float(article.get("pipeline_score", 1.0) or 1.0),
-            parse_iso(article.get("published_at")),
-        )
-
-    for article in articles:
-        url_key = normalize_url(article.get("url", ""))
-        title_key = (article.get("title", "") or "").strip().lower()
-
-        if not url_key or not title_key:
-            continue
-
-        existing = by_url.get(url_key)
-        if existing is None or rank_key(article) > rank_key(existing):
-            by_url[url_key] = article
-
-    deduped_by_url = list(by_url.values())
-    deduped_by_url.sort(key=rank_key, reverse=True)
-
-    final: list[dict[str, Any]] = []
-    for article in deduped_by_url:
-        title_key = (article.get("title", "") or "").strip().lower()
-        if title_key in seen_titles:
-            stats.reject("dedupe_title", article)
-            continue
-        seen_titles.add(title_key)
-        final.append(article)
-
-    return final
-
-
-def parse_entry_datetime(entry: Any) -> datetime:
-    for attr in ("published_parsed", "updated_parsed"):
-        value = getattr(entry, attr, None)
-        if value:
-            try:
-                return datetime(*value[:6], tzinfo=UTC)
-            except Exception:
-                pass
-
-    for attr in ("published", "updated"):
-        value = getattr(entry, attr, None)
-        if value:
-            try:
-                dt = parsedate_to_datetime(value)
-                if dt.tzinfo is None:
-                    dt = dt.replace(tzinfo=UTC)
-                return dt.astimezone(UTC)
-            except Exception:
-                pass
-
-    return datetime.now(UTC)
-
-
-def extract_entry_summary(entry: Any) -> str:
-    candidates: list[str] = []
-
-    for attr in ("summary", "description"):
-        value = getattr(entry, attr, None)
-        if value:
-            candidates.append(str(value))
-
-    content = getattr(entry, "content", None)
-    if isinstance(content, list):
-        for block in content:
-            if isinstance(block, dict) and block.get("value"):
-                candidates.append(str(block["value"]))
-
-    for candidate in candidates:
-        cleaned = strip_html(candidate)
-        if cleaned:
-            return cleaned[:800]
-
-    return ""
-
-
-def prepare_article(article: dict[str, Any], source_profile: dict[str, Any] | None = None) -> dict[str, Any] | None:
-    stats.inc("seen_articles")
-
-    if is_blocked(article):
-        stats.reject("blocked_source_or_title", article)
-        return None
-
-    if not matches_keyword_filter(article):
-        stats.reject("keyword_filter", article)
-        return None
-
-    if is_generic_tragedy_story(article):
-        stats.reject("generic_tragedy", article)
-        return None
-
-    if source_profile is not None:
-        pipeline_score = compute_feed_profile_score(article, source_profile)
-        if pipeline_score <= 0:
-            stats.reject("profile_score_zero", article)
-            return None
-        article["pipeline_score"] = pipeline_score
-
-    topic, section_slug, topic_tags = classify_topic(article, default_topic=(source_profile or {}).get("default_topic", ""))
-    article["topic_tags"] = topic_tags
-    enforce_site_topic(article, topic, section_slug)
-
-    stats.inc("prepared_articles")
-    return article
-
-
-def fetch_newsapi_articles() -> list[dict[str, Any]]:
-    if not NEWSAPI_ENABLED:
-        print("NewsAPI disabled")
-        return []
-
-    if not NEWS_API_KEY:
-        print("Skipping NewsAPI because NEWS_API_KEY is missing")
-        return []
-
-    from_date = datetime.now(UTC) - timedelta(days=NEWSAPI_DAYS_BACK)
-
-    params = {
-        "q": KEYWORDS,
-        "language": "en",
-        "sortBy": "publishedAt",
-        "from": iso_z(from_date),
-        "pageSize": NEWSAPI_PAGE_SIZE,
-        "apiKey": NEWS_API_KEY,
-    }
-
-    response = requests.get(NEWS_API_URL, params=params, timeout=30)
-    if response.status_code != 200:
-        try:
-            body = response.json()
-        except ValueError:
-            body = response.text
-        raise RuntimeError(f"NewsAPI request failed ({response.status_code}): {body}")
-
-    data = response.json()
-    raw_articles = data.get("articles", [])
-    if not isinstance(raw_articles, list):
-        return []
-
-    stats.inc("newsapi_raw_articles", len(raw_articles))
-    articles: list[dict[str, Any]] = []
-
-    for item in raw_articles:
-        if not isinstance(item, dict):
-            continue
-        article = normalize_article(item)
-        if article is None:
-            stats.inc("reject_normalize")
-            continue
-
-        article["tags"] = sorted(set(article.get("tags", []) + ["newsapi"]))
-        article["pipeline_score"] = 1.0
-
-        prepared = prepare_article(article)
-        if prepared:
-            articles.append(prepared)
-
-    stats.inc("newsapi_kept_after_prefilter", len(articles))
-    return dedupe_articles(articles)
-
-
-def fetch_single_rss_feed(source: dict[str, Any], cutoff_dt: datetime) -> list[dict[str, Any]]:
-    source_name = source["name"]
-    source_url = source["url"]
-    source_tags = source.get("tags", [])
-
-    try:
-        feed = feedparser.parse(source_url)
-    except Exception as exc:
-        print(f"RSS error for {source_name}: {exc}")
-        return []
-
-    if getattr(feed, "bozo", 0):
-        bozo_exc = getattr(feed, "bozo_exception", None)
-        if bozo_exc:
-            print(f"RSS warning for {source_name}: {bozo_exc}")
-
-    entries = getattr(feed, "entries", []) or []
-    stats.inc("rss_entries_seen", len(entries))
-
-    articles: list[dict[str, Any]] = []
-
-    for entry in entries[:RSS_PER_FEED_LIMIT]:
-        title = strip_html(getattr(entry, "title", "") or "")
-        url = (getattr(entry, "link", "") or "").strip()
-
+def article_key(article):
+    return normalize_url(article.get("url")) or re.sub(r"\W+", "-", article.get("title", "").lower()).strip("-")
+
+def fetch_candidates(feed_spec):
+    parsed = feedparser.parse(feed_spec["url"])
+    entries = getattr(parsed, "entries", [])[:MAX_CANDIDATES_PER_FEED]
+    items = []
+
+    for entry in entries:
+        title = strip_html(getattr(entry, "title", ""))
+        summary = strip_html(getattr(entry, "summary", "") or getattr(entry, "description", ""))
+        url = normalize_url(getattr(entry, "link", ""))
         if not title or not url:
-            stats.inc("reject_rss_missing_title_or_url")
             continue
 
-        published_dt = parse_entry_datetime(entry)
-        if published_dt < cutoff_dt:
-            stats.inc("reject_rss_old")
+        full_text = f"{title}\n{summary}"
+        analysis = analyze_text(full_text)
+        if not analysis["maybe_relevant"]:
             continue
 
-        article = {
+        items.append({
             "title": title,
-            "source": source_name,
-            "published_at": iso_z(published_dt),
             "url": url,
-            "summary": extract_entry_summary(entry),
-            "tags": sorted(set(["rss", *source_tags])),
-            "score": 0.0,
-            "topic_tags": [],
-        }
+            "summary": summary[:1200],
+            "published": parse_date(entry),
+            "source": feed_spec["label"],
+            "bucket_source": feed_spec["bucket"],
+            "state": feed_spec.get("state"),
+            "prefilter": analysis,
+        })
+    return items
 
-        prepared = prepare_article(article, source)
-        if prepared:
-            articles.append(prepared)
+def dedupe_candidates(candidates, seen):
+    if IGNORE_SEEN:
+        return list(candidates)
 
-    return articles
+    deduped = []
+    seen_local = set()
 
+    for item in candidates:
+        key = article_key(item)
+        title_key = re.sub(r"\W+", " ", item.get("title", "").lower()).strip()
+        if key in seen or key in seen_local or title_key in seen or title_key in seen_local:
+            continue
+        seen_local.add(key)
+        seen_local.add(title_key)
+        deduped.append(item)
+    return deduped
 
-def fetch_rss_articles() -> list[dict[str, Any]]:
-    if not RSS_ENABLED:
-        print("RSS disabled")
-        return []
+def sort_candidates(candidates):
+    return sorted(
+        candidates,
+        key=lambda x: (x["prefilter"]["lexical_score"], x.get("published", "")),
+        reverse=True,
+    )
 
-    sources = load_rss_sources()
-    if not sources:
-        print("No RSS sources configured")
-        return []
+def review_candidates(candidates):
+    reviewed = []
+    kept = []
+    wings = []
+    rejected = []
 
-    cutoff_dt = datetime.now(UTC) - timedelta(days=RSS_DAYS_BACK)
-    all_articles: list[dict[str, Any]] = []
+    to_review = candidates[:MAX_AI_REVIEWS_PER_RUN]
 
-    with ThreadPoolExecutor(max_workers=RSS_MAX_WORKERS) as executor:
-        futures = {
-            executor.submit(fetch_single_rss_feed, source, cutoff_dt): source
-            for source in sources
-        }
-
-        for future in as_completed(futures):
-            source = futures[future]
+    with ThreadPoolExecutor(max_workers=AI_WORKERS) as ex:
+        future_map = {ex.submit(evaluate_article, article): article for article in to_review}
+        done = 0
+        for fut in as_completed(future_map):
+            article = future_map[fut]
+            done += 1
             try:
-                articles = future.result()
-                print(f"RSS {source['name']}: {len(articles)} matched")
-                stats.inc("rss_kept_after_prefilter", len(articles))
-                all_articles.extend(articles)
-            except Exception as exc:
-                print(f"RSS failure for {source['name']}: {exc}")
+                review = fut.result()
+            except Exception as e:
+                review = {
+                    "bucket": "reject",
+                    "score": 0.0,
+                    "tags": ["scoring-error"],
+                    "angle": "scoring failed",
+                    "summary": article.get("summary", "")[:600],
+                    "reason": f"evaluate_article exception: {type(e).__name__}: {e}",
+                }
 
-    return dedupe_articles(all_articles)
+            row = {**article, **review}
+            reviewed.append(row)
 
+            bucket = row.get("bucket", "reject")
+            score = float(row.get("score", 0))
+            print(f"[AI {done}/{len(to_review)}] {bucket.upper()} {score:.1f} :: {article['title'][:100]}")
 
-def fetch_articles() -> list[dict[str, Any]]:
-    newsapi_articles = fetch_newsapi_articles()
-    rss_articles = fetch_rss_articles()
+            if bucket == "keep" and score >= KEEP_MIN_SCORE:
+                kept.append(row)
+            elif bucket in {"keep", "wings"} and score >= WINGS_MIN_SCORE:
+                if bucket == "keep":
+                    row = {**row, "bucket": "wings", "reason": f"Demoted to wings due to score below KEEP_MIN_SCORE. {row.get('reason','')}"}
+                wings.append(row)
+            else:
+                rejected.append(row)
 
-    merged = dedupe_articles(newsapi_articles + rss_articles)
-    merged.sort(
-        key=lambda x: (
-            float(x.get("pipeline_score", 1.0) or 1.0),
-            parse_iso(x.get("published_at")),
-        ),
-        reverse=True,
-    )
+    kept = sorted(kept, key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
+    wings = sorted(wings, key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
+    rejected = sorted(rejected, key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
+    return reviewed, kept, wings, rejected
 
-    print(
-        f"Merged candidate pool: {len(merged)} "
-        f"({len(newsapi_articles)} NewsAPI + {len(rss_articles)} RSS before trim)"
-    )
-    return merged
+def render_cards(items):
+    cards = []
+    for item in items:
+        tags = "".join(f'<span class="tag">{html.escape(tag)}</span>' for tag in item.get("tags", []))
+        cards.append(f"""
+        <article class="card">
+          <div class="meta">
+            <span>{html.escape(item.get("angle", "candidate"))}</span>
+            <span>{html.escape(item.get("state") or "US")}</span>
+            <span>score {float(item.get("score", 0)):.1f}</span>
+          </div>
+          <h3><a href="{html.escape(item.get("url", ""))}" target="_blank" rel="noopener noreferrer">{html.escape(item.get("title", ""))}</a></h3>
+          <p>{html.escape(item.get("summary", ""))}</p>
+          <div class="reason">{html.escape(item.get("reason", ""))}</div>
+          <div class="tags">{tags}</div>
+          <div class="source">{html.escape(item.get("source", ""))}</div>
+        </article>
+        """)
+    if not cards:
+        cards.append('<article class="card"><h3>Nothing in this section this run</h3></article>')
+    return "".join(cards)
 
+def render_html(kept_items, wings_items, reviewed, rejected, before_dedupe, after_dedupe):
+    now = dt.datetime.now().strftime("%Y-%m-%d %H:%M")
+    seen_note = "archive ignored for this run" if IGNORE_SEEN else "archive dedupe enabled"
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NAWWP candidate stories</title>
+<style>
+:root {{
+  --bg:#060b15; --panel:#0f1725; --panel2:#111c2d; --text:#e8eefc; --muted:#aeb9d0; --line:#284164; --tag:#152741;
+}}
+body {{ margin:0; background:var(--bg); color:var(--text); font:16px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif; }}
+.wrap {{ max-width:1460px; margin:0 auto; padding:34px 28px 80px; }}
+h1 {{ font-size:58px; line-height:1.05; margin:0 0 10px; }}
+.sub {{ color:var(--muted); font-size:18px; margin-bottom:24px; }}
+.stats {{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:30px; }}
+.pill {{ border:1px solid var(--line); background:var(--panel2); padding:10px 16px; border-radius:999px; color:var(--text); }}
+.section {{ margin-top:36px; }}
+.section h2 {{ font-size:34px; margin:0 0 18px; }}
+.grid {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:22px; }}
+.card {{ background:linear-gradient(180deg,var(--panel),#0c1421); border:1px solid var(--line); border-radius:24px; padding:22px; box-shadow:0 12px 32px rgba(0,0,0,.26); }}
+.card h3 {{ margin:10px 0 12px; font-size:28px; line-height:1.18; }}
+.card h3 a {{ color:var(--text); text-decoration:none; }}
+.card h3 a:hover {{ text-decoration:underline; }}
+.meta {{ display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:15px; }}
+.reason {{ margin-top:14px; color:#97c7ff; font-weight:600; }}
+.tags {{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }}
+.tag {{ border:1px solid var(--line); background:var(--tag); border-radius:999px; padding:7px 12px; color:var(--text); }}
+.source {{ margin-top:16px; color:var(--muted); font-size:14px; }}
+.small {{ color:var(--muted); font-size:14px; margin-top:8px; }}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>NAWWP candidate stories</h1>
+<div class="sub">Generated {html.escape(now)} • tuned for U.S. identity-outrage coverage with a separate “In the wings” lane for borderline stories.</div>
+<div class="stats">
+  <div class="pill">kept: {len(kept_items)}</div>
+  <div class="pill">in the wings: {len(wings_items)}</div>
+  <div class="pill">reviewed: {len(reviewed)}</div>
+  <div class="pill">rejected: {len(rejected)}</div>
+  <div class="pill">before dedupe: {before_dedupe}</div>
+  <div class="pill">after dedupe: {after_dedupe}</div>
+  <div class="pill">{seen_note}</div>
+</div>
 
-def main() -> None:
-    print("Starting pipeline...")
-    print(f"STRICT_MODE={STRICT_MODE}")
-    print(f"DEBUG_SHOW_REJECTIONS={DEBUG_SHOW_REJECTIONS}")
+<section class="section">
+  <h2>Kept</h2>
+  <div class="grid">{render_cards(kept_items)}</div>
+</section>
 
-    archive = load_archive()
-    seen_urls = {
-        normalize_url(item.get("url", ""))
-        for item in archive
-        if isinstance(item, dict) and item.get("url")
+<section class="section">
+  <h2>In the wings</h2>
+  <div class="small">Borderline, adjacent, or weak-signal stories worth a second look.</div>
+  <div class="grid">{render_cards(wings_items)}</div>
+</section>
+</div>
+</body>
+</html>
+"""
+
+def main():
+    feed_specs = load_feed_specs()
+    print(f"Loaded {len(feed_specs)} feeds/queries")
+
+    archive = load_json(ARCHIVE_FILE, default={"seen": [], "reviews": []})
+    if isinstance(archive, list):
+        seen = set()
+        reviews = archive
+    elif isinstance(archive, dict):
+        seen = set(archive.get("seen", []))
+        reviews = archive.get("reviews", [])
+    else:
+        seen = set()
+        reviews = []
+
+    if IGNORE_SEEN:
+        print("IGNORE_SEEN=1 -> archive dedupe disabled for this run")
+        seen = set()
+
+    raw_candidates = []
+    with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as ex:
+        future_map = {ex.submit(fetch_candidates, spec): spec for spec in feed_specs}
+        done = 0
+        for fut in as_completed(future_map):
+            spec = future_map[fut]
+            done += 1
+            try:
+                items = fut.result()
+                raw_candidates.extend(items)
+                print(f"[{done}/{len(feed_specs)}] {spec['label']}: {len(items)} candidates")
+            except Exception as e:
+                print(f"[{done}/{len(feed_specs)}] {spec['label']}: ERROR {type(e).__name__}: {e}")
+
+    before_dedupe = len(raw_candidates)
+    candidates = dedupe_candidates(sort_candidates(raw_candidates), seen)
+    after_dedupe = len(candidates)
+    print(f"Candidates before dedupe: {before_dedupe}")
+    print(f"Candidates after dedupe:  {after_dedupe}")
+    print(f"Deduped candidates ready for review: {len(candidates)}")
+
+    reviewed, kept, wings, rejected = review_candidates(candidates)
+
+    for item in reviewed:
+        key = article_key(item)
+        title_key = re.sub(r"\W+", " ", item.get("title", "").lower()).strip()
+        seen.add(key)
+        seen.add(title_key)
+
+    reviews.extend([
+        {
+            "title": r.get("title"),
+            "url": r.get("url"),
+            "source": r.get("source"),
+            "state": r.get("state"),
+            "score": r.get("score"),
+            "bucket": r.get("bucket"),
+            "angle": r.get("angle"),
+            "reason": r.get("reason"),
+            "tags": r.get("tags"),
+            "published": r.get("published"),
+        }
+        for r in reviewed
+    ])
+    reviews = reviews[-5000:]
+
+    payload = {
+        "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "counts": {
+            "kept": len(kept),
+            "wings": len(wings),
+            "rejected": len(rejected),
+            "reviewed": len(reviewed),
+            "before_dedupe": before_dedupe,
+            "after_dedupe": after_dedupe,
+        },
+        "kept": kept,
+        "in_the_wings": wings,
+        "rejected": rejected[:250],
     }
-    stats.inc("archive_seen_urls", len(seen_urls))
 
-    fetched_articles = fetch_articles()
-    candidate_articles = fetched_articles[:MAX_CANDIDATES_FOR_AI]
+    save_json(ARCHIVE_FILE, {"seen": sorted(seen), "reviews": reviews})
+    save_json(OUTPUT_FILE, payload)
+    with open(HTML_FILE, "w", encoding="utf-8") as f:
+        f.write(render_html(kept, wings, reviewed, rejected, before_dedupe, after_dedupe))
 
-    stats.inc("candidate_articles_after_trim", len(candidate_articles))
-
-    print(
-        f"Fetched {len(fetched_articles)} pre-filtered articles total. "
-        f"Scoring top {len(candidate_articles)} with AI..."
-    )
-
-    reviewed_articles: list[dict[str, Any]] = []
-
-    for idx, article in enumerate(candidate_articles, start=1):
-        url_key = normalize_url(article.get("url", ""))
-
-        if url_key in seen_urls:
-            stats.reject("archive_skip", article)
-            print(f"[{idx}/{len(candidate_articles)}] Skipping archived: {article['title']}")
-            continue
-
-        print(
-            f"[{idx}/{len(candidate_articles)}] Scoring: {article['title']} "
-            f"(topic={article.get('topic', 'Unknown')}, pipeline_score={article.get('pipeline_score', 1.0)})"
-        )
-
-        try:
-            reviewed = evaluate_article(article)
-        except Exception as exc:
-            stats.reject("ai_error", article)
-            print(f"[{idx}/{len(candidate_articles)}] AI scoring failed: {exc}")
-            continue
-
-        if reviewed:
-            reviewed.setdefault("pipeline_score", article.get("pipeline_score", 1.0))
-            reviewed.setdefault("topic_tags", article.get("topic_tags", []))
-            reviewed.setdefault("tags", article.get("tags", []))
-
-            reviewed = enforce_site_topic(
-                reviewed,
-                reviewed.get("topic", article.get("topic", "General Culture War")),
-                reviewed.get("section_slug", article.get("section_slug", "general-culture-war")),
-            )
-
-            reviewed_articles.append(reviewed)
-            archive.append(reviewed)
-            seen_urls.add(url_key)
-            stats.inc("ai_kept")
-        else:
-            stats.reject("ai_reject", article)
-
-    reviewed_articles.sort(
-        key=lambda x: (
-            float(x.get("score", 0) or 0),
-            float(x.get("pipeline_score", 1.0) or 1.0),
-            parse_iso(x.get("published_at")),
-        ),
-        reverse=True,
-    )
-
-    final_articles = reviewed_articles[:FINAL_ARTICLE_COUNT]
-    stats.inc("final_articles_written", len(final_articles))
-
-    save_json_file(OUTPUT_FILE, final_articles)
-    save_archive(archive)
-
-    print(f"Created {OUTPUT_FILE} with {len(final_articles)} AI-selected articles")
-    print(f"Archive now contains {len(archive)} total articles")
-    stats.print_report()
-
+    print(f"Saved kept={len(kept)} wings={len(wings)} rejected={len(rejected)} to {OUTPUT_FILE}")
+    print(f"Wrote {HTML_FILE}")
 
 if __name__ == "__main__":
     main()

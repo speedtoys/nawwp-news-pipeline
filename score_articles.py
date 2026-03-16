@@ -1,238 +1,292 @@
+#!/usr/bin/env python3
 import json
 import os
-from typing import Any
+import re
+from typing import Any, Dict, List
 
-from dotenv import load_dotenv
-from openai import OpenAI
+try:
+    from openai import OpenAI
+except Exception:
+    OpenAI = None
 
-load_dotenv()
-
-OPENAI_API_KEY = (os.getenv("OPENAI_API_KEY") or "").strip()
-MODEL = (os.getenv("OPENAI_MODEL") or "gpt-5-mini").strip()
-
-client = OpenAI(api_key=OPENAI_API_KEY)
-
-ALLOWED_TOPICS = [
-    {"topic": "Education", "section_slug": "education"},
-    {"topic": "Religion / Church-State", "section_slug": "religion-church-state"},
-    {"topic": "Immigration / Identity", "section_slug": "immigration-identity"},
-    {"topic": "Books / Libraries / Curriculum", "section_slug": "books-libraries-curriculum"},
-    {"topic": "Gender / LGBTQ", "section_slug": "gender-lgbtq"},
-    {"topic": "DEI / Diversity Backlash", "section_slug": "dei-diversity-backlash"},
-    {"topic": "Voting / Civic Panic", "section_slug": "voting-civic-panic"},
-    {"topic": "General Culture War", "section_slug": "general-culture-war"},
-]
-
-TOPIC_BY_NAME = {item["topic"].lower(): item for item in ALLOWED_TOPICS}
-TOPIC_BY_SLUG = {item["section_slug"]: item for item in ALLOWED_TOPICS}
+MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
 
 SYSTEM_PROMPT = """
-You are reviewing news article candidates for a satire/political commentary site called NAWWP.
+You classify U.S. news stories for a satire/news-curation site tracking conservative culture-war panic,
+identity grievance, and symbolic social outrage.
 
-This site is NOT a general religion, crime, terror, or tragedy feed.
+Return one of three buckets:
+- "keep" = clearly on-theme
+- "wings" = politically adjacent / borderline / maybe useful later
+- "reject" = not relevant, or crime/violence/scandal-first
 
-KEEP only stories that fit this pattern:
-- backlash, outrage, panic, symbolic conflict, overreaction, grievance politics
-- fights around schools, books, religion in public life, immigration, identity, gender, DEI, or voting
-- school-board, legislative, legal, civic, cultural, or community disputes
-- conservative/protectionist panic, exclusion, bans, lawsuits, restrictions, moral panic, public backlash
+HARD THEME REQUIREMENT
+A story can only be "keep" if a central conflict involves identity, pluralism, or inclusion in the U.S.,
+especially around race, religion, immigration, gender, sexuality, DEI, or "traditional Christian/white/straight values."
 
-REJECT stories that are primarily:
-- terror attacks
-- hate crimes
-- shootings
-- murders
-- assaults
-- bombings
-- arson
-- war
-- international conflict
-- disaster coverage
-- memorial / remembrance coverage
-- generic religion news
-- generic crime with no strong backlash / policy / culture-war angle
+KEEP stories about:
+- anti-DEI, anti-diversity, anti-equity, anti-inclusion backlash
+- anti-trans outrage, pronoun fights, bathroom fights, sports participation panic
+- drag, Pride, LGBTQ inclusion backlash
+- school board, curriculum, library, teacher, and book-ban controversies tied to identity/inclusion
+- anti-immigrant cultural panic framed around identity, values, or "real America"
+- anti-Muslim, anti-non-Christian, or selective "religious liberty" grievance politics
+- white grievance rhetoric, "young white men", "young white male man", "protect white people", "Western civilization", "traditional values"
+- lawmakers, activists, churches, or influencers targeting institutions over identity topics
+- anti-Muslim school-voucher or school-funding stories targeting Islamic schools
 
-Very important:
-A story about a mosque, church, synagogue, or religion does NOT belong unless it is specifically about:
-- exclusion
-- bans
-- school / voucher / curriculum / law fights
-- church-state disputes
-- public backlash / civic panic
-- rights restrictions or ideological conflict
+WINGS stories:
+- politically adjacent culture-war stories with weak identity signals
+- vague school/religion/"parents' rights" stories that may be relevant but are not clearly identity-centered
+- conservative grievance stories where the title/summary is too thin to confirm strong thematic fit
+- broader political stories connected to your themes but not explicit enough for KEEP
 
-Choose ONE primary topic from the allowed list only.
+REJECT stories about:
+- murders, shootings, bombings, assaults, threats, terrorism, or other violence-first events
+- sexual assault, molestation, trafficking, exploitation, or abuse cases
+- generic crime/court stories even if identity terms appear
+- election fraud, fake electors, corruption, indictments, bribery, campaign finance, prosecutions
+- generic partisan or legislative news with no central identity/pluralism target
+- horse-race politics
+- celebrity or entertainment stories without a real culture-war grievance frame
 
-Allowed topics and slugs:
-- Education => education
-- Religion / Church-State => religion-church-state
-- Immigration / Identity => immigration-identity
-- Books / Libraries / Curriculum => books-libraries-curriculum
-- Gender / LGBTQ => gender-lgbtq
-- DEI / Diversity Backlash => dei-diversity-backlash
-- Voting / Civic Panic => voting-civic-panic
-- General Culture War => general-culture-war
+IMPORTANT DISTINCTION
+Keep "conservatives angry about trans inclusion."
+Reject "trans person accused of a crime."
+Keep "officials target Muslim school funding."
+Keep "Republicans target Islamic schools in voucher/funding fights."
+Reject "Michigan fake electors story" unless the real center is identity politics, which it usually is not.
 
-Return JSON with exactly these keys:
+Return JSON only with:
 {
-  "keep": true,
-  "score": 0.0,
-  "title": "",
-  "source": "",
-  "published_at": "",
-  "url": "",
-  "summary": "",
-  "topic": "",
-  "section_slug": "",
-  "topic_tags": [],
-  "tags": []
+  "bucket": "keep" or "wings" or "reject",
+  "score": number from 0 to 10,
+  "tags": ["tag1", "tag2"],
+  "angle": "short phrase describing the narrative",
+  "summary": "1-2 sentence neutral summary",
+  "reason": "brief reason for the bucket"
 }
 """
 
+IDENTITY_TERMS = [
+    "dei", "diversity", "equity", "inclusion", "affirmative action",
+    "critical race theory", "crt", "anti-woke", "woke", "anti woke",
+    "transgender", "trans", "gender ideology", "gender identity", "pronoun",
+    "drag", "drag queen", "pride", "lgbt", "lgbtq", "nonbinary", "bathroom bill",
+    "girls sports", "women's sports", "book ban", "banned books", "library",
+    "curriculum", "school board", "parents' rights", "school choice", "voucher",
+    "religious liberty", "christian values", "traditional values", "western civilization",
+    "white grievance", "white people", "white boys", "young white men", "young white male",
+    "white male man", "disenfranchise", "replacement", "heritage",
+    "immigrant", "immigration", "illegal alien", "illegal aliens", "refugee",
+    "muslim", "islam", "islamic", "mosque", "islamophobia", "sharia", "sharia law",
+    "muslim school", "islamic school", "faith-based", "faith based",
+    "diversity office", "dei office", "inclusive", "multicultural", "antisemitism",
+    "jewish", "christian nationalist", "race-conscious", "race conscious",
+    "merit", "meritocracy", "patriotic education", "american values", "cair",
+]
 
-def topic_from_name_or_slug(topic: str = "", section_slug: str = "") -> tuple[str, str]:
-    if section_slug and section_slug in TOPIC_BY_SLUG:
-        item = TOPIC_BY_SLUG[section_slug]
-        return item["topic"], item["section_slug"]
+OUTRAGE_TERMS = [
+    "backlash", "outrage", "criticized", "criticises", "criticizes", "slam", "slams",
+    "attacks", "targets", "opposes", "opposition", "bans", "ban", "blocks", "block",
+    "defund", "defunds", "eliminate", "eliminates", "removes", "remove",
+    "pull funding", "pulls funding", "exclude", "excluded", "excludes",
+    "protests", "complains", "complaint", "boycott", "boycotts", "lawsuit", "sues",
+    "hearing", "debate", "condemns", "denounces", "fights", "fighting",
+    "pressure campaign", "parents rights", "parents' rights", "anti-woke", "anti woke",
+]
 
-    lowered = (topic or "").strip().lower()
-    if lowered in TOPIC_BY_NAME:
-        item = TOPIC_BY_NAME[lowered]
-        return item["topic"], item["section_slug"]
+RIGHT_ACTOR_TERMS = [
+    "maga", "trump", "republican", "republicans", "gop", "conservative",
+    "conservatives", "right-wing", "right wing", "fox news", "moms for liberty",
+    "heritage foundation", "family policy", "alliance defending freedom",
+    "liberty counsel", "turning point usa", "turning point", "charlie kirk", "erika kirk",
+    "christian nationalist", "evangelical", "state lawmakers", "attorney general",
+    "governor", "school board",
+]
 
-    return "General Culture War", "general-culture-war"
+CRIME_VIOLENCE_TERMS = [
+    "shooting", "shot", "killed", "murder", "murdered", "bomb", "bombing",
+    "terror", "terrorism", "massacre", "arrested", "arrest", "charged with",
+    "indicted", "convicted", "sentenced", "police", "sheriff", "assault", "rape",
+    "sexual assault", "molest", "molestation", "trafficking", "abuse", "child porn",
+    "pornography", "dead", "death", "homicide", "violent", "violence",
+    "hate crime", "stabbing", "stabbed",
+]
 
+GENERIC_SCANDAL_TERMS = [
+    "alternate electors", "fake electors", "electors", "election fraud",
+    "voter fraud", "campaign finance", "bribery", "bribe", "corruption",
+    "indictment", "indicted", "prosecution", "prosecutor", "convicted",
+    "felony", "felonies", "forgery", "embezzlement", "money laundering",
+]
 
-def normalize_string_list(value: Any, limit: int) -> list[str]:
-    if not isinstance(value, list):
-        return []
+TAG_RULES = [
+    ("anti-dei", ["dei", "diversity", "equity", "inclusion", "affirmative action"]),
+    ("anti-trans", ["trans", "transgender", "pronoun", "bathroom bill", "gender ideology"]),
+    ("book-bans", ["book ban", "banned books", "library"]),
+    ("schools", ["school board", "curriculum", "teacher", "classroom", "voucher", "school choice"]),
+    ("religion", ["religious liberty", "christian values", "muslim", "mosque", "islamic school", "muslim school", "faith-based", "sharia", "cair"]),
+    ("immigration", ["immigrant", "immigration", "refugee", "illegal alien"]),
+    ("white-grievance", ["white people", "white boys", "young white men", "young white male", "white male man", "western civilization", "traditional values", "disenfranchise"]),
+    ("lgbtq-panic", ["drag", "pride", "lgbt", "lgbtq", "nonbinary"]),
+    ("parents-rights", ["parents' rights", "parents rights"]),
+]
 
-    cleaned: list[str] = []
-    seen: set[str] = set()
-
-    for item in value:
-        text = str(item).strip()
-        if not text:
-            continue
-
-        lowered = text.lower()
-        if lowered in seen:
-            continue
-
-        seen.add(lowered)
-        cleaned.append(text)
-
-        if len(cleaned) >= limit:
-            break
-
-    return cleaned
-
-
-def safe_float(value: Any, default: float = 0.0) -> float:
+def _extract_json(text: str) -> Dict[str, Any]:
+    text = (text or "").strip()
+    if not text:
+        raise ValueError("Empty model response")
     try:
-        return float(value)
-    except (TypeError, ValueError):
-        return default
+        return json.loads(text)
+    except Exception:
+        pass
+    match = re.search(r"\{.*\}", text, flags=re.DOTALL)
+    if match:
+        return json.loads(match.group(0))
+    raise ValueError("No valid JSON found")
 
+def _slug(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", (text or "").lower()).strip("-")
 
-def build_user_prompt(article: dict[str, Any]) -> str:
-    allowed_lines = "\n".join(
-        f'- {item["topic"]} => {item["section_slug"]}'
-        for item in ALLOWED_TOPICS
+def _build_tags(blob: str) -> List[str]:
+    out: List[str] = []
+    for tag, needles in TAG_RULES:
+        if any(n in blob for n in needles):
+            out.append(tag)
+    return out[:6]
+
+def _heuristic_review(article: Dict[str, Any]) -> Dict[str, Any]:
+    blob = " ".join([
+        article.get("title", ""),
+        article.get("summary", ""),
+        article.get("source", ""),
+        json.dumps(article.get("prefilter", {}), ensure_ascii=False),
+    ]).lower()
+
+    identity_hits = [t for t in IDENTITY_TERMS if t in blob]
+    outrage_hits = [t for t in OUTRAGE_TERMS if t in blob]
+    actor_hits = [t for t in RIGHT_ACTOR_TERMS if t in blob]
+    crime_hits = [t for t in CRIME_VIOLENCE_TERMS if t in blob]
+    scandal_hits = [t for t in GENERIC_SCANDAL_TERMS if t in blob]
+
+    tags = _build_tags(blob)
+    if not tags:
+        tags = article.get("prefilter", {}).get("include_hits", [])[:4]
+
+    score = (
+        min(len(identity_hits), 5) * 1.8
+        + min(len(outrage_hits), 4) * 1.0
+        + min(len(actor_hits), 3) * 0.9
+        - min(len(crime_hits), 4) * 2.5
+        - min(len(scandal_hits), 3) * 2.6
     )
+    score = round(max(0.0, min(10.0, score)), 1)
 
-    return f"""
-Review this article candidate and decide whether to keep it.
+    strong_identity = len(identity_hits) >= 2 or (len(identity_hits) >= 1 and len(tags) >= 1)
+    scandal_first = len(scandal_hits) >= 1 and len(identity_hits) == 0
+    crime_first = len(crime_hits) >= 2
 
-Article:
-Title: {article.get("title", "")}
-Source: {article.get("source", "")}
-Published: {article.get("published_at", "")}
-URL: {article.get("url", "")}
-Summary: {article.get("summary", "")}
+    if crime_first or scandal_first:
+        bucket = "reject"
+    elif strong_identity and (len(outrage_hits) >= 1 or len(actor_hits) >= 1 or score >= 4.6):
+        bucket = "keep"
+    elif len(identity_hits) >= 1:
+        bucket = "wings"
+    elif len(actor_hits) >= 1 and len(outrage_hits) >= 1:
+        bucket = "wings"
+    else:
+        bucket = "reject"
 
-Pipeline context:
-Pipeline score: {article.get("pipeline_score", 1.0)}
-Preclassified topic: {article.get("topic", "General Culture War")}
-Preclassified section slug: {article.get("section_slug", "general-culture-war")}
-Preclassified topic tags: {json.dumps(article.get("topic_tags", []))}
-Existing tags: {json.dumps(article.get("tags", []))}
+    if bucket == "keep" and len(identity_hits) == 0:
+        bucket = "wings"
 
-Editorial intent:
-Reject real-news tragedy coverage, generic terror/crime stories, generic attacks on houses of worship, and generic religion coverage.
-Keep only backlash / panic / exclusion / grievance / culture-war conflict stories.
+    if bucket == "keep":
+        reason = "Clear identity/pluralism-targeted outrage story."
+    elif bucket == "wings":
+        reason = "Borderline or adjacent to theme; useful for later review."
+    else:
+        reason = "Generic scandal/crime/politics story or lacks central identity target."
 
-Rules:
-- Choose only ONE topic from the allowed list below
-- The section_slug must exactly match the chosen topic
-- Return only valid JSON
-- Do not include markdown fences
+    angle = "borderline political grievance story"
+    if "anti-trans" in tags:
+        angle = "anti-trans moral panic"
+    elif "anti-dei" in tags:
+        angle = "DEI backlash"
+    elif "religion" in tags:
+        angle = "religion / pluralism backlash"
+    elif "immigration" in tags:
+        angle = "immigrant identity panic"
+    elif "white-grievance" in tags:
+        angle = "white grievance rhetoric"
+    elif "parents-rights" in tags:
+        angle = "parents' rights culture-war push"
 
-Allowed topics:
-{allowed_lines}
-""".strip()
-
-
-def parse_response_json(raw_text: str) -> dict[str, Any]:
-    raw_text = raw_text.strip()
-
-    if raw_text.startswith("```"):
-        raw_text = raw_text.strip("`").strip()
-        if raw_text.lower().startswith("json"):
-            raw_text = raw_text[4:].strip()
-
-    return json.loads(raw_text)
-
-
-def evaluate_article(article: dict[str, Any]) -> dict[str, Any] | None:
-    if not OPENAI_API_KEY:
-        raise RuntimeError("OPENAI_API_KEY is missing")
-
-    response = client.responses.create(
-        model=MODEL,
-        input=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": build_user_prompt(article)},
-        ],
-    )
-
-    raw_text = response.output_text.strip()
-    parsed = parse_response_json(raw_text)
-
-    if not parsed.get("keep"):
-        return None
-
-    topic, section_slug = topic_from_name_or_slug(
-        parsed.get("topic", article.get("topic", "")),
-        parsed.get("section_slug", article.get("section_slug", "")),
-    )
-
-    reviewed = {
-        "title": (parsed.get("title") or article.get("title", "")).strip(),
-        "source": (parsed.get("source") or article.get("source", "")).strip(),
-        "published_at": (parsed.get("published_at") or article.get("published_at", "")).strip(),
-        "url": (parsed.get("url") or article.get("url", "")).strip(),
-        "summary": (parsed.get("summary") or article.get("summary", "")).strip(),
-        "score": safe_float(parsed.get("score"), 0.0),
-        "pipeline_score": safe_float(article.get("pipeline_score", 1.0), 1.0),
-        "topic": topic,
-        "section_slug": section_slug,
-        "topic_tags": normalize_string_list(
-            parsed.get("topic_tags", article.get("topic_tags", [])),
-            limit=8,
-        ),
-        "tags": normalize_string_list(
-            parsed.get("tags", article.get("tags", [])),
-            limit=12,
-        ),
+    return {
+        "bucket": bucket,
+        "score": score,
+        "tags": tags,
+        "angle": angle,
+        "summary": article.get("summary", "")[:600],
+        "reason": reason,
     }
 
-    if not reviewed["summary"]:
-        reviewed["summary"] = str(article.get("summary", "")).strip()
+def _clean_review(review: Dict[str, Any], article: Dict[str, Any]) -> Dict[str, Any]:
+    tags = []
+    for x in review.get("tags", []):
+        s = _slug(str(x))
+        if s and s not in tags:
+            tags.append(s)
 
-    if reviewed["score"] < 0:
-        reviewed["score"] = 0.0
-    if reviewed["score"] > 10:
-        reviewed["score"] = 10.0
+    bucket = str(review.get("bucket", "reject")).strip().lower()
+    if bucket not in {"keep", "wings", "reject"}:
+        bucket = "reject"
 
-    return reviewed
+    return {
+        "bucket": bucket,
+        "score": round(float(review.get("score", 0)), 1),
+        "tags": tags[:6],
+        "angle": str(review.get("angle", "")).strip()[:180],
+        "summary": str(review.get("summary", "")).strip()[:600] or article.get("summary", "")[:600],
+        "reason": str(review.get("reason", "")).strip()[:300],
+    }
+
+def evaluate_article(article: Dict[str, Any]) -> Dict[str, Any]:
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if OpenAI is None or not api_key:
+        return _clean_review(_heuristic_review(article), article)
+
+    try:
+        client = OpenAI(api_key=api_key)
+        user_payload = {
+            "title": article.get("title"),
+            "url": article.get("url"),
+            "source": article.get("source"),
+            "state": article.get("state"),
+            "published": article.get("published"),
+            "summary": article.get("summary"),
+            "prefilter": article.get("prefilter", {}),
+        }
+        response = client.responses.create(
+            model=MODEL,
+            input=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": json.dumps(user_payload, ensure_ascii=False)},
+            ],
+        )
+        parsed = _extract_json(getattr(response, "output_text", "") or "")
+        cleaned = _clean_review(parsed, article)
+
+        blob = f"{article.get('title','')} {article.get('summary','')}".lower()
+        has_identity = any(t in blob for t in IDENTITY_TERMS)
+        if cleaned["bucket"] == "keep" and not has_identity:
+            cleaned["bucket"] = "wings"
+            cleaned["reason"] = "Downgraded from keep because no clear identity/pluralism target was visible."
+        if any(t in blob for t in GENERIC_SCANDAL_TERMS) and not has_identity:
+            cleaned["bucket"] = "reject"
+            cleaned["reason"] = "Rejected as generic scandal/electors/corruption news rather than identity politics."
+        return cleaned
+    except Exception as e:
+        fallback = _heuristic_review(article)
+        fallback["reason"] = f"Heuristic fallback used. {type(e).__name__}: {e}"
+        return _clean_review(fallback, article)
