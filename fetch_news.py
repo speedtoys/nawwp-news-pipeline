@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, datetime, timedelta
 from email.utils import parsedate_to_datetime
@@ -34,6 +35,10 @@ RSS_MAX_WORKERS = int((os.getenv("RSS_MAX_WORKERS") or "8").strip())
 
 MAX_CANDIDATES_FOR_AI = int((os.getenv("MAX_CANDIDATES_FOR_AI") or "30").strip())
 FINAL_ARTICLE_COUNT = int((os.getenv("FINAL_ARTICLE_COUNT") or "12").strip())
+
+STRICT_MODE = (os.getenv("STRICT_MODE", "false").strip().lower() == "true")
+DEBUG_SHOW_REJECTIONS = (os.getenv("DEBUG_SHOW_REJECTIONS", "true").strip().lower() == "true")
+DEBUG_REJECTION_LIMIT = int((os.getenv("DEBUG_REJECTION_LIMIT") or "25").strip())
 
 KEYWORDS = (
     '"school board" OR mosque OR islam OR immigrant OR "religious school" '
@@ -102,6 +107,16 @@ KEYWORD_FILTER_TERMS = {
     "polling place",
     "civic",
     "parental rights",
+    "lawsuit",
+    "ban",
+    "banned",
+    "backlash",
+    "controversy",
+    "outrage",
+    "dispute",
+    "restriction",
+    "excluded",
+    "exclusion",
 }
 
 BLOCKED_SOURCES = {
@@ -111,6 +126,69 @@ BLOCKED_SOURCES = {
 
 BLOCKED_TITLE_TERMS = {
     "witchhunter.exe",
+}
+
+NEGATIVE_TERMS_HARD = {
+    "mass shooting",
+    "terror attack",
+    "terrorist attack",
+    "bombing",
+    "airstrike",
+    "missile strike",
+    "war zone",
+    "hostages",
+}
+
+NEGATIVE_TERMS_SOFT = {
+    "attack",
+    "attacks",
+    "shooting",
+    "killed",
+    "murder",
+    "assault",
+    "arson",
+    "deadly",
+    "fatal",
+    "violence",
+    "hate crime",
+    "gunman",
+    "victims",
+    "memorial",
+    "remembrance",
+}
+
+OVERRIDE_CONTEXT_TERMS = {
+    "lawsuit",
+    "ban",
+    "banned",
+    "voucher",
+    "school board",
+    "curriculum",
+    "library",
+    "book ban",
+    "dei",
+    "diversity",
+    "immigration",
+    "election",
+    "voting",
+    "ballot",
+    "religious liberty",
+    "faith-based",
+    "church-state",
+    "backlash",
+    "outrage",
+    "controversy",
+    "exclusion",
+    "excluded",
+    "policy",
+    "restriction",
+    "restricted",
+    "school",
+    "public meeting",
+    "parents",
+    "protest over",
+    "state officials",
+    "board voted",
 }
 
 SITE_TOPICS = [
@@ -129,99 +207,56 @@ TOPIC_RULES = [
         "topic": "Education",
         "section_slug": "education",
         "terms": [
-            "school board",
-            "school",
-            "teacher",
-            "student",
-            "classroom",
-            "district",
-            "public school",
-            "charter school",
-            "voucher",
+            "school board", "school", "teacher", "student", "classroom",
+            "district", "public school", "charter school", "voucher",
         ],
     },
     {
         "topic": "Religion / Church-State",
         "section_slug": "religion-church-state",
         "terms": [
-            "church",
-            "christian",
-            "muslim",
-            "mosque",
-            "synagogue",
-            "religious liberty",
-            "faith-based",
-            "prayer",
-            "religion",
-            "pastor",
+            "church", "christian", "muslim", "mosque", "synagogue",
+            "religious liberty", "faith-based", "prayer", "religion", "pastor",
         ],
     },
     {
         "topic": "Immigration / Identity",
         "section_slug": "immigration-identity",
         "terms": [
-            "immigrant",
-            "immigration",
-            "migrant",
-            "refugee",
-            "border",
-            "asylum",
-            "ethnic",
-            "identity",
+            "immigrant", "immigration", "migrant", "refugee",
+            "border", "asylum", "ethnic", "identity",
         ],
     },
     {
         "topic": "Books / Libraries / Curriculum",
         "section_slug": "books-libraries-curriculum",
         "terms": [
-            "book ban",
-            "banned books",
-            "library",
-            "librarian",
-            "curriculum",
-            "reading list",
-            "textbook",
-            "ethnic studies",
+            "book ban", "banned books", "library", "librarian",
+            "curriculum", "reading list", "textbook", "ethnic studies",
         ],
     },
     {
         "topic": "Gender / LGBTQ",
         "section_slug": "gender-lgbtq",
         "terms": [
-            "transgender",
-            "lgbtq",
-            "gay",
-            "lesbian",
-            "nonbinary",
-            "pronoun",
-            "drag",
-            "gender identity",
+            "transgender", "lgbtq", "gay", "lesbian",
+            "nonbinary", "pronoun", "drag", "gender identity",
         ],
     },
     {
         "topic": "DEI / Diversity Backlash",
         "section_slug": "dei-diversity-backlash",
         "terms": [
-            "dei",
-            "diversity",
-            "equity",
-            "inclusion",
-            "affirmative action",
-            "ethnic studies",
-            "woke",
+            "dei", "diversity", "equity", "inclusion",
+            "affirmative action", "ethnic studies", "woke",
         ],
     },
     {
         "topic": "Voting / Civic Panic",
         "section_slug": "voting-civic-panic",
         "terms": [
-            "election",
-            "voting",
-            "ballot",
-            "polling place",
-            "voter",
-            "school election",
-            "civic",
+            "election", "voting", "ballot", "polling place",
+            "voter", "school election", "civic",
         ],
     },
 ]
@@ -231,6 +266,33 @@ TOPIC_MAP_BY_SLUG = {item["section_slug"]: item for item in SITE_TOPICS}
 
 HTML_TAG_RE = re.compile(r"<[^>]+>")
 MULTISPACE_RE = re.compile(r"\s+")
+
+
+class DebugStats:
+    def __init__(self) -> None:
+        self.counts = Counter()
+        self.rejections: list[str] = []
+
+    def inc(self, key: str, amount: int = 1) -> None:
+        self.counts[key] += amount
+
+    def reject(self, reason: str, article: dict[str, Any] | None = None) -> None:
+        self.counts[f"reject_{reason}"] += 1
+        if DEBUG_SHOW_REJECTIONS and len(self.rejections) < DEBUG_REJECTION_LIMIT and article:
+            self.rejections.append(f"{reason}: {article.get('title', 'Untitled')} [{article.get('source', 'Unknown')}]")
+
+    def print_report(self) -> None:
+        print("\n=== PIPELINE DEBUG REPORT ===")
+        for key in sorted(self.counts):
+            print(f"{key}: {self.counts[key]}")
+        if self.rejections:
+            print("\nSample rejections:")
+            for item in self.rejections:
+                print(f"- {item}")
+        print("=============================\n")
+
+
+stats = DebugStats()
 
 
 def iso_z(dt: datetime) -> str:
@@ -355,7 +417,6 @@ def topic_from_name_or_slug(topic: str = "", section_slug: str = "") -> tuple[st
 
 def enforce_site_topic(article: dict[str, Any], preferred_topic: str = "", preferred_slug: str = "") -> dict[str, Any]:
     topic, section_slug = topic_from_name_or_slug(preferred_topic, preferred_slug)
-
     article["topic"] = topic
     article["section_slug"] = section_slug
 
@@ -408,6 +469,22 @@ def is_blocked(article: dict[str, Any]) -> bool:
         return True
 
     return any(term in title for term in BLOCKED_TITLE_TERMS)
+
+
+def is_generic_tragedy_story(article: dict[str, Any]) -> bool:
+    blob = build_text_blob(article)
+
+    if any(term in blob for term in NEGATIVE_TERMS_HARD):
+        if not any(term in blob for term in OVERRIDE_CONTEXT_TERMS):
+            return True
+
+    soft_hits = sum(1 for term in NEGATIVE_TERMS_SOFT if term in blob)
+    override_hits = sum(1 for term in OVERRIDE_CONTEXT_TERMS if term in blob)
+
+    if STRICT_MODE:
+        return soft_hits >= 1 and override_hits == 0
+
+    return soft_hits >= 2 and override_hits == 0
 
 
 def compute_feed_profile_score(article: dict[str, Any], source_profile: dict[str, Any]) -> float:
@@ -468,6 +545,7 @@ def dedupe_articles(articles: list[dict[str, Any]]) -> list[dict[str, Any]]:
     for article in deduped_by_url:
         title_key = (article.get("title", "") or "").strip().lower()
         if title_key in seen_titles:
+            stats.reject("dedupe_title", article)
             continue
         seen_titles.add(title_key)
         final.append(article)
@@ -520,6 +598,36 @@ def extract_entry_summary(entry: Any) -> str:
     return ""
 
 
+def prepare_article(article: dict[str, Any], source_profile: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    stats.inc("seen_articles")
+
+    if is_blocked(article):
+        stats.reject("blocked_source_or_title", article)
+        return None
+
+    if not matches_keyword_filter(article):
+        stats.reject("keyword_filter", article)
+        return None
+
+    if is_generic_tragedy_story(article):
+        stats.reject("generic_tragedy", article)
+        return None
+
+    if source_profile is not None:
+        pipeline_score = compute_feed_profile_score(article, source_profile)
+        if pipeline_score <= 0:
+            stats.reject("profile_score_zero", article)
+            return None
+        article["pipeline_score"] = pipeline_score
+
+    topic, section_slug, topic_tags = classify_topic(article, default_topic=(source_profile or {}).get("default_topic", ""))
+    article["topic_tags"] = topic_tags
+    enforce_site_topic(article, topic, section_slug)
+
+    stats.inc("prepared_articles")
+    return article
+
+
 def fetch_newsapi_articles() -> list[dict[str, Any]]:
     if not NEWSAPI_ENABLED:
         print("NewsAPI disabled")
@@ -553,28 +661,25 @@ def fetch_newsapi_articles() -> list[dict[str, Any]]:
     if not isinstance(raw_articles, list):
         return []
 
+    stats.inc("newsapi_raw_articles", len(raw_articles))
     articles: list[dict[str, Any]] = []
+
     for item in raw_articles:
         if not isinstance(item, dict):
             continue
-
         article = normalize_article(item)
         if article is None:
-            continue
-        if is_blocked(article):
-            continue
-        if not matches_keyword_filter(article):
+            stats.inc("reject_normalize")
             continue
 
         article["tags"] = sorted(set(article.get("tags", []) + ["newsapi"]))
         article["pipeline_score"] = 1.0
 
-        topic, section_slug, topic_tags = classify_topic(article)
-        article["topic_tags"] = topic_tags
-        enforce_site_topic(article, topic, section_slug)
+        prepared = prepare_article(article)
+        if prepared:
+            articles.append(prepared)
 
-        articles.append(article)
-
+    stats.inc("newsapi_kept_after_prefilter", len(articles))
     return dedupe_articles(articles)
 
 
@@ -582,7 +687,6 @@ def fetch_single_rss_feed(source: dict[str, Any], cutoff_dt: datetime) -> list[d
     source_name = source["name"]
     source_url = source["url"]
     source_tags = source.get("tags", [])
-    default_topic = source.get("default_topic", "")
 
     try:
         feed = feedparser.parse(source_url)
@@ -596,6 +700,8 @@ def fetch_single_rss_feed(source: dict[str, Any], cutoff_dt: datetime) -> list[d
             print(f"RSS warning for {source_name}: {bozo_exc}")
 
     entries = getattr(feed, "entries", []) or []
+    stats.inc("rss_entries_seen", len(entries))
+
     articles: list[dict[str, Any]] = []
 
     for entry in entries[:RSS_PER_FEED_LIMIT]:
@@ -603,10 +709,12 @@ def fetch_single_rss_feed(source: dict[str, Any], cutoff_dt: datetime) -> list[d
         url = (getattr(entry, "link", "") or "").strip()
 
         if not title or not url:
+            stats.inc("reject_rss_missing_title_or_url")
             continue
 
         published_dt = parse_entry_datetime(entry)
         if published_dt < cutoff_dt:
+            stats.inc("reject_rss_old")
             continue
 
         article = {
@@ -620,22 +728,9 @@ def fetch_single_rss_feed(source: dict[str, Any], cutoff_dt: datetime) -> list[d
             "topic_tags": [],
         }
 
-        if is_blocked(article):
-            continue
-        if not matches_keyword_filter(article):
-            continue
-
-        pipeline_score = compute_feed_profile_score(article, source)
-        if pipeline_score <= 0:
-            continue
-
-        article["pipeline_score"] = pipeline_score
-
-        topic, section_slug, topic_tags = classify_topic(article, default_topic=default_topic)
-        article["topic_tags"] = topic_tags
-        enforce_site_topic(article, topic, section_slug)
-
-        articles.append(article)
+        prepared = prepare_article(article, source)
+        if prepared:
+            articles.append(prepared)
 
     return articles
 
@@ -664,6 +759,7 @@ def fetch_rss_articles() -> list[dict[str, Any]]:
             try:
                 articles = future.result()
                 print(f"RSS {source['name']}: {len(articles)} matched")
+                stats.inc("rss_kept_after_prefilter", len(articles))
                 all_articles.extend(articles)
             except Exception as exc:
                 print(f"RSS failure for {source['name']}: {exc}")
@@ -693,6 +789,8 @@ def fetch_articles() -> list[dict[str, Any]]:
 
 def main() -> None:
     print("Starting pipeline...")
+    print(f"STRICT_MODE={STRICT_MODE}")
+    print(f"DEBUG_SHOW_REJECTIONS={DEBUG_SHOW_REJECTIONS}")
 
     archive = load_archive()
     seen_urls = {
@@ -700,25 +798,27 @@ def main() -> None:
         for item in archive
         if isinstance(item, dict) and item.get("url")
     }
+    stats.inc("archive_seen_urls", len(seen_urls))
 
     fetched_articles = fetch_articles()
     candidate_articles = fetched_articles[:MAX_CANDIDATES_FOR_AI]
+
+    stats.inc("candidate_articles_after_trim", len(candidate_articles))
 
     print(
         f"Fetched {len(fetched_articles)} pre-filtered articles total. "
         f"Scoring top {len(candidate_articles)} with AI..."
     )
 
-
     reviewed_articles: list[dict[str, Any]] = []
 
-    def score_one_article(args: tuple[int, dict[str, Any]]) -> dict[str, Any] | None:
-        idx, article = args
+    for idx, article in enumerate(candidate_articles, start=1):
         url_key = normalize_url(article.get("url", ""))
 
         if url_key in seen_urls:
+            stats.reject("archive_skip", article)
             print(f"[{idx}/{len(candidate_articles)}] Skipping archived: {article['title']}")
-            return None
+            continue
 
         print(
             f"[{idx}/{len(candidate_articles)}] Scoring: {article['title']} "
@@ -728,8 +828,9 @@ def main() -> None:
         try:
             reviewed = evaluate_article(article)
         except Exception as exc:
+            stats.reject("ai_error", article)
             print(f"[{idx}/{len(candidate_articles)}] AI scoring failed: {exc}")
-            return None
+            continue
 
         if reviewed:
             reviewed.setdefault("pipeline_score", article.get("pipeline_score", 1.0))
@@ -742,24 +843,12 @@ def main() -> None:
                 reviewed.get("section_slug", article.get("section_slug", "general-culture-war")),
             )
 
-        return reviewed
-
-    ai_workers = int((os.getenv("AI_MAX_WORKERS") or "5").strip())
-
-    with ThreadPoolExecutor(max_workers=ai_workers) as executor:
-        futures = [
-            executor.submit(score_one_article, (idx, article))
-            for idx, article in enumerate(candidate_articles, start=1)
-        ]
-
-        for future in as_completed(futures):
-            reviewed = future.result()
-            if reviewed:
-                url_key = normalize_url(reviewed.get("url", ""))
-                if url_key not in seen_urls:
-                    reviewed_articles.append(reviewed)
-                    archive.append(reviewed)
-                    seen_urls.add(url_key)
+            reviewed_articles.append(reviewed)
+            archive.append(reviewed)
+            seen_urls.add(url_key)
+            stats.inc("ai_kept")
+        else:
+            stats.reject("ai_reject", article)
 
     reviewed_articles.sort(
         key=lambda x: (
@@ -771,12 +860,14 @@ def main() -> None:
     )
 
     final_articles = reviewed_articles[:FINAL_ARTICLE_COUNT]
+    stats.inc("final_articles_written", len(final_articles))
 
     save_json_file(OUTPUT_FILE, final_articles)
     save_archive(archive)
 
     print(f"Created {OUTPUT_FILE} with {len(final_articles)} AI-selected articles")
     print(f"Archive now contains {len(archive)} total articles")
+    stats.print_report()
 
 
 if __name__ == "__main__":

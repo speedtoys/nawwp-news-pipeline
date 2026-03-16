@@ -29,26 +29,39 @@ TOPIC_BY_SLUG = {item["section_slug"]: item for item in ALLOWED_TOPICS}
 SYSTEM_PROMPT = """
 You are reviewing news article candidates for a satire/political commentary site called NAWWP.
 
-Your job:
-- Decide whether the article fits the site's editorial pattern
-- Score the article from 0.0 to 10.0
-- Keep the summary neutral, factual, and brief
-- Choose ONE primary topic from the allowed list only
-- Return ONLY valid JSON
+This site is NOT a general religion, crime, terror, or tragedy feed.
 
-A strong fit usually includes:
-- backlash, panic, outrage, symbolic conflict, or overreaction
-- fights around schools, religion, immigration, books, gender, DEI, voting, or identity
-- local/state/national policy fights with culture-war framing
-- legal, school-board, civic, or community disputes with ideological tension
+KEEP only stories that fit this pattern:
+- backlash, outrage, panic, symbolic conflict, overreaction, grievance politics
+- fights around schools, books, religion in public life, immigration, identity, gender, DEI, or voting
+- school-board, legislative, legal, civic, cultural, or community disputes
+- conservative/protectionist panic, exclusion, bans, lawsuits, restrictions, moral panic, public backlash
 
-Usually reject:
-- generic crime
-- routine business news
-- sports
-- celebrity news without a culture-war angle
-- international stories with no clear relevance
-- stories that only barely mention one of the target themes
+REJECT stories that are primarily:
+- terror attacks
+- hate crimes
+- shootings
+- murders
+- assaults
+- bombings
+- arson
+- war
+- international conflict
+- disaster coverage
+- memorial / remembrance coverage
+- generic religion news
+- generic crime with no strong backlash / policy / culture-war angle
+
+Very important:
+A story about a mosque, church, synagogue, or religion does NOT belong unless it is specifically about:
+- exclusion
+- bans
+- school / voucher / curriculum / law fights
+- church-state disputes
+- public backlash / civic panic
+- rights restrictions or ideological conflict
+
+Choose ONE primary topic from the allowed list only.
 
 Allowed topics and slugs:
 - Education => education
@@ -144,6 +157,10 @@ Preclassified topic: {article.get("topic", "General Culture War")}
 Preclassified section slug: {article.get("section_slug", "general-culture-war")}
 Preclassified topic tags: {json.dumps(article.get("topic_tags", []))}
 Existing tags: {json.dumps(article.get("tags", []))}
+
+Editorial intent:
+Reject real-news tragedy coverage, generic terror/crime stories, generic attacks on houses of worship, and generic religion coverage.
+Keep only backlash / panic / exclusion / grievance / culture-war conflict stories.
 
 Rules:
 - Choose only ONE topic from the allowed list below
