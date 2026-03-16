@@ -1,3 +1,3 @@
 # NAWWP News Pipeline
 
-Polished GitHub Pages bundle.
+Real-news-style static site bundle for the NAWWP project.

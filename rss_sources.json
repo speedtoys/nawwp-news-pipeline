@@ -1,87 +1,19 @@
 {
   "rss_feeds": [
-    {
-      "label": "NPR Politics",
-      "url": "https://feeds.npr.org/1014/rss.xml",
-      "bucket": "national",
-      "enabled": true
-    },
-    {
-      "label": "NPR Education",
-      "url": "https://feeds.npr.org/1013/rss.xml",
-      "bucket": "education",
-      "enabled": true
-    },
-    {
-      "label": "The Hill",
-      "url": "https://thehill.com/feed/",
-      "bucket": "politics",
-      "enabled": true
-    },
-    {
-      "label": "AP News Politics",
-      "url": "https://apnews.com/hub/politics/rss",
-      "bucket": "politics",
-      "enabled": true
-    },
-    {
-      "label": "Texas Tribune",
-      "url": "https://www.texastribune.org/feeds/main/",
-      "bucket": "state",
-      "state": "TX",
-      "enabled": true
-    },
-    {
-      "label": "Florida Politics",
-      "url": "https://floridapolitics.com/feed/",
-      "bucket": "state",
-      "state": "FL",
-      "enabled": true
-    },
-    {
-      "label": "Alabama Reflector",
-      "url": "https://alabamareflector.com/feed/",
-      "bucket": "state",
-      "state": "AL",
-      "enabled": true
-    },
-    {
-      "label": "News From The States",
-      "url": "https://www.newsfromthestates.com/rss.xml",
-      "bucket": "states",
-      "enabled": true
-    }
+    { "label": "NPR Politics", "url": "https://feeds.npr.org/1014/rss.xml", "bucket": "national", "enabled": true },
+    { "label": "NPR Education", "url": "https://feeds.npr.org/1013/rss.xml", "bucket": "education", "enabled": true },
+    { "label": "The Hill", "url": "https://thehill.com/feed/", "bucket": "politics", "enabled": true },
+    { "label": "AP News Politics", "url": "https://apnews.com/hub/politics/rss", "bucket": "politics", "enabled": true },
+    { "label": "Texas Tribune", "url": "https://www.texastribune.org/feeds/main/", "bucket": "state", "state": "TX", "enabled": true },
+    { "label": "Florida Politics", "url": "https://floridapolitics.com/feed/", "bucket": "state", "state": "FL", "enabled": true },
+    { "label": "Alabama Reflector", "url": "https://alabamareflector.com/feed/", "bucket": "state", "state": "AL", "enabled": true },
+    { "label": "News From The States", "url": "https://www.newsfromthestates.com/rss.xml", "bucket": "states", "enabled": true }
   ],
   "google_news_queries": [
-    {
-      "label": "DEI backlash",
-      "query": "\"DEI\" OR diversity OR equity OR inclusion conservative backlash",
-      "bucket": "identity",
-      "enabled": true
-    },
-    {
-      "label": "Anti-trans panic",
-      "query": "transgender OR trans OR \"gender ideology\" conservative backlash schools",
-      "bucket": "identity",
-      "enabled": true
-    },
-    {
-      "label": "Anti-Muslim schools and vouchers",
-      "query": "\"Islamic school\" OR \"Muslim school\" voucher OR funding Republicans backlash",
-      "bucket": "religion",
-      "enabled": true
-    },
-    {
-      "label": "White grievance personalities",
-      "query": "\"young white men\" OR \"white boys\" OR \"western civilization\" conservative backlash",
-      "bucket": "identity",
-      "enabled": true
-    },
-    {
-      "label": "Parents rights culture war",
-      "query": "\"parents' rights\" OR \"parents rights\" anti-woke schools gender curriculum",
-      "bucket": "schools",
-      "enabled": true
-    }
+    { "label": "DEI backlash", "query": "\"DEI\" OR diversity OR equity OR inclusion conservative backlash", "bucket": "identity", "enabled": true },
+    { "label": "Anti-trans panic", "query": "transgender OR trans OR \"gender ideology\" conservative backlash schools", "bucket": "identity", "enabled": true },
+    { "label": "Anti-Muslim schools and vouchers", "query": "\"Islamic school\" OR \"Muslim school\" voucher OR funding Republicans backlash", "bucket": "religion", "enabled": true },
+    { "label": "White grievance personalities", "query": "\"young white men\" OR \"white boys\" OR \"western civilization\" conservative backlash", "bucket": "identity", "enabled": true },
+    { "label": "Parents rights culture war", "query": "\"parents' rights\" OR \"parents rights\" anti-woke schools gender curriculum", "bucket": "schools", "enabled": true }
   ]
 }

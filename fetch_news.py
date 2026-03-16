@@ -108,52 +108,59 @@ def fetch_candidates(spec):
         out.append({"title": title, "url": url, "summary": summary[:1000], "published": parse_date(entry), "source": spec["label"], "state": spec.get("state"), "prefilter": analysis})
     return out
 
-def render_cards(items):
-    if not items:
-        return '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
-    cards = []
-    for item in items:
-        tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in item.get("tags", []))
-        cards.append(f'<article class="story-card"><div class="story-meta"><span class="angle">{html.escape(item.get("angle","identity-outrage story"))}</span><span>{html.escape(item.get("state") or "US")}</span><span>score {float(item.get("score",0)):.1f}</span></div><h3><a href="{html.escape(item.get("url",""))}" target="_blank" rel="noopener noreferrer">{html.escape(item.get("title",""))}</a></h3><p class="summary">{html.escape(item.get("summary",""))}</p><div class="reason">{html.escape(item.get("reason",""))}</div><div class="tags">{tags}</div><div class="source">{html.escape(item.get("source",""))}</div></article>')
-    return "".join(cards)
+def format_date(iso_str):
+    try:
+        d = dt.datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+        return d.strftime("%b %d, %Y")
+    except Exception:
+        return ""
 
-def render_html(payload, before_dedupe, after_dedupe):
+def story_card(item, compact=False):
+    tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in item.get("tags", [])[:4])
+    state = html.escape(item.get("state") or "US")
+    title = html.escape(item.get("title",""))
+    url = html.escape(item.get("url",""))
+    summary = html.escape(item.get("summary",""))
+    angle = html.escape(item.get("angle","identity-outrage story"))
+    source = html.escape(item.get("source",""))
+    published = format_date(item.get("published",""))
+    score = float(item.get("score", 0))
+    cls = "story-card compact" if compact else "story-card"
+    meta = f'<div class="story-meta"><span class="angle">{angle}</span><span>{state}</span><span>{published}</span><span>score {score:.1f}</span></div>'
+    if compact:
+        return f'<article class="{cls}">{meta}<h3><a href="{url}" target="_blank" rel="noopener noreferrer">{title}</a></h3><div class="source">{source}</div></article>'
+    return f'<article class="{cls}">{meta}<h3><a href="{url}" target="_blank" rel="noopener noreferrer">{title}</a></h3><p class="summary">{summary}</p><div class="tags">{tags}</div><div class="source">{source}</div></article>'
+
+def render_lead(kept):
+    if not kept:
+        return '<section class="lead-grid"><article class="lead-card"><h2>No lead story yet</h2><p>Run the pipeline to generate the next edition.</p></article></section>'
+    lead = kept[0]
+    secondary = kept[1:5]
+    lead_tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in lead.get("tags", [])[:5])
+    lead_html = f'''<article class="lead-card"><div class="eyebrow">Top story</div><div class="story-meta"><span class="angle">{html.escape(lead.get("angle","identity-outrage story"))}</span><span>{html.escape(lead.get("state") or "US")}</span><span>{format_date(lead.get("published",""))}</span><span>score {float(lead.get("score",0)):.1f}</span></div><h2><a href="{html.escape(lead.get("url",""))}" target="_blank" rel="noopener noreferrer">{html.escape(lead.get("title",""))}</a></h2><p>{html.escape(lead.get("summary",""))}</p><div class="tags">{lead_tags}</div><div class="source">{html.escape(lead.get("source",""))}</div></article>'''
+    right = ''.join(story_card(x, compact=True) for x in secondary) or '<article class="story-card compact"><h3>No secondary stories yet</h3></article>'
+    return f'<section class="lead-grid">{lead_html}<div class="lead-side">{right}</div></section>'
+
+def render_section(title, subtitle, items, compact=False):
+    body = ''.join(story_card(x, compact=compact) for x in items) if items else '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
+    grid_class = "grid compact-grid" if compact else "grid"
+    return f'<section class="section"><div class="section-head"><h2>{html.escape(title)}</h2><p>{html.escape(subtitle)}</p></div><div class="{grid_class}">{body}</div></section>'
+
+def render_sidebar(payload, before_dedupe, after_dedupe):
     counts = payload["counts"]
     note = "archive ignored for this run" if IGNORE_SEEN else "archive dedupe enabled"
-    now = dt.datetime.now().strftime("%Y-%m-%d %H:%M")
-    return f'''<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>National Association of Worried White People</title>
-<meta name="description" content="A satire-flavored tracker for white grievance rhetoric, anti-DEI backlash, anti-Muslim targeting, anti-trans panic, book bans, and symbolic U.S. identity outrage.">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<style>
-:root{{--bg:#07111e;--panel:#101c2d;--panel2:#13233a;--text:#eef4ff;--muted:#a9b7cd;--line:#29476f;--tag:#183251;--accent:#9cd0ff;--accent2:#8bc4ff;}}
-*{{box-sizing:border-box}} body{{margin:0;background:radial-gradient(circle at top,#0b1930,#06101b 55%);color:var(--text);font:16px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif}}
-.wrap{{max-width:1460px;margin:0 auto;padding:30px 24px 84px}} .brand{{display:flex;gap:16px;align-items:center;flex-wrap:wrap}}
-.logo{{width:58px;height:58px;border-radius:16px;background:linear-gradient(180deg,#163256,#0e2139);border:1px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:24px;color:var(--accent)}}
-.kicker{{text-transform:uppercase;letter-spacing:.14em;color:var(--accent);font-size:12px;font-weight:700}} h1{{font-size:64px;line-height:1.0;margin:6px 0 12px;letter-spacing:-.03em}}
-.sub{{max-width:1030px;color:var(--muted);font-size:20px;margin:0 0 24px}} .stats{{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:34px}} .pill{{border:1px solid var(--line);background:rgba(19,35,58,.9);padding:10px 15px;border-radius:999px}}
-.section{{margin-top:40px}} .section h2{{font-size:38px;margin:0}} .section p{{margin:4px 0 0;color:var(--muted)}} .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(390px,1fr));gap:22px}}
-.story-card{{background:linear-gradient(180deg,rgba(16,28,45,.96),rgba(10,21,35,.96));border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:0 18px 34px rgba(0,0,0,.22)}} .story-card.empty{{display:flex;align-items:center;justify-content:center;min-height:120px}}
-.story-card h3{{margin:10px 0 12px;font-size:26px;line-height:1.14}} .story-card h3 a{{color:var(--text);text-decoration:none}} .story-card h3 a:hover{{text-decoration:underline}}
-.story-meta{{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:14px}} .story-meta .angle{{color:var(--accent2);font-weight:700}} .summary{{font-size:17px;margin:0 0 12px}} .reason{{color:var(--accent);font-weight:700;margin:10px 0 0}}
-.tags{{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}} .tag{{border:1px solid var(--line);background:var(--tag);border-radius:999px;padding:6px 11px;font-size:14px}} .source{{margin-top:14px;color:var(--muted);font-size:14px}} .footer{{margin-top:46px;color:var(--muted);font-size:14px}}
-@media (max-width:900px){{h1{{font-size:48px}}.sub{{font-size:18px}}}}
-</style></head><body>
-<div class="wrap">
-<div class="brand"><div class="logo">NW</div><div><div class="kicker">Satire tracker</div><h1>National Association of Worried White People</h1></div></div>
-<p class="sub">A satire-flavored tracker for U.S. culture-war stories centered on white grievance rhetoric, anti-DEI backlash, anti-Muslim school targeting, anti-trans panic, book bans, “parents’ rights” campaigns, and other symbolic identity outrage.</p>
-<div class="stats">
-<div class="pill">kept: {counts["kept"]}</div><div class="pill">in the wings: {counts["wings"]}</div><div class="pill">reviewed: {counts["reviewed"]}</div><div class="pill">rejected: {counts["rejected"]}</div><div class="pill">before dedupe: {before_dedupe}</div><div class="pill">after dedupe: {after_dedupe}</div><div class="pill">{note}</div><div class="pill">generated: {html.escape(now)}</div>
-</div>
-<section class="section"><h2>Kept</h2><p>Stories clearly on-theme for the site.</p><div class="grid">{render_cards(payload["kept"])}</div></section>
-<section class="section"><h2>In the wings</h2><p>Borderline, adjacent, or weak-signal stories worth a second look.</p><div class="grid">{render_cards(payload["in_the_wings"])}</div></section>
-<div class="footer">Generated automatically from RSS and Google News RSS sources. Stories are filtered for identity-focused backlash and downgraded or rejected when they look like generic scandal, crime, or unrelated politics.</div>
-</div></body></html>'''
+    return f'''<aside class="sidebar"><div class="sidebar-card"><div class="sidebar-title">Edition metrics</div><div class="metric"><span>Kept</span><strong>{counts["kept"]}</strong></div><div class="metric"><span>In the wings</span><strong>{counts["wings"]}</strong></div><div class="metric"><span>Rejected</span><strong>{counts["rejected"]}</strong></div><div class="metric"><span>Reviewed</span><strong>{counts["reviewed"]}</strong></div><div class="metric"><span>Before dedupe</span><strong>{before_dedupe}</strong></div><div class="metric"><span>After dedupe</span><strong>{after_dedupe}</strong></div></div><div class="sidebar-card"><div class="sidebar-title">About this feed</div><p>A satire-flavored tracker for white grievance rhetoric, anti-DEI backlash, anti-Muslim school targeting, anti-trans panic, book bans, “parents’ rights” campaigns, and other symbolic identity outrage.</p><p class="muted">{html.escape(note)}</p></div></aside>'''
+
+def render_html(payload, before_dedupe, after_dedupe):
+    kept = payload["kept"]
+    wings = payload["in_the_wings"]
+    now = dt.datetime.now().strftime("%B %d, %Y %I:%M %p")
+    lead = render_lead(kept)
+    features = kept[5:17]
+    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>National Association of Worried White People</title><meta name="description" content="A satire-flavored tracker for white grievance rhetoric, anti-DEI backlash, anti-Muslim targeting, anti-trans panic, book bans, and symbolic U.S. identity outrage."><link rel="icon" type="image/svg+xml" href="favicon.svg"><style>:root{{--bg:#f5f1e8;--paper:#fffdf9;--ink:#131313;--muted:#666;--line:#ddd3c4;--accent:#931b1d;--accent2:#1b457d;--tag:#f3e7d5}}*{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}}.wrap{{max-width:1420px;margin:0 auto;padding:0 22px 70px}}.topbar{{border-bottom:1px solid var(--line);padding:14px 0 10px;color:var(--muted);font:13px/1.4 Arial,Helvetica,sans-serif;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}}.masthead{{padding:20px 0 18px;border-bottom:4px double var(--line)}}.kicker{{font:700 11px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--accent2)}}h1{{margin:8px 0 8px;font-size:64px;line-height:1.0;letter-spacing:-.03em}}.deck{{max-width:980px;color:#3d3d3d;font-size:21px;line-height:1.45}}.layout{{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:28px;margin-top:28px}}.lead-grid{{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:24px}}.lead-card,.story-card,.sidebar-card{{background:var(--paper);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.04)}}.lead-card{{padding:24px 26px}}.lead-card h2{{font-size:44px;line-height:1.03;margin:10px 0 12px}}.lead-card p{{font-size:20px;line-height:1.5;color:#2d2d2d}}.lead-side{{display:grid;gap:16px}}.story-card{{padding:18px 20px}}.story-card.compact h3{{font-size:24px}}.story-card h3{{margin:8px 0 10px;font-size:28px;line-height:1.12}}.story-card a,.lead-card a{{color:inherit;text-decoration:none}}.story-card a:hover,.lead-card a:hover{{text-decoration:underline}}.story-meta{{display:flex;gap:10px;flex-wrap:wrap;font:13px/1.4 Arial,Helvetica,sans-serif;color:var(--muted)}}.story-meta .angle{{color:var(--accent);font-weight:700}}.eyebrow{{font:700 11px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}}.summary{{margin:0 0 12px;color:#2c2c2c}}.tags{{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}}.tag{{background:var(--tag);border:1px solid #e4d3b8;border-radius:999px;padding:5px 9px;font:12px/1.2 Arial,Helvetica,sans-serif;color:#6a4b20}}.source{{margin-top:12px;font:13px/1.4 Arial,Helvetica,sans-serif;color:var(--muted)}}.section{{margin-top:34px}}.section-head{{display:flex;justify-content:space-between;gap:16px;align-items:end;border-top:3px solid var(--ink);padding-top:12px;margin-bottom:14px}}.section h2{{margin:0;font-size:34px}}.section p{{margin:0;color:var(--muted);font:15px/1.4 Arial,Helvetica,sans-serif}}.grid{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}.compact-grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}.sidebar{{display:grid;gap:18px}}.sidebar-card{{padding:18px 18px 14px}}.sidebar-title{{font:700 13px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:14px}}.metric{{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-top:1px solid var(--line);font:14px/1.4 Arial,Helvetica,sans-serif}}.metric:first-of-type{{border-top:0;padding-top:0}}.metric strong{{font-size:20px;color:var(--ink)}}.muted{{color:var(--muted);font:14px/1.5 Arial,Helvetica,sans-serif}}.footer{{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font:14px/1.5 Arial,Helvetica,sans-serif;color:var(--muted)}}@media (max-width:1180px){{.layout{{grid-template-columns:1fr}}.sidebar{{order:-1}}}}@media (max-width:980px){{.lead-grid{{grid-template-columns:1fr}}.grid,.compact-grid{{grid-template-columns:1fr}}h1{{font-size:46px}}.lead-card h2{{font-size:34px}}.deck{{font-size:18px}}}}</style></head><body><div class="wrap"><div class="topbar"><div>National Association of Worried White People</div><div>Latest edition · {html.escape(now)}</div></div><header class="masthead"><div class="kicker">Independent panic desk</div><h1>National Association of Worried White People</h1><div class="deck">A satire-flavored tracker for U.S. culture-war stories centered on white grievance rhetoric, anti-DEI backlash, anti-Muslim school targeting, anti-trans panic, book bans, “parents’ rights” campaigns, and other symbolic identity outrage.</div></header><div class="layout"><main>{lead}{render_section("Features", "Clear on-theme stories from this edition.", features)}{render_section("In the wings", "Borderline or adjacent stories worth a second look.", wings[:12], compact=True)}</main>{render_sidebar(payload, before_dedupe, after_dedupe)}</div><div class="footer">Generated automatically from RSS and Google News RSS sources. Stories are filtered for identity-focused backlash and downgraded or rejected when they look like generic scandal, crime, or unrelated politics.</div></div></body></html>'''
 
 def write_favicon():
-    FAVICON_FILE.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0f2139"/><rect x="3" y="3" width="58" height="58" rx="12" fill="none" stroke="#2b466f"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#9cd0ff">NW</text></svg>', encoding="utf-8")
+    FAVICON_FILE.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="8" fill="#931b1d"/><rect x="3" y="3" width="58" height="58" rx="6" fill="none" stroke="#f3d9a6"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Georgia, serif" font-size="24" font-weight="700" fill="#fff8eb">NW</text></svg>', encoding="utf-8")
 
 def main():
     DOCS_DIR.mkdir(parents=True, exist_ok=True)

@@ -9,7 +9,6 @@ except Exception:
     OpenAI = None
 
 MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
-
 IDENTITY = ["dei","diversity","equity","inclusion","anti-woke","woke","trans","transgender","pronoun","drag","pride","lgbt","lgbtq","book ban","banned books","library","school board","parents' rights","voucher","school choice","religious liberty","christian values","traditional values","western civilization","white people","white boys","young white men","muslim","islamic","muslim school","islamic school","immigrant","immigration","cair","sharia"]
 OUTRAGE = ["backlash","outrage","criticized","criticizes","slams","targets","opposes","ban","bans","blocks","defund","exclude","excluded","remove","pull funding","lawsuit","sues","debate","hearing","boycott","pressure campaign"]
 ACTORS = ["maga","trump","republican","republicans","gop","conservative","conservatives","fox news","moms for liberty","charlie kirk","erika kirk","governor","attorney general","state lawmakers","christian nationalist"]
@@ -23,7 +22,7 @@ ANGLE_RULES = [
     ("book bans and curriculum", ["book ban", "banned books", "library", "curriculum"]),
     ("parents' rights push", ["parents' rights", "parents rights"]),
     ("anti-immigrant panic", ["immigrant", "immigration", "refugee", "illegal alien"]),
-    ("religious-liberty grievance", ["religious liberty", "christian values", "traditional values"]),
+    ("religious-liberty grievance", ["religious liberty", "christian values", "traditional values"])
 ]
 TAG_RULES = [
     ("anti-dei", ["dei","diversity","equity","inclusion"]),
@@ -34,9 +33,8 @@ TAG_RULES = [
     ("parents-rights", ["parents' rights","parents rights"]),
     ("immigration", ["immigrant","immigration","refugee","illegal alien"]),
     ("religious-liberty", ["religious liberty","christian values","traditional values"]),
-    ("lgbtq-panic", ["drag","pride","lgbt","lgbtq"]),
+    ("lgbtq-panic", ["drag","pride","lgbt","lgbtq"])
 ]
-
 PROMPT = "Classify a U.S. news story as keep, wings, or reject. Keep only identity/pluralism backlash stories. Reject generic crime, scandal, corruption, electors, and generic politics. Return JSON with bucket, score, tags, angle, summary, reason."
 
 def build_tags(blob):
@@ -74,11 +72,7 @@ def heuristic(article):
         "tags": build_tags(blob),
         "angle": build_angle(blob),
         "summary": article.get("summary","")[:500],
-        "reason": {
-            "keep": "On-theme identity/pluralism backlash story.",
-            "wings": "Borderline but worth a second look.",
-            "reject": "Generic scandal, crime, or off-theme politics."
-        }[bucket]
+        "reason": {"keep": "On-theme identity/pluralism backlash story.", "wings": "Borderline but worth a second look.", "reject": "Generic scandal, crime, or off-theme politics."}[bucket]
     }
 
 def evaluate_article(article):
