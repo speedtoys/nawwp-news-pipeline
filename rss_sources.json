@@ -1,75 +1,64 @@
 {
   "rss_feeds": [
-    {
-      "label": "NPR Politics",
-      "url": "https://feeds.npr.org/1014/rss.xml",
-      "bucket": "national",
-      "enabled": true
-    },
-    {
-      "label": "The Hill",
-      "url": "https://thehill.com/feed/",
-      "bucket": "politics",
-      "enabled": true
-    },
-    {
-      "label": "Texas Tribune",
-      "url": "https://www.texastribune.org/feeds/main/",
-      "bucket": "state",
-      "state": "TX",
-      "enabled": true
-    },
-    {
-      "label": "Florida Politics",
-      "url": "https://floridapolitics.com/feed/",
-      "bucket": "state",
-      "state": "FL",
-      "enabled": true
-    },
-    {
-      "label": "Alabama Reflector",
-      "url": "https://alabamareflector.com/feed/",
-      "bucket": "state",
-      "state": "AL",
-      "enabled": true
-    },
-    {
-      "label": "News From The States",
-      "url": "https://www.newsfromthestates.com/rss.xml",
-      "bucket": "states",
-      "enabled": true
-    }
+    { "label": "NPR Politics", "url": "https://feeds.npr.org/1014/rss.xml", "bucket": "national", "enabled": true },
+    { "label": "NPR Education", "url": "https://feeds.npr.org/1013/rss.xml", "bucket": "education", "enabled": true },
+    { "label": "The Hill", "url": "https://thehill.com/feed/", "bucket": "politics", "enabled": true },
+    { "label": "AP News Politics", "url": "https://apnews.com/hub/politics/rss", "bucket": "politics", "enabled": true },
+    { "label": "Texas Tribune", "url": "https://www.texastribune.org/feeds/main/", "bucket": "state", "state": "TX", "enabled": true },
+    { "label": "Florida Politics", "url": "https://floridapolitics.com/feed/", "bucket": "state", "state": "FL", "enabled": true },
+    { "label": "Alabama Reflector", "url": "https://alabamareflector.com/feed/", "bucket": "state", "state": "AL", "enabled": true },
+    { "label": "Tennessee Lookout", "url": "https://tennesseelookout.com/feed/", "bucket": "state", "state": "TN", "enabled": true },
+    { "label": "Iowa Capital Dispatch", "url": "https://iowacapitaldispatch.com/feed/", "bucket": "state", "state": "IA", "enabled": true },
+    { "label": "Missouri Independent", "url": "https://missouriindependent.com/feed/", "bucket": "state", "state": "MO", "enabled": true },
+    { "label": "Oklahoma Voice", "url": "https://oklahomavoice.com/feed/", "bucket": "state", "state": "OK", "enabled": true },
+    { "label": "Idaho Capital Sun", "url": "https://idahocapitalsun.com/feed/", "bucket": "state", "state": "ID", "enabled": true },
+    { "label": "Ohio Capital Journal", "url": "https://ohiocapitaljournal.com/feed/", "bucket": "state", "state": "OH", "enabled": true },
+    { "label": "Arizona Mirror", "url": "https://azmirror.com/feed/", "bucket": "state", "state": "AZ", "enabled": true },
+    { "label": "Georgia Recorder", "url": "https://georgiarecorder.com/feed/", "bucket": "state", "state": "GA", "enabled": true },
+    { "label": "Michigan Advance", "url": "https://michiganadvance.com/feed/", "bucket": "state", "state": "MI", "enabled": true },
+    { "label": "Wisconsin Examiner", "url": "https://wisconsinexaminer.com/feed/", "bucket": "state", "state": "WI", "enabled": true },
+    { "label": "Pennsylvania Capital-Star", "url": "https://penncapital-star.com/feed/", "bucket": "state", "state": "PA", "enabled": true },
+    { "label": "NC Newsline", "url": "https://ncnewsline.com/feed/", "bucket": "state", "state": "NC", "enabled": true },
+    { "label": "Nevada Current", "url": "https://nevadacurrent.com/feed/", "bucket": "state", "state": "NV", "enabled": true },
+    { "label": "News From The States", "url": "https://www.newsfromthestates.com/rss.xml", "bucket": "states", "enabled": true }
   ],
   "google_news_queries": [
-    {
-      "label": "DEI backlash",
-      "query": "\"DEI\" OR diversity OR equity OR inclusion conservative backlash",
-      "bucket": "identity",
-      "enabled": true
-    },
-    {
-      "label": "Anti-trans panic",
-      "query": "transgender OR trans conservative backlash schools",
-      "bucket": "identity",
-      "enabled": true
-    },
-    {
-      "label": "Anti-Muslim schools",
-      "query": "\"Islamic school\" OR \"Muslim school\" voucher OR funding Republicans backlash",
-      "bucket": "religion",
-      "enabled": true
-    },
-    {
-      "label": "White grievance",
-      "query": "\"young white men\" OR \"white boys\" OR \"western civilization\" conservative backlash",
-      "bucket": "identity",
-      "enabled": true
-    },
-    {
-      "label": "Parents rights",
-      "query": "\"parents' rights\" anti-woke schools curriculum",
-      "bucket": "schools",
-      "enabled": true
-    }
+    { "label": "DEI backlash", "query": "\"DEI\" OR diversity OR equity OR inclusion conservative backlash", "bucket": "identity", "enabled": true },
+    { "label": "Anti-trans panic", "query": "transgender OR trans OR \"gender ideology\" conservative backlash schools", "bucket": "identity", "enabled": true },
+    { "label": "Religion and schools", "query": "\"Muslim school\" OR \"Islamic school\" OR \"religious liberty\" conservative school backlash", "bucket": "religion", "enabled": true },
+    { "label": "Anti-Muslim schools and vouchers", "query": "\"Islamic school\" OR \"Muslim school\" voucher OR funding Republicans backlash", "bucket": "religion", "enabled": true },
+    { "label": "Sharia and anti-Muslim rhetoric", "query": "Muslims OR Sharia OR Islamic Republicans backlash conservative", "bucket": "religion", "enabled": true },
+    { "label": "Book bans and curriculum", "query": "\"book ban\" OR curriculum OR \"school board\" conservative outrage", "bucket": "schools", "enabled": true },
+    { "label": "Parents rights culture war", "query": "\"parents' rights\" OR \"parents rights\" anti-woke schools gender curriculum", "bucket": "schools", "enabled": true },
+    { "label": "Immigrant identity panic", "query": "immigration conservative outrage identity schools community values", "bucket": "immigration", "enabled": true },
+    { "label": "White grievance rhetoric", "query": "\"white people\" OR \"white boys\" OR \"western civilization\" conservative rhetoric", "bucket": "identity", "enabled": true },
+    { "label": "White grievance personalities", "query": "\"young white men\" OR \"young white male\" OR \"white male man\" OR disenfranchise conservative backlash", "bucket": "identity", "enabled": true },
+    { "label": "Religious liberty pluralism backlash", "query": "\"religious liberty\" conservative backlash LGBTQ OR Muslim OR pluralism", "bucket": "religion", "enabled": true },
+
+    { "label": "Florida", "query": "Florida conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "FL", "enabled": true },
+    { "label": "Texas", "query": "Texas conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "TX", "enabled": true },
+    { "label": "Oklahoma", "query": "Oklahoma conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "OK", "enabled": true },
+    { "label": "Tennessee", "query": "Tennessee conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "TN", "enabled": true },
+    { "label": "Missouri", "query": "Missouri conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "MO", "enabled": true },
+    { "label": "Iowa", "query": "Iowa conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "IA", "enabled": true },
+    { "label": "Idaho", "query": "Idaho conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "ID", "enabled": true },
+    { "label": "Alabama", "query": "Alabama conservative OR Republican trans OR DEI OR book bans OR religious liberty OR Islamic school OR Muslim school", "bucket": "state", "state": "AL", "enabled": true },
+    { "label": "Arkansas", "query": "Arkansas conservative OR Republican trans OR DEI OR book bans OR religious liberty OR \"young white men\"", "bucket": "state", "state": "AR", "enabled": true },
+    { "label": "South Carolina", "query": "South Carolina conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "SC", "enabled": true },
+    { "label": "Utah", "query": "Utah conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "UT", "enabled": true },
+    { "label": "Kansas", "query": "Kansas conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "KS", "enabled": true },
+    { "label": "Kentucky", "query": "Kentucky conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "KY", "enabled": true },
+    { "label": "Louisiana", "query": "Louisiana conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "LA", "enabled": true },
+    { "label": "Indiana", "query": "Indiana conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "IN", "enabled": true },
+    { "label": "West Virginia", "query": "West Virginia conservative OR Republican trans OR DEI OR book bans OR religious liberty", "bucket": "state", "state": "WV", "enabled": true },
+
+    { "label": "Ohio battleground", "query": "Ohio Republican trans OR DEI OR book bans OR religious liberty OR anti-woke", "bucket": "state", "state": "OH", "enabled": true },
+    { "label": "Arizona battleground", "query": "Arizona Republican trans OR DEI OR book bans OR religious liberty OR anti-woke", "bucket": "state", "state": "AZ", "enabled": true },
+    { "label": "Georgia battleground", "query": "Georgia Republican trans OR DEI OR book bans OR religious liberty OR anti-woke", "bucket": "state", "state": "GA", "enabled": true },
+    { "label": "Michigan battleground", "query": "Michigan Republican trans OR DEI OR book bans OR religious liberty OR anti-woke", "bucket": "state", "state": "MI", "enabled": true },
+    { "label": "Wisconsin battleground", "query": "Wisconsin Republican trans OR DEI OR book bans OR religious liberty OR anti-woke", "bucket": "state", "state": "WI", "enabled": true },
+    { "label": "Pennsylvania battleground", "query": "Pennsylvania Republican trans OR DEI OR book bans OR religious liberty OR anti-woke", "bucket": "state", "state": "PA", "enabled": true },
+    { "label": "North Carolina battleground", "query": "North Carolina Republican trans OR DEI OR book bans OR religious liberty OR anti-woke", "bucket": "state", "state": "NC", "enabled": true },
+    { "label": "Nevada battleground", "query": "Nevada Republican trans OR DEI OR book bans OR religious liberty OR anti-woke", "bucket": "state", "state": "NV", "enabled": true }
   ]
 }
