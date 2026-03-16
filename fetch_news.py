@@ -1,9 +1,11 @@
 import json
 import os
-from datetime import datetime, UTC, timedelta
+from datetime import UTC, datetime, timedelta
 
 import requests
 from dotenv import load_dotenv
+
+from score_articles import evaluate_article
 
 load_dotenv()
 
@@ -16,7 +18,6 @@ BLOCKED_SOURCES = {
 }
 
 BLOCKED_TITLE_TERMS = {
-    "video game",
     "witchhunter.exe",
 }
 
@@ -125,17 +126,28 @@ def fetch_articles() -> list[dict]:
 
         cleaned.append(normalized)
 
-    cleaned = dedupe_by_url_and_title(cleaned)
-    return cleaned
+    return dedupe_by_url_and_title(cleaned)
 
 
 def main() -> None:
-    articles = fetch_articles()
+    fetched_articles = fetch_articles()
+
+    print(f"Fetched {len(fetched_articles)} articles. Scoring with AI...")
+
+    scored = []
+    for idx, article in enumerate(fetched_articles, start=1):
+        print(f"[{idx}/{len(fetched_articles)}] {article['title']}")
+        reviewed = evaluate_article(article)
+        if reviewed:
+            scored.append(reviewed)
+
+    scored.sort(key=lambda x: x["score"], reverse=True)
+    final_articles = scored[:10]
 
     with open("news.json", "w", encoding="utf-8") as f:
-        json.dump(articles, f, indent=2, ensure_ascii=False)
+        json.dump(final_articles, f, indent=2, ensure_ascii=False)
 
-    print(f"Created news.json with {len(articles)} articles")
+    print(f"Created news.json with {len(final_articles)} AI-selected articles")
 
 
 if __name__ == "__main__":
