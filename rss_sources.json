@@ -1,0 +1,58 @@
+[
+  {
+    "name": "The Hill",
+    "url": "https://thehill.com/feed/",
+    "tags": ["politics", "national"],
+    "base_weight": 1.0,
+    "keyword_boosts": {
+      "school board": 1.4,
+      "voucher": 1.3,
+      "religious school": 1.5,
+      "dei": 1.2,
+      "immigration": 1.2
+    },
+    "required_any": ["school", "religion", "immigration", "diversity", "library"]
+  },
+  {
+    "name": "Religion News Service",
+    "url": "https://religionnews.com/feed/",
+    "tags": ["religion", "national"],
+    "base_weight": 1.25,
+    "keyword_boosts": {
+      "christian": 1.2,
+      "muslim": 1.4,
+      "mosque": 1.5,
+      "synagogue": 1.4,
+      "faith-based": 1.5,
+      "religious liberty": 1.5
+    },
+    "required_any": ["christian", "muslim", "mosque", "school", "church", "religious"]
+  },
+  {
+    "name": "Texas Tribune",
+    "url": "https://www.texastribune.org/feeds/news/",
+    "tags": ["education", "state"],
+    "base_weight": 1.35,
+    "keyword_boosts": {
+      "school board": 1.6,
+      "curriculum": 1.3,
+      "book ban": 1.5,
+      "voucher": 1.6,
+      "prayer": 1.3
+    },
+    "required_any": ["school", "book", "voucher", "curriculum", "religion"]
+  },
+  {
+    "name": "Associated Press",
+    "url": "https://apnews.com/rss",
+    "tags": ["wire", "national"],
+    "base_weight": 0.9,
+    "keyword_boosts": {
+      "school board": 1.3,
+      "religious school": 1.4,
+      "immigration": 1.2,
+      "dei": 1.2
+    },
+    "required_any": ["school", "religion", "immigration", "library", "dei"]
+  }
+]

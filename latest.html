@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Latest Stories | NAWWP</title>
+  <title>NAWWP News Wire</title>
+  <meta
+    name="description"
+    content="NAWWP News Wire: a satire-styled roundup of culture-war, education, religion, immigration, books, gender, DEI, and voting stories."
+  />
   <style>
     :root {
-      --bg: #0b1220;
-      --panel: #121a2b;
-      --panel-2: #182238;
-      --text: #f3f6fb;
-      --muted: #aab6cc;
-      --accent: #d84b4b;
-      --border: #2a3650;
-      --tag: #22304b;
-      --link: #8eb8ff;
+      --bg: #0b1020;
+      --panel: #121a2f;
+      --panel-2: #19233e;
+      --border: #2a365a;
+      --text: #eef3ff;
+      --muted: #a8b5d6;
+      --accent: #89b4ff;
+      --accent-2: #c5d8ff;
+      --chip: #223154;
+      --chip-active: #3b5ea8;
+      --score: #ffcf66;
+      --shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
     }
 
     * {
@@ -24,236 +31,510 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top, rgba(70, 98, 170, 0.18), transparent 35%),
+        linear-gradient(180deg, #0a0f1d 0%, #0b1020 100%);
       color: var(--text);
-      line-height: 1.5;
     }
 
-    header {
-      padding: 32px 20px 20px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(180deg, #0f1728 0%, #0b1220 100%);
+    a {
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     .wrap {
-      max-width: 980px;
+      max-width: 1220px;
       margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(25, 35, 62, 0.96), rgba(16, 23, 42, 0.96));
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
     }
 
     h1 {
-      margin: 0 0 8px;
-      font-size: 2rem;
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.02;
     }
 
     .subhead {
       margin: 0;
       color: var(--muted);
-      font-size: 1rem;
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 900px;
     }
 
-    main {
-      padding: 24px 20px 60px;
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: var(--chip);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .filter-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .filter-btn.active {
+      background: var(--chip-active);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .status {
+      margin: 18px 0 8px;
       color: var(--muted);
-      margin-bottom: 20px;
-      font-size: 0.95rem;
+      font-size: 15px;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section.hidden {
+      display: none;
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 24px;
+      color: var(--accent-2);
+    }
+
+    .section-count {
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .grid {
       display: grid;
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
     }
 
     .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 100%;
       padding: 18px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(24, 34, 58, 0.96), rgba(15, 22, 40, 0.96));
+      box-shadow: var(--shadow);
     }
 
-    .meta {
+    .card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .topic-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(137, 180, 255, 0.12);
+      border: 1px solid rgba(137, 180, 255, 0.26);
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .score {
+      color: var(--score);
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .headline {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .headline a {
+      color: var(--text);
+    }
+
+    .headline a:hover {
+      color: var(--accent-2);
+    }
+
+    .summary {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .source-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px 14px;
       color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-    }
-
-    .score {
-      color: #ffd27d;
-      font-weight: bold;
-    }
-
-    h2 {
-      margin: 0 0 10px;
-      font-size: 1.28rem;
-      line-height: 1.3;
-    }
-
-    h2 a {
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    h2 a:hover {
-      color: var(--link);
-      text-decoration: underline;
-    }
-
-    .summary {
-      margin: 0 0 14px;
-      color: #dbe5f6;
+      font-size: 13px;
     }
 
     .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-top: auto;
     }
 
     .tag {
-      background: var(--tag);
-      border: 1px solid var(--border);
-      color: #cfe0ff;
+      padding: 5px 9px;
       border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 0.82rem;
-    }
-
-    .actions a {
-      display: inline-block;
-      color: var(--link);
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .actions a:hover {
-      text-decoration: underline;
-    }
-
-    .empty,
-    .error {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--muted);
+      font-size: 12px;
     }
 
-    footer {
-      padding: 24px 20px 40px;
+    .footer-note {
+      margin-top: 40px;
       color: var(--muted);
-      border-top: 1px solid var(--border);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .empty {
+      padding: 28px 18px;
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding: 18px 12px 40px;
+      }
+
+      .hero {
+        padding: 18px;
+      }
+
+      .headline {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>Latest Stories</h1>
-      <p class="subhead">AI-filtered news feed for NAWWP</p>
-    </div>
-  </header>
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow">NAWWP News Wire</div>
+      <h1>Outrage, backlash, and culture-war story sorting</h1>
+      <p class="subhead">
+        A topic-separated feed for satire-driven commentary around education, religion,
+        immigration, books, gender, DEI, voting, and broader civic panic.
+      </p>
+    </header>
 
-  <main>
-    <div class="wrap">
-      <div id="status" class="status">Loading latest stories...</div>
-      <div id="feed" class="grid"></div>
+    <div class="topbar">
+      <div class="filters" id="filters"></div>
+      <div class="meta" id="meta">Loading...</div>
     </div>
-  </main>
 
-  <footer>
-    <div class="wrap">
-      Links go to original sources. Summaries are generated from your pipeline.
+    <div class="status" id="status"></div>
+    <div id="content"></div>
+
+    <div class="footer-note">
+      Built from <code>news.json</code> with topic grouping from the pipeline.
     </div>
-  </footer>
+  </div>
 
   <script>
+    const TOPIC_CONFIG = [
+      { slug: "all", label: "All" },
+      { slug: "education", label: "Education" },
+      { slug: "religion-church-state", label: "Religion" },
+      { slug: "immigration-identity", label: "Immigration" },
+      { slug: "books-libraries-curriculum", label: "Books" },
+      { slug: "gender-lgbtq", label: "Gender" },
+      { slug: "dei-diversity-backlash", label: "DEI" },
+      { slug: "voting-civic-panic", label: "Voting" },
+      { slug: "general-culture-war", label: "General" }
+    ];
+
+    let currentFilter = "all";
+    let articles = [];
+
     function escapeHtml(value) {
       return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
     }
 
-    function formatDate(isoString) {
-      if (!isoString) return "Unknown date";
-      const date = new Date(isoString);
-      if (Number.isNaN(date.getTime())) return isoString;
-      return date.toLocaleString();
+    function formatDate(dateString) {
+      if (!dateString) return "Unknown date";
+      const date = new Date(dateString);
+      if (Number.isNaN(date.getTime())) return dateString;
+      return date.toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      });
     }
 
-    function renderArticle(article) {
-      const tags = Array.isArray(article.tags)
-        ? article.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")
-        : "";
+    function getTopicLabel(slug, fallbackTopic = "") {
+      const found = TOPIC_CONFIG.find(item => item.slug === slug);
+      if (found) return found.label;
+      return fallbackTopic || "General";
+    }
 
-      const score = typeof article.score === "number"
-        ? article.score.toFixed(1)
-        : escapeHtml(article.score ?? "0");
+    function normalizeArticle(article) {
+      const topic = article.topic || "General Culture War";
+      const sectionSlug = article.section_slug || "general-culture-war";
+      const topicTags = Array.isArray(article.topic_tags) ? article.topic_tags : [];
+      const tags = Array.isArray(article.tags) ? article.tags : [];
+
+      return {
+        title: article.title || "Untitled",
+        source: article.source || "Unknown source",
+        published_at: article.published_at || "",
+        url: article.url || "#",
+        summary: article.summary || "",
+        score: Number(article.score || 0),
+        pipeline_score: Number(article.pipeline_score || 0),
+        topic,
+        section_slug: sectionSlug,
+        topic_tags,
+        tags
+      };
+    }
+
+    function buildFilterButtons() {
+      const filtersEl = document.getElementById("filters");
+      filtersEl.innerHTML = "";
+
+      for (const item of TOPIC_CONFIG) {
+        const btn = document.createElement("button");
+        btn.className = "filter-btn" + (item.slug === currentFilter ? " active" : "");
+        btn.textContent = item.label;
+        btn.type = "button";
+        btn.addEventListener("click", () => {
+          currentFilter = item.slug;
+          buildFilterButtons();
+          renderArticles();
+        });
+        filtersEl.appendChild(btn);
+      }
+    }
+
+    function buildCard(article) {
+      const allTags = [...article.topic_tags, ...article.tags]
+        .filter(Boolean)
+        .map(tag => String(tag).trim())
+        .filter((tag, index, arr) => arr.indexOf(tag) === index)
+        .slice(0, 8);
 
       return `
         <article class="card">
-          <div class="meta">
-            <span>${escapeHtml(article.source || "Unknown source")}</span>
-            <span>${escapeHtml(formatDate(article.published_at))}</span>
-            <span class="score">Score: ${score}</span>
+          <div class="card-top">
+            <div class="topic-pill">${escapeHtml(getTopicLabel(article.section_slug, article.topic))}</div>
+            <div class="score">Score: ${escapeHtml(article.score.toFixed(1))}</div>
           </div>
 
-          <h2>
+          <h3 class="headline">
             <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
-              ${escapeHtml(article.title || "Untitled")}
+              ${escapeHtml(article.title)}
             </a>
-          </h2>
+          </h3>
 
-          <p class="summary">${escapeHtml(article.summary || "")}</p>
+          <p class="summary">${escapeHtml(article.summary)}</p>
 
-          <div class="tags">${tags}</div>
-
-          <div class="actions">
-            <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer">
-              Read original article →
-            </a>
+          <div class="source-row">
+            <span><strong>Source:</strong> ${escapeHtml(article.source)}</span>
+            <span><strong>Published:</strong> ${escapeHtml(formatDate(article.published_at))}</span>
           </div>
+
+          ${
+            allTags.length
+              ? `<div class="tags">${allTags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>`
+              : ""
+          }
         </article>
       `;
     }
 
-    async function loadFeed() {
+    function renderArticles() {
+      const contentEl = document.getElementById("content");
       const statusEl = document.getElementById("status");
-      const feedEl = document.getElementById("feed");
+      const metaEl = document.getElementById("meta");
+
+      if (!Array.isArray(articles) || articles.length === 0) {
+        contentEl.innerHTML = `<div class="empty">No articles available yet.</div>`;
+        statusEl.textContent = "";
+        metaEl.textContent = "0 articles";
+        return;
+      }
+
+      const normalized = articles.map(normalizeArticle);
+
+      const visibleArticles =
+        currentFilter === "all"
+          ? normalized
+          : normalized.filter(article => article.section_slug === currentFilter);
+
+      metaEl.textContent = `${normalized.length} article${normalized.length === 1 ? "" : "s"} loaded`;
+      statusEl.textContent =
+        currentFilter === "all"
+          ? `Showing all topics`
+          : `Showing ${getTopicLabel(currentFilter)} only`;
+
+      if (visibleArticles.length === 0) {
+        contentEl.innerHTML = `<div class="empty">No articles matched this topic.</div>`;
+        return;
+      }
+
+      if (currentFilter !== "all") {
+        const sectionLabel = getTopicLabel(currentFilter);
+        contentEl.innerHTML = `
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">${escapeHtml(sectionLabel)}</h2>
+              <div class="section-count">${visibleArticles.length} article${visibleArticles.length === 1 ? "" : "s"}</div>
+            </div>
+            <div class="grid">
+              ${visibleArticles.map(buildCard).join("")}
+            </div>
+          </section>
+        `;
+        return;
+      }
+
+      const sections = TOPIC_CONFIG
+        .filter(item => item.slug !== "all")
+        .map(item => {
+          const items = visibleArticles.filter(article => article.section_slug === item.slug);
+          return { ...item, items };
+        })
+        .filter(section => section.items.length > 0);
+
+      contentEl.innerHTML = sections.map(section => `
+        <section class="section">
+          <div class="section-header">
+            <h2 class="section-title">${escapeHtml(section.label)}</h2>
+            <div class="section-count">${section.items.length} article${section.items.length === 1 ? "" : "s"}</div>
+          </div>
+          <div class="grid">
+            ${section.items.map(buildCard).join("")}
+          </div>
+        </section>
+      `).join("");
+    }
+
+    async function loadNews() {
+      const contentEl = document.getElementById("content");
+      const statusEl = document.getElementById("status");
+      const metaEl = document.getElementById("meta");
 
       try {
-        const response = await fetch("news.json?v=" + Date.now(), { cache: "no-store" });
-
+        const response = await fetch("news.json", { cache: "no-store" });
         if (!response.ok) {
-          throw new Error("Could not load news.json");
+          throw new Error(`Failed to load news.json (${response.status})`);
         }
 
-        const articles = await response.json();
+        const data = await response.json();
+        articles = Array.isArray(data) ? data : [];
 
-        if (!Array.isArray(articles) || articles.length === 0) {
-          statusEl.textContent = "No stories available right now.";
-          feedEl.innerHTML = `<div class="empty">The feed is empty. Run the pipeline again and upload a fresh news.json.</div>`;
-          return;
-        }
+        articles.sort((a, b) => {
+          const scoreDiff = Number(b.score || 0) - Number(a.score || 0);
+          if (scoreDiff !== 0) return scoreDiff;
 
-        statusEl.textContent = `Loaded ${articles.length} stories.`;
-        feedEl.innerHTML = articles.map(renderArticle).join("");
+          const dateA = new Date(a.published_at || 0).getTime();
+          const dateB = new Date(b.published_at || 0).getTime();
+          return dateB - dateA;
+        });
+
+        buildFilterButtons();
+        renderArticles();
       } catch (error) {
-        statusEl.textContent = "Failed to load stories.";
-        feedEl.innerHTML = `<div class="error">Error loading feed: ${escapeHtml(error.message)}</div>`;
+        console.error(error);
+        metaEl.textContent = "Load failed";
+        statusEl.textContent = "";
+        contentEl.innerHTML = `
+          <div class="empty">
+            Could not load <code>news.json</code>.<br><br>
+            Make sure the file exists in the same directory as this HTML page.
+          </div>
+        `;
       }
     }
 
-    loadFeed();
+    buildFilterButtons();
+    loadNews();
   </script>
 </body>
 </html>

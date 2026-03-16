@@ -1,189 +1,111 @@
-import json
-import os
-from datetime import UTC, datetime, timedelta
-
-import requests
-from dotenv import load_dotenv
-
-from score_articles import evaluate_article
-
-load_dotenv()
-
-NEWS_API_KEY = (os.getenv("NEWS_API_KEY") or "").strip()
-NEWS_API_URL = "https://newsapi.org/v2/everything"
-ARCHIVE_FILE = "archive.json"
-OUTPUT_FILE = "news.json"
-
-BLOCKED_SOURCES = {
-    "Freerepublic.com",
-    "Thegatewaypundit.com",
-}
-
-BLOCKED_TITLE_TERMS = {
-    "witchhunter.exe",
-}
-
-KEYWORDS = (
-    '"school board" OR mosque OR islam OR immigrant OR "religious school" '
-    'OR "book ban" OR "christian values" OR "diversity program" '
-    'OR islamophobia OR synagogue OR "charter school"'
-)
-
-
-def iso_z(dt: datetime) -> str:
-    return dt.astimezone(UTC).isoformat().replace("+00:00", "Z")
-
-
-def load_archive() -> list[dict]:
-    try:
-        with open(ARCHIVE_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return data if isinstance(data, list) else []
-    except FileNotFoundError:
-        return []
-    except json.JSONDecodeError:
-        return []
-
-
-def save_archive(archive: list[dict]) -> None:
-    with open(ARCHIVE_FILE, "w", encoding="utf-8") as f:
-        json.dump(archive, f, indent=2, ensure_ascii=False)
-
-
-def is_blocked(article: dict) -> bool:
-    source_name = ((article.get("source") or {}).get("name") or "").strip()
-    title = (article.get("title") or "").lower()
-
-    if source_name in BLOCKED_SOURCES:
-        return True
-
-    for term in BLOCKED_TITLE_TERMS:
-        if term in title:
-            return True
-
-    return False
-
-
-def normalize_article(item: dict) -> dict | None:
-    title = item.get("title")
-    url = item.get("url")
-
-    if not title or not url:
-        return None
-
-    return {
-        "title": title.strip(),
-        "source": (item.get("source") or {}).get("name", "Unknown"),
-        "published_at": item.get("publishedAt", iso_z(datetime.now(UTC))),
-        "url": url.strip(),
-        "summary": (item.get("description") or "").strip(),
-        "tags": ["unreviewed"],
-        "score": 0,
-    }
-
-
-def dedupe_by_url_and_title(articles: list[dict]) -> list[dict]:
-    seen_urls = set()
-    seen_titles = set()
-    kept = []
-
-    for article in articles:
-        url = article["url"].strip().lower()
-        title = article["title"].strip().lower()
-
-        if url in seen_urls or title in seen_titles:
-            continue
-
-        seen_urls.add(url)
-        seen_titles.add(title)
-        kept.append(article)
-
-    return kept
-
-
-def fetch_articles() -> list[dict]:
-    if not NEWS_API_KEY:
-        raise RuntimeError("Missing NEWS_API_KEY in .env")
-
-    now = datetime.now(UTC)
-    from_date = now - timedelta(days=3)
-
-    params = {
-        "q": KEYWORDS,
-        "language": "en",
-        "sortBy": "publishedAt",
-        "from": iso_z(from_date),
-        "pageSize": 30,
-        "apiKey": NEWS_API_KEY,
-    }
-
-    response = requests.get(NEWS_API_URL, params=params, timeout=30)
-
-    if response.status_code != 200:
-        try:
-            error_body = response.json()
-        except ValueError:
-            error_body = response.text
-        raise RuntimeError(f"NewsAPI request failed ({response.status_code}): {error_body}")
-
-    data = response.json()
-
-    if data.get("status") != "ok":
-        raise RuntimeError(f"NewsAPI error: {data}")
-
-    raw_articles = data.get("articles", [])
-
-    cleaned = []
-    for item in raw_articles:
-        if is_blocked(item):
-            continue
-
-        normalized = normalize_article(item)
-        if normalized is None:
-            continue
-
-        cleaned.append(normalized)
-
-    return dedupe_by_url_and_title(cleaned)
-
-
-def main() -> None:
-    print("Starting pipeline...")
-
-    archive = load_archive()
-    seen_urls = {item.get("url", "").strip().lower() for item in archive if item.get("url")}
-
-    fetched_articles = fetch_articles()
-    print(f"Fetched {len(fetched_articles)} articles. Scoring new articles with AI...")
-
-    scored = []
-
-    for idx, article in enumerate(fetched_articles, start=1):
-        article_url = article["url"].strip().lower()
-
-        if article_url in seen_urls:
-            print(f"[{idx}/{len(fetched_articles)}] Skipping archived: {article['title']}")
-            continue
-
-        print(f"[{idx}/{len(fetched_articles)}] Scoring: {article['title']}")
-        reviewed = evaluate_article(article)
-
-        if reviewed:
-            scored.append(reviewed)
-            archive.append(reviewed)
-            seen_urls.add(article_url)
-
-    scored.sort(key=lambda x: x["score"], reverse=True)
-    final_articles = scored[:10]
-
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(final_articles, f, indent=2, ensure_ascii=False)
-
-    save_archive(archive)
-
-    print(f"Created {OUTPUT_FILE} with {len(final_articles)} AI-selected articles")
-    print(f"Archive now contains {len(archive)} total articles")
-
-
-if __name__ == "__main__":
-    main()
+[
+  {
+    "name": "The Hill",
+    "url": "https://thehill.com/feed/",
+    "tags": ["politics", "national"],
+    "base_weight": 1.1,
+    "default_topic": "General Culture War",
+    "keyword_boosts": {
+      "school board": 1.4,
+      "voucher": 1.3,
+      "religious school": 1.5,
+      "dei": 1.2,
+      "immigration": 1.2,
+      "transgender": 1.2
+    },
+    "required_any": ["school", "religion", "immigration", "diversity", "library", "gender"]
+  },
+  {
+    "name": "Religion News Service",
+    "url": "https://religionnews.com/feed/",
+    "tags": ["religion", "national"],
+    "base_weight": 1.3,
+    "default_topic": "Religion / Church-State",
+    "keyword_boosts": {
+      "christian": 1.2,
+      "muslim": 1.4,
+      "mosque": 1.5,
+      "synagogue": 1.4,
+      "faith-based": 1.5,
+      "religious liberty": 1.5,
+      "prayer": 1.3
+    },
+    "required_any": ["christian", "muslim", "mosque", "school", "church", "religious", "synagogue"]
+  },
+  {
+    "name": "Texas Tribune",
+    "url": "https://www.texastribune.org/feeds/news/",
+    "tags": ["education", "state"],
+    "base_weight": 1.35,
+    "default_topic": "Education",
+    "keyword_boosts": {
+      "school board": 1.6,
+      "curriculum": 1.3,
+      "book ban": 1.5,
+      "voucher": 1.6,
+      "prayer": 1.3,
+      "religious school": 1.4
+    },
+    "required_any": ["school", "book", "voucher", "curriculum", "religion", "library"]
+  },
+  {
+    "name": "Chalkbeat",
+    "url": "https://www.chalkbeat.org/rss/index.xml",
+    "tags": ["education", "schools"],
+    "base_weight": 1.3,
+    "default_topic": "Education",
+    "keyword_boosts": {
+      "school board": 1.4,
+      "curriculum": 1.4,
+      "book ban": 1.5,
+      "charter school": 1.3,
+      "voucher": 1.3
+    },
+    "required_any": ["school", "student", "curriculum", "library", "teacher", "district"]
+  },
+  {
+    "name": "NPR",
+    "url": "https://feeds.npr.org/1001/rss.xml",
+    "tags": ["national", "mainstream"],
+    "base_weight": 0.95,
+    "default_topic": "General Culture War",
+    "keyword_boosts": {
+      "immigration": 1.2,
+      "religious liberty": 1.2,
+      "school board": 1.2,
+      "transgender": 1.2,
+      "book ban": 1.2
+    },
+    "required_any": ["school", "immigration", "religion", "library", "gender", "dei"]
+  },
+  {
+    "name": "ProPublica",
+    "url": "https://www.propublica.org/feeds/propublica/main",
+    "tags": ["investigations", "national"],
+    "base_weight": 1.1,
+    "default_topic": "General Culture War",
+    "keyword_boosts": {
+      "school": 1.2,
+      "immigration": 1.2,
+      "religion": 1.2,
+      "voting": 1.2,
+      "dei": 1.2
+    },
+    "required_any": ["school", "immigration", "religion", "voting", "library", "diversity"]
+  },
+  {
+    "name": "Associated Press",
+    "url": "https://apnews.com/hub/ap-top-news?output=rss",
+    "tags": ["wire", "national"],
+    "base_weight": 0.9,
+    "default_topic": "General Culture War",
+    "keyword_boosts": {
+      "school board": 1.3,
+      "religious school": 1.4,
+      "immigration": 1.2,
+      "dei": 1.2,
+      "transgender": 1.2
+    },
+    "required_any": ["school", "religion", "immigration", "library", "dei", "gender", "voting"]
+  }
+]

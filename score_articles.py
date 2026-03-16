@@ -15,28 +15,33 @@ if not OPENAI_API_KEY:
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 SYSTEM_PROMPT = """
-You are classifying news stories for a satire website.
+You classify news stories for a satire site that tracks U.S. culture-war
+panic and outrage narratives.
 
-The site focuses on real news stories involving:
-- racial, religious, or cultural overreaction
-- panic about immigration, Islam, diversity, schools, or identity
-- symbolic "threat to traditional America" narratives
-- public backlash, outrage campaigns, school fights, charter school disputes, book bans, and similar incidents
+Keep stories about:
+- school board conflicts
+- charter or religious school funding fights
+- immigration panic
+- DEI backlash
+- diversity or curriculum controversies
+- religion in public life
+- protests or outrage around identity or culture
 
-Reject stories that are:
-- generic crime
-- foreign policy or war news
-- unrelated national politics
-- opinion columns with no concrete incident
-- celebrity or entertainment news
-- video game or tech culture stories
-- articles whose only relevance is a keyword match
+Reject stories about:
+- shootings or violent crime
+- war or foreign terrorism
+- sports
+- entertainment
+- generic national politics without a cultural conflict
+- stories outside the United States
 
 Return JSON only with:
+
 {
   "keep": true or false,
   "score": number from 0 to 10,
-  "tags": ["tag1", "tag2", "tag3"],
+  "tags": ["tag1", "tag2"],
+  "angle": "short phrase describing the outrage narrative",
   "summary": "1-2 sentence neutral summary"
 }
 """
@@ -46,7 +51,6 @@ def evaluate_article(article: dict[str, Any]) -> dict[str, Any] | None:
     prompt = f"""
 Title: {article.get("title", "")}
 Source: {article.get("source", "")}
-Published At: {article.get("published_at", "")}
 Description: {article.get("summary", "")}
 URL: {article.get("url", "")}
 """
@@ -68,15 +72,14 @@ URL: {article.get("url", "")}
                         "score": {"type": "number"},
                         "tags": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "minItems": 0,
-                            "maxItems": 5
+                            "items": {"type": "string"}
                         },
-                        "summary": {"type": "string"},
+                        "angle": {"type": "string"},
+                        "summary": {"type": "string"}
                     },
-                    "required": ["keep", "score", "tags", "summary"],
-                    "additionalProperties": False,
-                },
+                    "required": ["keep", "score", "tags", "angle", "summary"],
+                    "additionalProperties": False
+                }
             }
         },
     )
@@ -86,7 +89,7 @@ URL: {article.get("url", "")}
     try:
         result = json.loads(output_text)
     except json.JSONDecodeError:
-        print(f"Skipping article due to bad AI JSON: {article.get('title', '')}")
+        print(f"Bad AI JSON for: {article.get('title', '')}")
         return None
 
     if not result.get("keep", False):
@@ -94,6 +97,7 @@ URL: {article.get("url", "")}
 
     article["score"] = float(result.get("score", 0))
     article["tags"] = result.get("tags", [])
+    article["angle"] = result.get("angle", "")
     article["summary"] = result.get("summary", article.get("summary", ""))
 
     return article
