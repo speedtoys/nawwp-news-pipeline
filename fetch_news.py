@@ -709,6 +709,7 @@ def main() -> None:
         f"Scoring top {len(candidate_articles)} with AI..."
     )
 
+
     reviewed_articles: list[dict[str, Any]] = []
 
     def score_one_article(args: tuple[int, dict[str, Any]]) -> dict[str, Any] | None:
