@@ -9,6 +9,7 @@ except Exception:
     OpenAI = None
 
 MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
+
 IDENTITY = ["dei","diversity","equity","inclusion","anti-woke","woke","trans","transgender","pronoun","drag","pride","lgbt","lgbtq","book ban","banned books","library","school board","parents' rights","voucher","school choice","religious liberty","christian values","traditional values","western civilization","white people","white boys","young white men","muslim","islamic","muslim school","islamic school","immigrant","immigration","cair","sharia"]
 OUTRAGE = ["backlash","outrage","criticized","criticizes","slams","targets","opposes","ban","bans","blocks","defund","exclude","excluded","remove","pull funding","lawsuit","sues","debate","hearing","boycott","pressure campaign"]
 ACTORS = ["maga","trump","republican","republicans","gop","conservative","conservatives","fox news","moms for liberty","charlie kirk","erika kirk","governor","attorney general","state lawmakers","christian nationalist"]
@@ -22,7 +23,7 @@ ANGLE_RULES = [
     ("book bans and curriculum", ["book ban", "banned books", "library", "curriculum"]),
     ("parents' rights push", ["parents' rights", "parents rights"]),
     ("anti-immigrant panic", ["immigrant", "immigration", "refugee", "illegal alien"]),
-    ("religious-liberty grievance", ["religious liberty", "christian values", "traditional values"])
+    ("religious-liberty grievance", ["religious liberty", "christian values", "traditional values"]),
 ]
 TAG_RULES = [
     ("anti-dei", ["dei","diversity","equity","inclusion"]),
@@ -33,7 +34,7 @@ TAG_RULES = [
     ("parents-rights", ["parents' rights","parents rights"]),
     ("immigration", ["immigrant","immigration","refugee","illegal alien"]),
     ("religious-liberty", ["religious liberty","christian values","traditional values"]),
-    ("lgbtq-panic", ["drag","pride","lgbt","lgbtq"])
+    ("lgbtq-panic", ["drag","pride","lgbt","lgbtq"]),
 ]
 PROMPT = "Classify a U.S. news story as keep, wings, or reject. Keep only identity/pluralism backlash stories. Reject generic crime, scandal, corruption, electors, and generic politics. Return JSON with bucket, score, tags, angle, summary, reason."
 
@@ -57,7 +58,7 @@ def heuristic(article):
     a = [x for x in ACTORS if x in blob]
     c = [x for x in CRIME if x in blob]
     s = [x for x in SCANDAL if x in blob]
-    score = max(0.0, min(10.0, round(len(i)*1.8 + len(o)*1.0 + len(a)*0.8 - len(c)*2.5 - len(s)*2.6, 1)))
+    score = max(0.0, min(10.0, round(len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6, 1)))
     if len(c) >= 2 or (s and not i):
         bucket = "reject"
     elif i and (o or a or score >= 4.5):
@@ -72,25 +73,25 @@ def heuristic(article):
         "tags": build_tags(blob),
         "angle": build_angle(blob),
         "summary": article.get("summary","")[:500],
-        "reason": {"keep": "On-theme identity/pluralism backlash story.", "wings": "Borderline but worth a second look.", "reject": "Generic scandal, crime, or off-theme politics."}[bucket]
+        "reason": {"keep": "On-theme identity/pluralism backlash story.", "wings": "Borderline but worth a second look.", "reject": "Generic scandal, crime, or off-theme politics."}[bucket],
     }
 
 def evaluate_article(article):
-    api_key = os.getenv("OPENAI_API_KEY","").strip()
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
     if OpenAI is None or not api_key:
         return heuristic(article)
     try:
         client = OpenAI(api_key=api_key)
         payload = {"title": article.get("title"), "summary": article.get("summary"), "source": article.get("source"), "state": article.get("state")}
-        resp = client.responses.create(model=MODEL, input=[{"role":"system","content":PROMPT},{"role":"user","content":json.dumps(payload, ensure_ascii=False)}])
+        resp = client.responses.create(model=MODEL, input=[{"role": "system", "content": PROMPT}, {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}])
         text = getattr(resp, "output_text", "") or ""
         m = re.search(r"\{.*\}", text, flags=re.DOTALL)
         if not m:
             return heuristic(article)
         out = json.loads(m.group(0))
-        if out.get("bucket") not in {"keep","wings","reject"}:
+        if out.get("bucket") not in {"keep", "wings", "reject"}:
             return heuristic(article)
-        blob = (article.get("title","") + " " + article.get("summary","")).lower()
+        blob = (article.get("title", "") + " " + article.get("summary", "")).lower()
         out["tags"] = out.get("tags") or build_tags(blob)
         out["angle"] = out.get("angle") or build_angle(blob)
         return out
