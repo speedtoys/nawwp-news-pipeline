@@ -4465,6 +4465,2046 @@
       "summary": "Kansas' attorney general wades into Indiana fight over alleged violation of student's First Amendment right to post anti-abortion posters in a high school.",
       "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
       "published": "2026-03-11T19:08:17+00:00"
+    },
+    {
+      "title": "Oklahoma House approves bill banning state from displaying LGBTQ+ pride flags",
+      "url": "https://oklahomavoice.com/2026/03/11/oklahoma-house-approves-bill-banning-state-from-displaying-lgbtq-pride-flags/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "keep",
+      "score": 4.6,
+      "tags": [
+        "lgbtq-panic"
+      ],
+      "angle": "identity-outrage story",
+      "summary": "OKLAHOMA CITY — House lawmakers advanced legislation Wednesday that would ban any Oklahoma state government entity, including public schools, from recognizing Pride Month and from displaying LGBTQ+ pride flags. The bill passed the House floor along party lines despite concerns it would harm and minimize LGBTQ+ Oklahomans. The House also approved a prohibition on changes […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T23:26:58+00:00"
+    },
+    {
+      "title": "Arizona GOP moves to defund teachers union after it targeted school voucher program",
+      "url": "https://azmirror.com/2026/03/12/arizona-gop-moves-to-defund-teachers-union-after-it-targeted-school-voucher-program/",
+      "source": "Arizona Mirror",
+      "state": "AZ",
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "The Arizona Education Association is the state’s largest teachers union, and it frequently advocates for or against legislation and political candidates on behalf of its more than 22,000 members. Republican lawmakers want to make it harder for the union to exist. Last month, GOP legislators gutted a bill about minimum wage to create a proposal […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T14:30:58+00:00"
+    },
+    {
+      "title": "Senate panel rejects bill barring DEI offices at private colleges",
+      "url": "https://iowacapitaldispatch.com/briefs/senate-panel-rejects-bill-barring-dei-offices-at-private-colleges/",
+      "source": "Iowa Capital Dispatch",
+      "state": "IA",
+      "bucket": "keep",
+      "score": 8.2,
+      "tags": [
+        "anti-dei"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "An Iowa Senate subcommittee refused Monday to advance a bill that would have withheld state-funded Iowa Tuition Grants from private colleges that open or maintain offices of diversity, equity and inclusion. All three members of the subcommittee spoke against House File 2488, after hearing from representatives of religious institutions and civil rights advocates who opposed […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T19:15:21+00:00"
+    },
+    {
+      "title": "School library book bans seen as targeting LGBTQ content - thegazette.com",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOdEc1aTZEbG5wTXRBVnFucUZrSkl2aUkzS25uSlRuSGFUelJpS0dLUjdLWGYtX2ZDNlJFQkc2Zl8wSV9xbGRkVkZRdjhWNXV5TDJFNk9zVkhtZ2xNUXZYSnRSeFBaUW1aZWg0bnlTYXAzaTBXZk5nMDJKdFdRZkJ3eTB1dUc3T2FqaE1mQWNoQUp3Q0NESkx4ZDFJUHRKVXBUTnVkcjBDRkthcTdFTzJoUG16RngtMVlMNGdtRVgwVC1HbWZHWVBuZkRBSHVmdzZXbUUzamRoSkp3Wm5D?oc=5",
+      "source": "Iowa",
+      "state": "IA",
+      "bucket": "keep",
+      "score": 6.4,
+      "tags": [
+        "book-bans",
+        "lgbtq-panic"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "School library book bans seen as targeting LGBTQ content thegazette.com",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T23:34:46+00:00"
+    },
+    {
+      "title": "Tennessee House passes bill requiring immigration checks in public schools",
+      "url": "https://www.newsfromthestates.com/article/tennessee-house-passes-bill-requiring-immigration-checks-public-schools",
+      "source": "News From The States",
+      "state": null,
+      "bucket": "keep",
+      "score": 4.2,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Legislation to require Tennessee public schools to check student immigration status and report it to the state education department moved one significant step closer to becoming law after passage Monday in the GOP-dominated House of Representatives. The bill ( HB073/SB0836 ) by House Majority Leader William Lamberth, a Portland Republican, and Sen. Bo Watson, a Hixson Republican, drew heated pushback from Democrats on the House floor, who unsuccessfully offered a series of amendments that includ",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-17T00:08:11+00:00"
+    },
+    {
+      "title": "Sen. Graham wants to ban state, local ‘sanctuary’ policies on immigration enforcement",
+      "url": "https://scdailygazette.com/2026/03/10/repub/state-local-policies-on-immigration-enforcement-targeted-by-us-senate-republicans/",
+      "source": "South Carolina Daily Gazette",
+      "state": "SC",
+      "bucket": "keep",
+      "score": 4.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — Senate Republicans during a Tuesday hearing laid the groundwork for legislation that would prevent state and local governments from making decisions on whether to limit cooperation with the federal government on immigration enforcement. Senate Budget Committee Chair Lindsey Graham of South Carolina argued that sanctuary cities — a term used by critics — […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T18:00:53+00:00"
+    },
+    {
+      "title": "Kentucky GOP Senate candidates talk immigration and Iran war in first debate",
+      "url": "https://www.newsfromthestates.com/article/kentucky-gop-senate-candidates-talk-immigration-and-iran-war-first-debate",
+      "source": "News From The States",
+      "state": null,
+      "bucket": "keep",
+      "score": 6.0,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "LOUISVILLE — Kentucky’s top three Republican U.S. Senate candidates largely agreed that illegal immigration is a major issue for Kentuckians, but they strongly disagreed about which of them would best handle it. The candidates — U.S. Rep. Andy Barr, former state Attorney General Daniel Cameron and businessman Nate Morris — faced each other in their first debate of the primary season Monday night. Hosted by the Jefferson County Republican Party and TV station WDRB, the debate was held in front of",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-17T02:39:53+00:00"
+    },
+    {
+      "title": "State, local policies on immigration enforcement targeted by US Senate Republicans",
+      "url": "https://penncapital-star.com/2026/03/10/repub/state-local-policies-on-immigration-enforcement-targeted-by-us-senate-republicans/",
+      "source": "Pennsylvania Capital-Star",
+      "state": "PA",
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Federal immigration officials have increased enforcement in the interior of the country, targeting cities with high immigrant populations that are led by Democrats",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T18:04:22+00:00"
+    },
+    {
+      "title": "Committee set to hear bill focusing on parent’s ‘rights’ to insist on child’s ‘biological reality’",
+      "url": "https://ohiocapitaljournal.com/2026/03/11/committee-set-to-hear-bill-focusing-on-parents-rights-to-insist-on-childs-biological-reality/",
+      "source": "Ohio Capital Journal",
+      "state": "OH",
+      "bucket": "keep",
+      "score": 4.6,
+      "tags": [
+        "anti-trans",
+        "lgbtq-panic"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "A new bill set to be heard in the Ohio General Assembly this week looks to codify gender identity regulations, in a measure that sponsors say would ensure “parents are not punished for raising their children consistent with biological reality.” The bill is being criticized by LGBTQ+ advocates as discriminatory against transgender youth. Ohio House […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T08:40:51+00:00"
+    },
+    {
+      "title": "House conservative unveils bill to end chain migration, scrap diversity visa in sweeping immigration overhaul - Fox News",
+      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPcWJocXkzcmlkNGdIQlQzU3B6cGM5aGZfX0paNVFvZ0hjZWNYRkFNRjJ0TU9SVjBLVlBPLUhZY0tCYmg1a0FjRkhyMmhnVFNqX1VyckkxbDczVEZpcDFmUmY5ZlR6bzJPRXpaZk45VzZrVmR6WkNsQ0RpMzhrdVlmODZ6OE9LYnF6ZURBMHdtakEzZ1hwR3dwc29sMU42Z3ljNHR0UmUxRkFLVUNRQ0JRUlUtenRXcGFFVWNXb2NUWVB6ZzdsRzZWbkYyVXN6N01j0gHWAUFVX3lxTE1ReUg1cDYxODk4YWNwU3RJLVdzOUJacnplZzBnLWYzZkpTb1NadnlZUjBRamFscFV1aGNXNzB6Y003cFByUWJVZG5pbS1SS0lwU0JoS1JZU3dVSXZYNFpPS1dLb0QteHVNNjNtTnBzUVR4QmlRbGRHR2JBSWxNMTdOTlB0aV93bDY0RnRlU2VNbzVJem9ocmZHMndOSFdoMmVQVFRtVzlNSE83S1YzVkh1U1Y3VS1WbjNST1gtbGJNOWdtY0JFRHhxRy1DUUE1UXIxeDZta1E?oc=5",
+      "source": "DEI backlash",
+      "state": null,
+      "bucket": "keep",
+      "score": 8.0,
+      "tags": [
+        "anti-dei",
+        "immigration"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "House conservative unveils bill to end chain migration, scrap diversity visa in sweeping immigration overhaul Fox News",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T10:00:48+00:00"
+    },
+    {
+      "title": "Oklahoma senators warn effort to ban sexually explicit books could block students’ Bible access",
+      "url": "https://oklahomavoice.com/2026/03/11/senate-fights-over-bill-banning-sexually-explicit-library-books-in-oklahoma-schools/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "wings",
+      "score": 3.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "OKLAHOMA CITY – A bill advancing through the Legislature aimed at removing sexually explicit books from schools could take the Bible off of library shelves and would be a nightmare to navigate, critics said. Senate Bill 1250 creates a process where a parent or guardian could seek to remove books deemed offensive from the library […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T20:10:44+00:00"
+    },
+    {
+      "title": "Muslim civil rights group files complaint over alleged Islamophobic posts by Corewell employee",
+      "url": "https://michiganadvance.com/2026/03/11/muslim-civil-rights-group-files-complaint-over-alleged-islamophobic-posts-by-corewell-employee/",
+      "source": "Michigan Advance",
+      "state": "MI",
+      "bucket": "wings",
+      "score": 3.6,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "The Michigan chapter of the Council on American-Islamic Relations said Wednesday it had filed a state civil rights complaint against Corewell Health, alleging the health system has failed to address social media posts by an employee who identified herself online as a “proud Islamophobe.” The complaint, a copy of which was provided in a press […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-11T15:22:45+00:00"
+    },
+    {
+      "title": "GU Republican Chapter Deletes Post About Muslim Americans After Community Backlash - The Hoya",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOVmtxTnFFNEVfU3MwdXJhRW42ZUxrTW5WVFo4Qm9wcW1zSDV2WXF1a180OEVZOUpzbFp5VUZHVk42V0tWak9tTUdZTzhpcEkwZnVhSGFKRmpPWE1KRjRsQTM0SDd6eThLN1JtMHVDTVhjYW5wSFdDc19acEJyWU84bU1yWVRBTFMyV0tTaFRhZ2E2RElvSm5jMHdVblZzdFUtV3N2VE5DOWp3LVlf?oc=5",
+      "source": "Sharia and anti-Muslim rhetoric",
+      "state": null,
+      "bucket": "keep",
+      "score": 5.4,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "GU Republican Chapter Deletes Post About Muslim Americans After Community Backlash The Hoya",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T12:49:34+00:00"
+    },
+    {
+      "title": "State, local immigration enforcement policies targeted by US Senate Republicans",
+      "url": "https://lailluminator.com/2026/03/10/repub/republicans-sanctuary/",
+      "source": "Louisiana Illuminator",
+      "state": "LA",
+      "bucket": "wings",
+      "score": 3.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — Senate Republicans during a Tuesday hearing laid the groundwork for legislation that would prevent state and local governments from making decisions on whether to limit cooperation with the federal government on immigration enforcement. Senate Budget Committee Chair Lindsey Graham of South Carolina argued that sanctuary cities — a term used by critics — […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T18:08:02+00:00"
+    },
+    {
+      "title": "She’s a conservative who was kicked off Trump’s Religious Liberty Commission - Baptist News Global",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNa2MyaWc1aE9JYnFxamhYdzkzRzhYdTF2WnY3Q3FXdFczZGZwTVg4VWh2Ml9mUE11UGlreV9uRzQ2djZ4aktwOXA1RVM2Q3ZiOTZKY1pZcVllNy1hNjdFMXhYTEdHY1ZlSTkwUGFQb3pNeDNDcmFYMEh2VUZVSEdmejEwREM1RzZjeEZwd3lVSnhTcU9rbWxkVWYtYTFEaVBtSjg3X2xuaVpxd2M?oc=5",
+      "source": "Texas",
+      "state": "TX",
+      "bucket": "wings",
+      "score": 3.4,
+      "tags": [
+        "religious-liberty"
+      ],
+      "angle": "religious-liberty grievance",
+      "summary": "She’s a conservative who was kicked off Trump’s Religious Liberty Commission Baptist News Global",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-17T02:12:59+00:00"
+    },
+    {
+      "title": "Homeland Security repair job awaits Trump’s next pick, Oklahoma’s Mullin",
+      "url": "https://ohiocapitaljournal.com/2026/03/16/repub/homeland-security-repair-job-awaits-trumps-next-pick-oklahomas-mullin/",
+      "source": "Ohio Capital Journal",
+      "state": "OH",
+      "bucket": "wings",
+      "score": 3.4,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T16:54:48+00:00"
+    },
+    {
+      "title": "Conservatives Go To War Against Trump Military Nominee Accused Of Promoting DEI - AOL.com",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNVURSNzNpZVZsbnVxVUJqOVhTN0dXRVpQVHp4UWhIVG1BeDdaV20wSlV6SXJtTnROSVIwS1BfYjQtUkEwaVhIV1BxV0I2YVZYVTBrQVdzc1I5a09JYkMwWmRhcmJDbFRwNEVob19UcmRkWEFLd2stcUtFUUpXYmszcnZUZGtHcVlhNzlGZw?oc=5",
+      "source": "DEI backlash",
+      "state": null,
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [
+        "anti-dei"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "Conservatives Go To War Against Trump Military Nominee Accused Of Promoting DEI AOL.com",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T11:52:03+00:00"
+    },
+    {
+      "title": "Trump’s DHS pick Markwayne Mullin would inherit Kristi Noem’s messes",
+      "url": "https://azmirror.com/2026/03/13/repub/trumps-dhs-pick-markwayne-mullin-would-inherit-kristi-noems-messes/",
+      "source": "Arizona Mirror",
+      "state": "AZ",
+      "bucket": "wings",
+      "score": 3.4,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T19:24:10+00:00"
+    },
+    {
+      "title": "Georgetown University Republican group sparks outrage with anti-Muslim post - NBC4 Washington",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOMzdJSXdGa2xWSW0yRE15amFqUzRReXVHV0ZEOG1YVUN4WEFDdURaRWtJeTFudEtwMEdlWVhLcWpCbU1wcHZYb243TVBNeU9ia0JWanlKVzVVNzltRGhoeEtKY1dnSjR6UkxUVnhzTUFaem9FNnJLUjB1UGt0OXBZN0FzdVNSUldWaEkzTm5Hb0hzMWVESGF3a2pnOHBfMFVNQTJuLWR4OXRhSU1fODVMWFlIeV8zekNtb0F0TDJvU3VSRmfSAcsBQVVfeXFMTzEtTUNfSEdHR3lKTUtsRUZGb2l0OUV3bG9DWE1YQjZfX2lKVnJDZDdlWHdZdGtwSFB6cXRNd1ZNZEMxdEkzOW1aOVFMaFZjalNGVkNuYkZfbFd5Y2UzbnJOQ1VlX29tY0VRUExMSHF4REFadG9UdjdNUldPWDBPWmlON2k1TlhRUlVZV05admluNDRLdmNyekRsM0p1Uzc1REFGNThtUkIzT2RWc0NXb1NnNjFkRm9hT3FOYVZkNExiT3NuVWRQWm1qbVk?oc=5",
+      "source": "Sharia and anti-Muslim rhetoric",
+      "state": null,
+      "bucket": "keep",
+      "score": 5.4,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Georgetown University Republican group sparks outrage with anti-Muslim post NBC4 Washington",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T21:39:48+00:00"
+    },
+    {
+      "title": "Only Muslim Woman on Trump's MAGA Religious Committee Resigns in Protest of Iran War - Yahoo",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOWFRCdkh4bUo5YUkwdWVETElHSHBvakpueDFEWEVBYXg1VWJfM1E2d1ZEOXhCU1ZhZ3lpbmRvcnZIeGxzVmZjLTJmdFFPWlNaSlNyMTBJUWJROWY3X1ZnX2VEMm5VSFk1Y196Wnd4TkdwR1lMY1A1QlA0RGRBMDhzRTk2alBvUms?oc=5",
+      "source": "Religious liberty pluralism backlash",
+      "state": null,
+      "bucket": "keep",
+      "score": 6.2,
+      "tags": [
+        "anti-muslim",
+        "religious-liberty"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Only Muslim Woman on Trump's MAGA Religious Committee Resigns in Protest of Iran War Yahoo",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T16:58:06+00:00"
+    },
+    {
+      "title": "MAGA fans freak out over Trump's secret new appointment: 'DEI on steroids' - rawstory.com",
+      "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE0zVWF6bHhrSEd2aExKS0xycnFoYmxPS01xVVdaRVMyc2UyVFhNaU5qdWhNS24wX2djQk4tTVZlSUJNaW51STJkYWctOXg4OW9TcXfSAWRBVV95cUxQZWY4TFoxMEdPRzZsakw4cjE1NW96UDdYdUlDNFR1SDFDclJFTFRpc2RHM3liamdDc0l2bDVCVlNEcG51cGZ3bUJDRVhGd3NGMHZQOVhEb3dVemxESW9qYmRYZGw1?oc=5",
+      "source": "Book bans and curriculum",
+      "state": null,
+      "bucket": "keep",
+      "score": 6.2,
+      "tags": [
+        "anti-dei",
+        "book-bans"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "MAGA fans freak out over Trump's secret new appointment: 'DEI on steroids' rawstory.com",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T19:26:00+00:00"
+    },
+    {
+      "title": "Idaho House passes criminal transgender bathroom ban in business, government buildings",
+      "url": "https://idahocapitalsun.com/2026/03/16/idaho-house-passes-criminal-transgender-bathroom-ban-in-business-government-buildings/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "The Idaho House on Monday widely passed a bill to criminalize “willfully” entering public and government bathrooms and changing rooms designated for another sex. The bill would effectively block transgender people from using their preferred public bathrooms in Idaho, expanding on the state’s transgender bathroom ban in public schools. House Bill 752 would create criminal […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T18:03:49+00:00"
+    },
+    {
+      "title": "Monday bond hearing in Louisiana set for Nashville reporter detained by ICE",
+      "url": "https://tennesseelookout.com/2026/03/16/monday-bond-hearing-in-louisiana-set-for-nashville-reporter-detained-by-ice/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Estefany Rodríguez, a Nashville Spanish-language news reporter detained earlier this month by ICE agents, is scheduled to appear in a Louisiana immigration court for a bond hearing today, court records show. Separately, a federal judge set a hearing in Nashville on Tuesday to consider constitutional challenges to the detention brought by Rodríguez’ attorneys. Rodríguez was […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T10:01:09+00:00"
+    },
+    {
+      "title": "Bill advances to remove next year’s BESE elections from closed primary system",
+      "url": "https://lailluminator.com/2026/03/15/bese-closed-primary/",
+      "source": "Louisiana Illuminator",
+      "state": "LA",
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "A proposal to remove state school board elections from Louisiana’s closed party primaries has advanced in the Louisiana Legislature, just weeks ahead of the first races to use the new system. Senate Bill 49, by Sen. Alan Seabaugh, R-Many, would move next year’s elections for the Board of Elementary and Secondary Education into the open […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-15T20:00:23+00:00"
+    },
+    {
+      "title": "Immigration judges speeding up removal cases involving Somali people",
+      "url": "https://arkansasadvocate.com/2026/03/14/repub/immigration-judges-speeding-up-removal-cases-involving-somali-people/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "On Jan. 30, as immigration attorney Matthew Mockenhaupt was representing a client in a hearing, his email inbox flooded with calendar invites from the court. He’d never seen the court schedule so many hearings on such short notice — and, even stranger, all of the cases involved people from Somalia. Since then, the pattern has […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-14T10:00:15+00:00"
+    },
+    {
+      "title": "Tennessee Congressman sparks outrage with anti-Muslim rant - ArabAmericanNews",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNUlJNM2Qta1NGZmh3WVBKVGVfVmJKNUg0YnIxZlROQk1IWGRpVlg5QmNIdFpTeHRLUFNUX0dvendxRG5CZ2ROQ3phalpxTVVsbzRlZFpCaW1sX29PQjBBYXpIUWh2VE9mNEVrX0NyUTlydXhkTy1oTnUtSVpVYU5rQmxQVlk3Y0NjNHQwaU9OOWlvdVNvUk5Ma2RfLXduX0hf?oc=5",
+      "source": "Religious liberty pluralism backlash",
+      "state": null,
+      "bucket": "keep",
+      "score": 5.6,
+      "tags": [
+        "anti-muslim",
+        "religious-liberty"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Tennessee Congressman sparks outrage with anti-Muslim rant ArabAmericanNews",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T09:48:09+00:00"
+    },
+    {
+      "title": "‘It Doesn’t Need to Be Here’: The Right Vilifies a Muslim School in Alabama - The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNQzRjNnpaNzEzeXNkNDQ5UG9rNmczYmFQbTNqRHFDMUhvZUR2N1pMQlljanZ6QVR5d3NESEFfUHRreWd0ZFlLWEFGVnVGNkhrOWpOUlZkUkxFbmhYWUoyYkN0ZmRtYzdvWGFsbDlfUzVYTmZhdGV3REcwYU1RaTNtZWtmdUxJVmFpVjNMWlM2YzhId3JMMlFPaFd3?oc=5",
+      "source": "Religion and schools",
+      "state": null,
+      "bucket": "wings",
+      "score": 3.6,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "‘It Doesn’t Need to Be Here’: The Right Vilifies a Muslim School in Alabama The New York Times",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-16T17:45:40+00:00"
+    },
+    {
+      "title": "United CEO’s Merit Hiring Comment Spurs DEI Backlash - thetraveler.org",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOWnRkLWJTSklqT0JSMFRza1NmR045VHBzWUJhd2lLNndlSHhTVGE1Vi14OTZkcTVFS0Z5ZldxTFhGQXIzellYRkJYdkxtTXpfVXZ5aWFmRVpoZkVlaGc5Q0pkeFZabEI0WEZKc2FhYnFmWXNtczVucG5GQzliemNka1lMUjg1Vmc?oc=5",
+      "source": "DEI backlash",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "anti-dei"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "United CEO’s Merit Hiring Comment Spurs DEI Backlash thetraveler.org",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T09:14:35+00:00"
+    },
+    {
+      "title": "Oklahoma officials announce candidacy for Congressional seats in wake of Mullin DHS nomination",
+      "url": "https://oklahomavoice.com/briefs/oklahoma-officials-announce-candidacy-for-congressional-seats-in-wake-of-mullin-dhs-nomination/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "OKLAHOMA CITY — Candidates are lining up to run for open Oklahoma Congressional seats following a recent White House appointment. President Donald Trump announced U.S. Sen. Markwayne Mullin as his replacement for Kristi Noem as the next head of the Department of Homeland Security, which has faced scrutiny for enforcement of immigration policy. His Senate […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T20:23:51+00:00"
+    },
+    {
+      "title": "Iranian Americans rally in Detroit both supporting effort to topple Tehran regime and in opposition",
+      "url": "https://oklahomavoice.com/2026/03/16/repub/iranian-americans-rally-in-detroit-both-supporting-effort-to-topple-tehran-regime-and-in-opposition/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "identity-outrage story",
+      "summary": "While many Americans remain opposed to the undeclared war launched against Iran last month by President Donald Trump and Israeli Prime Minister Benjamin Netanyahu, downtown Detroit Sunday featured supporters of the military action against the Islamic regime and its proxies. Mark Masoud, 63, wearing a Trump hat and holding a Persian flag, arrived with his […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T20:22:56+00:00"
+    },
+    {
+      "title": "Supreme Court takes up Trump efforts to curtail protections for Haitians, Syrians",
+      "url": "https://thehill.com/regulation/court-battles/5786518-supreme-court-tps-trump-battle/",
+      "source": "The Hill",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "The Supreme Court agreed on Monday to review the Trump administration’s power to curtail temporary protections for migrants from countries experiencing extraordinary conditions, setting the stage for a high-stakes battle over the president’s immigration crackdown this spring. Until they hear oral arguments the week of April 27, the justices will keep intact lower rulings that block the administration from terminating Syria and Haiti’s designations for the Temporary…",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T19:38:39+00:00"
+    },
+    {
+      "title": "Appeals court allows Trump to swiftly deport migrants to third countries",
+      "url": "https://thehill.com/regulation/court-battles/5786361-trump-administration-deportations-appeal/",
+      "source": "The Hill",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "A federal appeals court ruled Monday that the Trump administration may keep swiftly deporting migrants to countries where they have no ties as a legal challenge unfolds. The 2-1 vote on the U.S. Court of Appeals for the 1st Circuit contained no explanation. The panel also expedited the schedule for the case’s next stage. The Trump administration as part of its aggressive immigration…",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T18:21:34+00:00"
+    },
+    {
+      "title": "Idaho House to consider bills amending 2024 ‘harmful to minors’ library law",
+      "url": "https://idahocapitalsun.com/2026/03/12/idaho-house-to-consider-bills-amending-2024-harmful-to-minors-library-law/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 3.6,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "Amid two lawsuits challenging Idaho’s 2024 law restricting access to library materials deemed harmful for minors, a House committee advanced two bills amending definitions in the law. Together they would remove some vague language in the existing law and create different standards for private and public school libraries books. Nampa Republican Rep. Jaron Crane said […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T22:04:01+00:00"
+    },
+    {
+      "title": "ICE buys a Salt Lake City warehouse with plans for a new detention center",
+      "url": "https://idahocapitalsun.com/2026/03/16/repub/ice-buys-a-salt-lake-city-warehouse-with-plans-for-a-new-detention-center/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "A Salt Lake City warehouse is the latest in the nation to be purchased by U.S. Immigration and Customs Enforcement as the Trump administration plans a $45 billion expansion of detention centers. The U.S. Department of Homeland Security, which oversees ICE, and a Delaware company on Wednesday finalized the $145.4 million deal, county property records […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T10:00:00+00:00"
+    },
+    {
+      "title": "Meet the Republican candidates running in Ohio’s 9th Congressional District primary",
+      "url": "https://ohiocapitaljournal.com/2026/03/16/meet-the-republican-candidates-running-in-ohios-9th-congressional-district-primary/",
+      "source": "Ohio Capital Journal",
+      "state": "OH",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Five candidates are running in Ohio’s 9th Congressional District’s Republican Primary to challenge the long-time incumbent Marcy Kaptur. The candidates are Ohio state Rep. Josh Williams, former Ohio state Rep. Derek Merrin, former Air National Guard Lieutenant Colonel in the Alea Nadeem, former deputy director of U.S. Immigration and Customs Enforcement Madison Sheahan, and health […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T08:55:47+00:00"
+    },
+    {
+      "title": "Emotional Erika Kirk Torched Over Bizarre Remarks About 'Young White Men' During Speech — 'She's So Repulsive' - RadarOnline",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQMVFzZ3Q2bFlVOEJOUTlCSzRQa1YtNUdxNDl3c1lDU0NwMnFDaUl5Z3E5bjRjb3hES1Byd2tuQ3lqeGdqMlo5ZnRndGF3TmFVTU0zQVoyWC1DZE0xNHJSN19Hd2tWTWlXbDdwdjZnVGNDSnQ5LWw1enpZUkZKUU1NdmdvQnc3ZW5pNUJ4SjAzODNFUkpfQTZpWkdn?oc=5",
+      "source": "White grievance personalities",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "white-grievance"
+      ],
+      "angle": "white grievance rhetoric",
+      "summary": "Emotional Erika Kirk Torched Over Bizarre Remarks About 'Young White Men' During Speech — 'She's So Repulsive' RadarOnline",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T21:56:55+00:00"
+    },
+    {
+      "title": "Multiple Republicans in Congress post openly anti-Muslim statements - NBC News",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNcVhVdGhtRk9VMWZZWkxIVVVwV2NWdW1iVi1kNURCVkRrSFFxMG03QmMtSjY4UXhGTjlGZ2p6TmlGd3h5Z2gybVB1dDJ6X0lRUTdraHY2R0VkMUJVVjg2ZUVDR2pIdDZiSFFjME9wUjFXQkRVNnVrOFJMdnE3Tm1SdW03djh5cTZkZTdJX3BOMmRLYk9LUU1VMTJnbjlQLUgxdVdtdzFFWkxxQ3UtcHhWZ1loMTI?oc=5",
+      "source": "Sharia and anti-Muslim rhetoric",
+      "state": null,
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Multiple Republicans in Congress post openly anti-Muslim statements NBC News",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T20:00:09+00:00"
+    },
+    {
+      "title": "Helping refugees in Wisconsin navigate upheaval, uncertainty and fear",
+      "url": "https://wisconsinexaminer.com/2026/03/13/helping-refugees-in-wisconsin-navigate-upheaval-uncertainty-and-fear/",
+      "source": "Wisconsin Examiner",
+      "state": "WI",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Zabi Sahibzada, refugee resettlement director for Jewish Social Services (JSS) in Madison, Wisconsin, has lived through war, displacement, the collapse of Afghanistan and the cataclysmic consequences of shifting U.S. policies abroad and at home. Today, even as our country plunges into a new war in the Middle East, the Trump administration has pulled back from […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T10:15:55+00:00"
+    },
+    {
+      "title": "This tale of a Chicago school book ban was inspired by true events",
+      "url": "https://www.npr.org/2026/03/12/nx-s1-5744667/wake-now-in-the-fire-book-review",
+      "source": "NPR Education",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "Librarian Jarrett Dapier's graphic novel tells a fictionalized account of real-life events in 2013 that restricted access to Marjane Satrapi's memoir Persepolis in Chicago Public Schools.",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T17:36:51+00:00"
+    },
+    {
+      "title": "Republicans Risk Wiping Out Gains With Muslim Voters - Newsweek",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPcllPVlRkazJTbjRudGh5elh4Zi13TDNkY01ia3VDUlVjM19wVVM1b3pLTkxwd2I4QlY3SVdhd2E1SldsVzlzR1Rtak1lQzFnbTZsYkxVNnF1OFRpNS1fbFBnbEZoU05fUG9DWlEweDBOTjlXUjVKVy0zYWozWG5LRE5KRzV6RDZSUDVv?oc=5",
+      "source": "Sharia and anti-Muslim rhetoric",
+      "state": null,
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Republicans Risk Wiping Out Gains With Muslim Voters Newsweek",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T15:45:00+00:00"
+    },
+    {
+      "title": "Tennessee Republican ‘Immigration 2026’ agenda bills advance in legislature",
+      "url": "https://tennesseelookout.com/2026/03/12/tennessee-republican-immigration-2026-agenda-bills-advance-in-legislature/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Republican House members on Wednesday advanced a bill to create a new state crime for immigrants who remain in Tennessee after receiving a final deportation order — a measure that, by design, is intended to trigger a Supreme Court challenge. The bill (HB1704/SB 1779) by House Leader William Lamberth, a Gallatin Republican, would create a […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T10:02:34+00:00"
+    },
+    {
+      "title": "Tennessee senators move amended English-only driver’s license testing",
+      "url": "https://tennesseelookout.com/2026/03/12/tennessee-senators-move-amended-english-only-drivers-license-testing/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Tennessee lawmakers are pushing a watered-down version of an English-only driver’s license testing bill as part of their 2026 immigration package formulated with the White House. Senate Bill 1889 sponsored by Republican Sen. Brent Taylor of Shelby County passed the Transportation Committee Wednesday with an amendment that allows applicants to take the initial test in […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T10:01:06+00:00"
+    },
+    {
+      "title": "GOP push to expand Tennessee voucher program to 40K students clears first hurdle",
+      "url": "https://tennesseelookout.com/2026/03/12/gop-push-to-expand-tennessee-voucher-program-to-40k-students-clears-first-hurdle/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "This story was originally published by Chalkbeat. Sign up for their newsletters at ckbe.at/newsletters Sign up for Chalkbeat Tennessee’s free newsletter to keep up with statewide education policy and Memphis-Shelby County Schools. A GOP push to double the number of students in Tennessee’s voucher program cleared its first hurdle in the General Assembly on Tuesday. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T09:59:44+00:00"
+    },
+    {
+      "title": "Bill requiring immigration status checks in Tennessee public schools advances in legislature",
+      "url": "https://tennesseelookout.com/briefs/bill-requiring-immigration-status-checks-in-tennessee-public-schools-advances-in-legislature/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "A bill requiring Tennessee public schools to gather data on student immigration status and report it to the state education department advanced out of a House legislative committee Tuesday. The bill (HB073/SB0836) was introduced last year as part of a Republican effort to challenge Supreme Court precedent requiring public schools to enroll all children regardless […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T10:11:22+00:00"
+    },
+    {
+      "title": "University of Arkansas law school narrows interim dean search",
+      "url": "https://arkansasadvocate.com/briefs/university-of-arkansas-law-school-narrows-interim-dean-search/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "University of Arkansas law school faculty and staff were asked Tuesday to provide feedback on two candidates for interim dean. University officials requested recommendations for the position last month after the law school abruptly rescinded its offer to the incoming dean following complaints from key Republicans about her background and legal positions on transgender athletes. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T21:00:53+00:00"
+    },
+    {
+      "title": "Immigration enforcement threatens housing security, rippling through local economies",
+      "url": "https://michiganadvance.com/2026/03/16/repub/immigration-enforcement-threatens-housing-security-rippling-through-local-economies/",
+      "source": "Michigan Advance",
+      "state": "MI",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "As federal immigration officers made more “at-large” arrests in communities across the country in the first year of the current Trump administration — including at homes, places of worship and workplaces — more than 1,100 Nebraska families developed family safety plans in the event a parent or breadwinner faced detention or deportation. These plans help […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T17:17:22+00:00"
+    },
+    {
+      "title": "Conservative groups escalate Title IX complaint against Kansas school district over trans policies",
+      "url": "https://kansasreflector.com/2026/03/10/conservative-groups-escalate-title-ix-complaint-against-kansas-school-district-over-trans-policies/",
+      "source": "Kansas Reflector",
+      "state": "KS",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "TOPEKA — Conservative nonprofits added pressure to the federal investigation into the Shawnee Mission school district that began last year by sending a supplemental complaint outlining the “emotional distress” cisgender students face around transgender students and district policies. The supplemental Title IX complaint they sent to the U.S. Department of Education outlines a then-first-grader’s distress […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T13:00:28+00:00"
+    },
+    {
+      "title": "Court cases alleging unlawful immigration detention skyrocket in Louisiana",
+      "url": "https://lailluminator.com/2026/03/10/immigration-courts/",
+      "source": "Louisiana Illuminator",
+      "state": "LA",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "As the number of people held inside immigration detention centers in the United States climbs to record highs under the Trump administration, so have the amount of federal court cases from immigrants claiming that their detention is unlawful.",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T10:00:00+00:00"
+    },
+    {
+      "title": "Federal judge blocks Arkansas’ Ten Commandments law",
+      "url": "https://arkansasadvocate.com/2026/03/16/federal-judge-blocks-arkansas-ten-commandments-law/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "reject",
+      "score": 2.0,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "A federal judge on Monday permanently blocked six Arkansas school districts from enforcing a state law requiring displays of the Ten Commandments in every classroom, declaring the 2025 measure unconstitutional. Seven families of various religious and nonreligious backgrounds filed the original lawsuit last June against the Fayetteville, Springdale, Bentonville and Siloam Springs school districts. They […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-16T21:21:27+00:00"
+    },
+    {
+      "title": "Supporters of the new federal school choice tax credit pressure Gov. Shapiro to opt in",
+      "url": "https://penncapital-star.com/education/supporters-of-the-new-federal-school-choice-tax-credit-pressure-gov-shapiro-to-opt-in/",
+      "source": "Pennsylvania Capital-Star",
+      "state": "PA",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "The strategy from Shapiro and other Democratic governors to put off making a yes-or-no decision on the tax credits reflects the barrage of political pressures they are facing.",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-16T19:00:11+00:00"
+    },
+    {
+      "title": "New book restrictions cost Alabama libraries hundreds of hours, thousands of dollars",
+      "url": "https://alabamareflector.com/2026/03/16/new-book-restrictions-cost-alabama-libraries-hundreds-of-hours-thousands-of-dollars/",
+      "source": "Alabama Reflector",
+      "state": "AL",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "Changes to state library regulations over the past two years have created confusion among Alabama libraries, forcing them to reallocate resources to comply with code changes and causing dismay among those who believed they had to choose between receiving state aid or adhering to their ethical principles. The new restrictions, targeting what the Alabama Public […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-16T12:01:51+00:00"
+    },
+    {
+      "title": "Texas clarifies voucher rules to help more families access future special ed support",
+      "url": "https://feeds.texastribune.org/link/16799/17298519/texas-school-vouchers-disability-students-comptroller",
+      "source": "Texas Tribune",
+      "state": "TX",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "After reporting from The Texas Tribune, the office tasked with handing out vouchers clarified that families who do not complete a special education evaluation this year may have a chance to qualify for more funding in future years.",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-12T23:50:13+00:00"
+    },
+    {
+      "title": "Oklahoma AG challenges Jewish charter school vote",
+      "url": "https://oklahomavoice.com/2026/03/12/oklahoma-ag-challenges-jewish-charter-school-vote/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [],
+      "angle": "book bans and curriculum",
+      "summary": "OKLAHOMA CITY — Attorney General Gentner Drummond again took a state board to court over its vote on a religious charter school. The Statewide Charter School Board on Monday rejected an application to open Ben Gamla Jewish Charter School because its curriculum would include religious teaching. Drummond alleged the vote was deliberately rigged to benefit […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T16:34:05+00:00"
+    },
+    {
+      "title": "Idaho House passes bill to force schools and doctors to out transgender minors to their parents",
+      "url": "https://idahocapitalsun.com/2026/03/11/idaho-house-passes-bill-to-force-schools-and-doctors-to-out-transgender-minors-to-their-parents/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "The Idaho House widely passed a bill Wednesday that would require school officials and health professionals to out transgender minors to their parents, or face lawsuits. House Bill 822 would require schools, health care providers and child care providers to notify parents within three days after the entities receive “any request by the minor student […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-11T21:53:52+00:00"
+    },
+    {
+      "title": "Court review of Calcasieu desegregation order takes school board by surprise",
+      "url": "https://lailluminator.com/2026/03/11/school-desegregation/",
+      "source": "Louisiana Illuminator",
+      "state": "LA",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Retired Judge Ron Ware still remembers driving by Lake Charles High School’s campus with his sister Frances and his dad, admiring the stately oak trees framing its grounds. “I’d like to go to that high school,” he remembers Frances saying, the picturesque campus a perfect fit for his older sister’s artistic sensibilities. There was just […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-11T10:00:21+00:00"
+    },
+    {
+      "title": "Arkansas education department accepting applications for voucher program’s fourth year",
+      "url": "https://arkansasadvocate.com/briefs/arkansas-education-department-accepting-applications-for-voucher-programs-fourth-year/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Applications for Arkansas’ school voucher program are now open, the state’s education department announced Tuesday. This marks the fourth year of the program and the second year it’s been open to all Arkansas K-12 students after being phased in with increasing eligibility. Created under an expansive 2023 education law, the Educational Freedom Account program permits […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-10T18:29:15+00:00"
+    },
+    {
+      "title": "Idaho bill would force schools, doctors to out transgender minors to their parents",
+      "url": "https://idahocapitalsun.com/2026/03/10/idaho-bill-would-force-schools-doctors-to-out-transgender-minors-to-their-parents/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "Under a bill headed to the Idaho House, health care providers, schools and child care providers would be required to out transgender minors to their parents, or face lawsuits. House Bill 822 would require schools, health care providers and child care providers to notify parents within three days after the entities receive “any request by […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-10T17:49:51+00:00"
+    },
+    {
+      "title": "First Lady nears fundraising goal for Dolly Parton library program",
+      "url": "https://indianacapitalchronicle.com/briefs/first-lady-nears-fundraising-goal-for-dolly-parton-library-program/",
+      "source": "Indiana Capital Chronicle",
+      "state": "IN",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "First Lady Maureen Braun on Tuesday hosted her second annual Indiana First Lady’s Breakfast and announced she has almost reached a goal to fund Dolly Parton’s Imagination Library of Indiana. The breakfast supported the fundraising initiative, which launched in 2025 is now 90% of the way to its goal for funding cycle running from July […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-10T17:15:42+00:00"
+    },
+    {
+      "title": "Homeland Security repair job awaits Trump’s next pick, Markwayne Mullin",
+      "url": "https://iowacapitaldispatch.com/2026/03/13/repub/homeland-security-repair-job-awaits-trumps-next-pick-markwayne-mullin/",
+      "source": "Iowa Capital Dispatch",
+      "state": "IA",
+      "bucket": "wings",
+      "score": 3.4,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T19:02:29+00:00"
+    },
+    {
+      "title": "DeSantis’ resolve to pass his vaccine policies strengthens as measles cases continue to rise",
+      "url": "https://alabamareflector.com/2026/03/16/repub/desantis-resolve-to-pass-his-vaccine-policies-strengthens-as-measles-cases-continue-to-rise/",
+      "source": "Alabama Reflector",
+      "state": "AL",
+      "bucket": "reject",
+      "score": 1.6,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "His attempt to alter the state’s vaccine policies for school children failed during the now-concluded legislative session, but Gov. Ron DeSantis said late Friday that he remains committed to seeing his policies pass before having to leave his post in January 2027. The 2026 regular session was DeSantis’ last as governor, but the Republican could […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-16T20:01:28+00:00"
+    },
+    {
+      "title": "Wauwatosa middle school student leads charge for a state ban on animal tests for cosmetics",
+      "url": "https://wisconsinexaminer.com/2026/03/11/wauwatosa-middle-school-student-leads-charge-for-a-state-ban-on-animal-tests-for-cosmetics/",
+      "source": "Wisconsin Examiner",
+      "state": "WI",
+      "bucket": "reject",
+      "score": 1.0,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Abby Wurzburger, a 14-year-old from Wauwatosa, is leading the charge on a bill to ban animal testing by cosmetics manufacturers in Wisconsin. “Although the total number of animals and testing facilities are not disclosed to the public, this doesn’t stop the fact that any amount of unnecessary testing is too much,” Wurzburger said at a […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-11T10:45:58+00:00"
+    },
+    {
+      "title": "WV lawmakers give schools flexibility to shorten their school calendar length",
+      "url": "https://westvirginiawatch.com/briefs/wv-lawmakers-give-schools-flexibility-to-shorten-their-school-calendar-length/",
+      "source": "West Virginia Watch",
+      "state": "WV",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "West Virginia public schools would have more flexibility to change the length of the school year, according to a bill that is nearing the governor’s desk for consideration. The House of Delegates passed Senate Bill 890 on Wednesday allowing schools to have students meet for a total 954 hours of instructional time in a school […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-12T18:37:14+00:00"
+    },
+    {
+      "title": "Braun backs more Turning Point school clubs in Indiana to balance ‘the other side’",
+      "url": "https://indianacapitalchronicle.com/2026/03/12/braun-backs-more-turning-point-school-clubs-in-indiana-to-balance-the-other-side/",
+      "source": "Indiana Capital Chronicle",
+      "state": "IN",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Gov. Mike Braun endorsed establishing student chapters of the conservative group Turning Point USA at all Indiana schools in starkly political terms, even while saying he wanted to protect free speech rights for all.",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-12T18:09:44+00:00"
+    },
+    {
+      "title": "Kansas attorney general enters Indiana fight on student’s right to post political fliers at school",
+      "url": "https://kansasreflector.com/briefs/kansas-attorney-general-enters-indiana-fight-on-students-right-to-post-political-fliers-at-school/",
+      "source": "Kansas Reflector",
+      "state": "KS",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Kansas' attorney general wades into Indiana fight over alleged violation of student's First Amendment right to post anti-abortion posters in a high school.",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-11T19:08:17+00:00"
+    },
+    {
+      "title": "How a High School Librarian in Abilene Fought Back Against Moms for Liberty - The Texas Observer",
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB4OUVPNHFIN3hfb1RMOVhETGdYX0FYcVhQUlB2anpDN3pXS3prRXBIRUFjeEc1U2tfblF1c0JtdU9ZMXdnVC00ZFJqTFZzU2UxNGhRSWlac3NZTENOLWFfMUlvd194N2hCNkVWUExn?oc=5",
+      "source": "Texas",
+      "state": "TX",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "How a High School Librarian in Abilene Fought Back Against Moms for Liberty The Texas Observer",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-11T16:17:45+00:00"
+    },
+    {
+      "title": "Texas students with disabilities struggle to qualify for extra school voucher funds",
+      "url": "https://feeds.texastribune.org/link/16799/17298008/texas-vouchers-students-disabilities-assessment",
+      "source": "Texas Tribune",
+      "state": "TX",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Confusion over the program’s special education requirements is making it difficult for families to meet a looming deadline — and creating more work for Texas school districts.",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-12T10:00:00+00:00"
+    },
+    {
+      "title": "Lawmakers grapple with future of Oklahoma high school sports governing body",
+      "url": "https://oklahomavoice.com/2026/03/10/lawmakers-divided-over-path-forward-for-oklahoma-high-school-sports-governing-body/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "OKLAHOMA CITY — Over a month after Oklahoma’s governor called for the abolition of an organization that governs high school athletics, lawmakers remain divided over whether the century-old body needs an overhaul. Supporters of the Oklahoma Secondary School Activities Association contend that the body has become a scapegoat for providing unpopular, but needed, regulatory oversight. […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-10T10:30:31+00:00"
+    },
+    {
+      "title": "New exhibit at Clinton presidential library focuses on Constitutional amendments",
+      "url": "https://arkansasadvocate.com/2026/03/10/new-exhibit-at-clinton-presidential-library-focuses-on-constitutional-amendments/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "The 1957 executive order signed by President Dwight Eisenhower to enforce the desegregation of Little Rock Central High School is one of the documents on display at the Clinton Presidential Center at a new exhibit chronicling the history of the 27 amendments to the Constitution. “Making Amends,” which opens Tuesday at the Little Rock museum […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-10T10:00:20+00:00"
+    },
+    {
+      "title": "Ohio bill would compel online education resource providers to police ‘obscene’ materials",
+      "url": "https://ohiocapitaljournal.com/2026/03/11/ohio-bill-would-compel-online-education-resource-providers-to-police-obscene-materials/",
+      "source": "Ohio Capital Journal",
+      "state": "OH",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "A new Ohio bill seeks to regulate some of the companies who provide online resources for the state’s public schools and libraries. Republican lawmakers leading the bill claim “inappropriate” content has been leaking through. Ohio House Bill 583 would target the two vendors used for online information databases in a majority of public schools and […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-11T08:50:36+00:00"
+    },
+    {
+      "title": "Pa. House panel advances package of bills to codify LGBTQ protections",
+      "url": "https://penncapital-star.com/civil-rights-social-justice/pa-house-panel-advances-package-of-bills-to-codify-lgbtq-protections/",
+      "source": "Pennsylvania Capital-Star",
+      "state": "PA",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "lgbtq-panic"
+      ],
+      "angle": "identity-outrage story",
+      "summary": "Almost all the measures passed on partisan lines, with the bill codifying same sex marriage protections receiving two Republican votes.",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T20:32:30+00:00"
+    },
+    {
+      "title": "Tennessee House passes bill requiring immigration checks in public schools",
+      "url": "https://www.newsfromthestates.com/article/tennessee-house-passes-bill-requiring-immigration-checks-public-schools",
+      "source": "News From The States",
+      "state": null,
+      "bucket": "keep",
+      "score": 4.2,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Legislation to require Tennessee public schools to check student immigration status and report it to the state education department moved one significant step closer to becoming law after passage Monday in the GOP-dominated House of Representatives. The bill ( HB073/SB0836 ) by House Majority Leader William Lamberth, a Portland Republican, and Sen. Bo Watson, a Hixson Republican, drew heated pushback from Democrats on the House floor, who unsuccessfully offered a series of amendments that includ",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-17T00:08:11+00:00"
+    },
+    {
+      "title": "State, local policies on immigration enforcement targeted by US Senate Republicans",
+      "url": "https://penncapital-star.com/2026/03/10/repub/state-local-policies-on-immigration-enforcement-targeted-by-us-senate-republicans/",
+      "source": "Pennsylvania Capital-Star",
+      "state": "PA",
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Federal immigration officials have increased enforcement in the interior of the country, targeting cities with high immigrant populations that are led by Democrats",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T18:04:22+00:00"
+    },
+    {
+      "title": "Oklahoma House approves bill banning state from displaying LGBTQ+ pride flags",
+      "url": "https://oklahomavoice.com/2026/03/11/oklahoma-house-approves-bill-banning-state-from-displaying-lgbtq-pride-flags/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "keep",
+      "score": 4.6,
+      "tags": [
+        "lgbtq-panic"
+      ],
+      "angle": "identity-outrage story",
+      "summary": "OKLAHOMA CITY — House lawmakers advanced legislation Wednesday that would ban any Oklahoma state government entity, including public schools, from recognizing Pride Month and from displaying LGBTQ+ pride flags. The bill passed the House floor along party lines despite concerns it would harm and minimize LGBTQ+ Oklahomans. The House also approved a prohibition on changes […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T23:26:58+00:00"
+    },
+    {
+      "title": "House conservative unveils bill to end chain migration, scrap diversity visa in sweeping immigration overhaul - Fox News",
+      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPcWJocXkzcmlkNGdIQlQzU3B6cGM5aGZfX0paNVFvZ0hjZWNYRkFNRjJ0TU9SVjBLVlBPLUhZY0tCYmg1a0FjRkhyMmhnVFNqX1VyckkxbDczVEZpcDFmUmY5ZlR6bzJPRXpaZk45VzZrVmR6WkNsQ0RpMzhrdVlmODZ6OE9LYnF6ZURBMHdtakEzZ1hwR3dwc29sMU42Z3ljNHR0UmUxRkFLVUNRQ0JRUlUtenRXcGFFVWNXb2NUWVB6ZzdsRzZWbkYyVXN6N01j0gHWAUFVX3lxTE1ReUg1cDYxODk4YWNwU3RJLVdzOUJacnplZzBnLWYzZkpTb1NadnlZUjBRamFscFV1aGNXNzB6Y003cFByUWJVZG5pbS1SS0lwU0JoS1JZU3dVSXZYNFpPS1dLb0QteHVNNjNtTnBzUVR4QmlRbGRHR2JBSWxNMTdOTlB0aV93bDY0RnRlU2VNbzVJem9ocmZHMndOSFdoMmVQVFRtVzlNSE83S1YzVkh1U1Y3VS1WbjNST1gtbGJNOWdtY0JFRHhxRy1DUUE1UXIxeDZta1E?oc=5",
+      "source": "DEI backlash",
+      "state": null,
+      "bucket": "keep",
+      "score": 8.0,
+      "tags": [
+        "anti-dei",
+        "immigration"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "House conservative unveils bill to end chain migration, scrap diversity visa in sweeping immigration overhaul Fox News",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T10:00:48+00:00"
+    },
+    {
+      "title": "Kentucky GOP Senate candidates talk immigration and Iran war in first debate",
+      "url": "https://www.newsfromthestates.com/article/kentucky-gop-senate-candidates-talk-immigration-and-iran-war-first-debate",
+      "source": "News From The States",
+      "state": null,
+      "bucket": "keep",
+      "score": 6.0,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "LOUISVILLE — Kentucky’s top three Republican U.S. Senate candidates largely agreed that illegal immigration is a major issue for Kentuckians, but they strongly disagreed about which of them would best handle it. The candidates — U.S. Rep. Andy Barr, former state Attorney General Daniel Cameron and businessman Nate Morris — faced each other in their first debate of the primary season Monday night. Hosted by the Jefferson County Republican Party and TV station WDRB, the debate was held in front of",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-17T02:39:53+00:00"
+    },
+    {
+      "title": "Arizona GOP moves to defund teachers union after it targeted school voucher program",
+      "url": "https://azmirror.com/2026/03/12/arizona-gop-moves-to-defund-teachers-union-after-it-targeted-school-voucher-program/",
+      "source": "Arizona Mirror",
+      "state": "AZ",
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "The Arizona Education Association is the state’s largest teachers union, and it frequently advocates for or against legislation and political candidates on behalf of its more than 22,000 members. Republican lawmakers want to make it harder for the union to exist. Last month, GOP legislators gutted a bill about minimum wage to create a proposal […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T14:30:58+00:00"
+    },
+    {
+      "title": "Committee set to hear bill focusing on parent’s ‘rights’ to insist on child’s ‘biological reality’",
+      "url": "https://ohiocapitaljournal.com/2026/03/11/committee-set-to-hear-bill-focusing-on-parents-rights-to-insist-on-childs-biological-reality/",
+      "source": "Ohio Capital Journal",
+      "state": "OH",
+      "bucket": "keep",
+      "score": 4.6,
+      "tags": [
+        "anti-trans",
+        "lgbtq-panic"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "A new bill set to be heard in the Ohio General Assembly this week looks to codify gender identity regulations, in a measure that sponsors say would ensure “parents are not punished for raising their children consistent with biological reality.” The bill is being criticized by LGBTQ+ advocates as discriminatory against transgender youth. Ohio House […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T08:40:51+00:00"
+    },
+    {
+      "title": "Senate panel rejects bill barring DEI offices at private colleges",
+      "url": "https://iowacapitaldispatch.com/briefs/senate-panel-rejects-bill-barring-dei-offices-at-private-colleges/",
+      "source": "Iowa Capital Dispatch",
+      "state": "IA",
+      "bucket": "keep",
+      "score": 8.2,
+      "tags": [
+        "anti-dei"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "An Iowa Senate subcommittee refused Monday to advance a bill that would have withheld state-funded Iowa Tuition Grants from private colleges that open or maintain offices of diversity, equity and inclusion. All three members of the subcommittee spoke against House File 2488, after hearing from representatives of religious institutions and civil rights advocates who opposed […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T19:15:21+00:00"
+    },
+    {
+      "title": "Sen. Graham wants to ban state, local ‘sanctuary’ policies on immigration enforcement",
+      "url": "https://scdailygazette.com/2026/03/10/repub/state-local-policies-on-immigration-enforcement-targeted-by-us-senate-republicans/",
+      "source": "South Carolina Daily Gazette",
+      "state": "SC",
+      "bucket": "keep",
+      "score": 4.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — Senate Republicans during a Tuesday hearing laid the groundwork for legislation that would prevent state and local governments from making decisions on whether to limit cooperation with the federal government on immigration enforcement. Senate Budget Committee Chair Lindsey Graham of South Carolina argued that sanctuary cities — a term used by critics — […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T18:00:53+00:00"
+    },
+    {
+      "title": "School library book bans seen as targeting LGBTQ content - thegazette.com",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOdEc1aTZEbG5wTXRBVnFucUZrSkl2aUkzS25uSlRuSGFUelJpS0dLUjdLWGYtX2ZDNlJFQkc2Zl8wSV9xbGRkVkZRdjhWNXV5TDJFNk9zVkhtZ2xNUXZYSnRSeFBaUW1aZWg0bnlTYXAzaTBXZk5nMDJKdFdRZkJ3eTB1dUc3T2FqaE1mQWNoQUp3Q0NESkx4ZDFJUHRKVXBUTnVkcjBDRkthcTdFTzJoUG16RngtMVlMNGdtRVgwVC1HbWZHWVBuZkRBSHVmdzZXbUUzamRoSkp3Wm5D?oc=5",
+      "source": "Iowa",
+      "state": "IA",
+      "bucket": "keep",
+      "score": 6.4,
+      "tags": [
+        "book-bans",
+        "lgbtq-panic"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "School library book bans seen as targeting LGBTQ content thegazette.com",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T23:34:46+00:00"
+    },
+    {
+      "title": "‘It Doesn’t Need to Be Here’: The Right Vilifies a Muslim School in Alabama - The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNQzRjNnpaNzEzeXNkNDQ5UG9rNmczYmFQbTNqRHFDMUhvZUR2N1pMQlljanZ6QVR5d3NESEFfUHRreWd0ZFlLWEFGVnVGNkhrOWpOUlZkUkxFbmhYWUoyYkN0ZmRtYzdvWGFsbDlfUzVYTmZhdGV3REcwYU1RaTNtZWtmdUxJVmFpVjNMWlM2YzhId3JMMlFPaFd3?oc=5",
+      "source": "Religion and schools",
+      "state": null,
+      "bucket": "wings",
+      "score": 3.6,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "‘It Doesn’t Need to Be Here’: The Right Vilifies a Muslim School in Alabama The New York Times",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-16T17:45:40+00:00"
+    },
+    {
+      "title": "Muslim civil rights group files complaint over alleged Islamophobic posts by Corewell employee",
+      "url": "https://michiganadvance.com/2026/03/11/muslim-civil-rights-group-files-complaint-over-alleged-islamophobic-posts-by-corewell-employee/",
+      "source": "Michigan Advance",
+      "state": "MI",
+      "bucket": "wings",
+      "score": 3.6,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "The Michigan chapter of the Council on American-Islamic Relations said Wednesday it had filed a state civil rights complaint against Corewell Health, alleging the health system has failed to address social media posts by an employee who identified herself online as a “proud Islamophobe.” The complaint, a copy of which was provided in a press […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-11T15:22:45+00:00"
+    },
+    {
+      "title": "GU Republican Chapter Deletes Post About Muslim Americans After Community Backlash - The Hoya",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOVmtxTnFFNEVfU3MwdXJhRW42ZUxrTW5WVFo4Qm9wcW1zSDV2WXF1a180OEVZOUpzbFp5VUZHVk42V0tWak9tTUdZTzhpcEkwZnVhSGFKRmpPWE1KRjRsQTM0SDd6eThLN1JtMHVDTVhjYW5wSFdDc19acEJyWU84bU1yWVRBTFMyV0tTaFRhZ2E2RElvSm5jMHdVblZzdFUtV3N2VE5DOWp3LVlf?oc=5",
+      "source": "Sharia and anti-Muslim rhetoric",
+      "state": null,
+      "bucket": "keep",
+      "score": 5.4,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "GU Republican Chapter Deletes Post About Muslim Americans After Community Backlash The Hoya",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T12:49:34+00:00"
+    },
+    {
+      "title": "State, local immigration enforcement policies targeted by US Senate Republicans",
+      "url": "https://lailluminator.com/2026/03/10/repub/republicans-sanctuary/",
+      "source": "Louisiana Illuminator",
+      "state": "LA",
+      "bucket": "wings",
+      "score": 3.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — Senate Republicans during a Tuesday hearing laid the groundwork for legislation that would prevent state and local governments from making decisions on whether to limit cooperation with the federal government on immigration enforcement. Senate Budget Committee Chair Lindsey Graham of South Carolina argued that sanctuary cities — a term used by critics — […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T18:08:02+00:00"
+    },
+    {
+      "title": "She’s a conservative who was kicked off Trump’s Religious Liberty Commission - Baptist News Global",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNa2MyaWc1aE9JYnFxamhYdzkzRzhYdTF2WnY3Q3FXdFczZGZwTVg4VWh2Ml9mUE11UGlreV9uRzQ2djZ4aktwOXA1RVM2Q3ZiOTZKY1pZcVllNy1hNjdFMXhYTEdHY1ZlSTkwUGFQb3pNeDNDcmFYMEh2VUZVSEdmejEwREM1RzZjeEZwd3lVSnhTcU9rbWxkVWYtYTFEaVBtSjg3X2xuaVpxd2M?oc=5",
+      "source": "Texas",
+      "state": "TX",
+      "bucket": "wings",
+      "score": 3.4,
+      "tags": [
+        "religious-liberty"
+      ],
+      "angle": "religious-liberty grievance",
+      "summary": "She’s a conservative who was kicked off Trump’s Religious Liberty Commission Baptist News Global",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-17T02:12:59+00:00"
+    },
+    {
+      "title": "Homeland Security repair job awaits Trump’s next pick, Oklahoma’s Mullin",
+      "url": "https://ohiocapitaljournal.com/2026/03/16/repub/homeland-security-repair-job-awaits-trumps-next-pick-oklahomas-mullin/",
+      "source": "Ohio Capital Journal",
+      "state": "OH",
+      "bucket": "wings",
+      "score": 3.4,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T16:54:48+00:00"
+    },
+    {
+      "title": "Conservatives Go To War Against Trump Military Nominee Accused Of Promoting DEI - AOL.com",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNVURSNzNpZVZsbnVxVUJqOVhTN0dXRVpQVHp4UWhIVG1BeDdaV20wSlV6SXJtTnROSVIwS1BfYjQtUkEwaVhIV1BxV0I2YVZYVTBrQVdzc1I5a09JYkMwWmRhcmJDbFRwNEVob19UcmRkWEFLd2stcUtFUUpXYmszcnZUZGtHcVlhNzlGZw?oc=5",
+      "source": "DEI backlash",
+      "state": null,
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [
+        "anti-dei"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "Conservatives Go To War Against Trump Military Nominee Accused Of Promoting DEI AOL.com",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T11:52:03+00:00"
+    },
+    {
+      "title": "Georgetown University Republican group sparks outrage with anti-Muslim post - NBC4 Washington",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOMzdJSXdGa2xWSW0yRE15amFqUzRReXVHV0ZEOG1YVUN4WEFDdURaRWtJeTFudEtwMEdlWVhLcWpCbU1wcHZYb243TVBNeU9ia0JWanlKVzVVNzltRGhoeEtKY1dnSjR6UkxUVnhzTUFaem9FNnJLUjB1UGt0OXBZN0FzdVNSUldWaEkzTm5Hb0hzMWVESGF3a2pnOHBfMFVNQTJuLWR4OXRhSU1fODVMWFlIeV8zekNtb0F0TDJvU3VSRmfSAcsBQVVfeXFMTzEtTUNfSEdHR3lKTUtsRUZGb2l0OUV3bG9DWE1YQjZfX2lKVnJDZDdlWHdZdGtwSFB6cXRNd1ZNZEMxdEkzOW1aOVFMaFZjalNGVkNuYkZfbFd5Y2UzbnJOQ1VlX29tY0VRUExMSHF4REFadG9UdjdNUldPWDBPWmlON2k1TlhRUlVZV05admluNDRLdmNyekRsM0p1Uzc1REFGNThtUkIzT2RWc0NXb1NnNjFkRm9hT3FOYVZkNExiT3NuVWRQWm1qbVk?oc=5",
+      "source": "Sharia and anti-Muslim rhetoric",
+      "state": null,
+      "bucket": "keep",
+      "score": 5.4,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Georgetown University Republican group sparks outrage with anti-Muslim post NBC4 Washington",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T21:39:48+00:00"
+    },
+    {
+      "title": "Homeland Security repair job awaits Trump’s next pick, Markwayne Mullin",
+      "url": "https://iowacapitaldispatch.com/2026/03/13/repub/homeland-security-repair-job-awaits-trumps-next-pick-markwayne-mullin/",
+      "source": "Iowa Capital Dispatch",
+      "state": "IA",
+      "bucket": "wings",
+      "score": 3.4,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T19:02:29+00:00"
+    },
+    {
+      "title": "Only Muslim Woman on Trump's MAGA Religious Committee Resigns in Protest of Iran War - Yahoo",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOWFRCdkh4bUo5YUkwdWVETElHSHBvakpueDFEWEVBYXg1VWJfM1E2d1ZEOXhCU1ZhZ3lpbmRvcnZIeGxzVmZjLTJmdFFPWlNaSlNyMTBJUWJROWY3X1ZnX2VEMm5VSFk1Y196Wnd4TkdwR1lMY1A1QlA0RGRBMDhzRTk2alBvUms?oc=5",
+      "source": "Religious liberty pluralism backlash",
+      "state": null,
+      "bucket": "keep",
+      "score": 6.2,
+      "tags": [
+        "anti-muslim",
+        "religious-liberty"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Only Muslim Woman on Trump's MAGA Religious Committee Resigns in Protest of Iran War Yahoo",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T16:58:06+00:00"
+    },
+    {
+      "title": "MAGA fans freak out over Trump's secret new appointment: 'DEI on steroids' - rawstory.com",
+      "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE0zVWF6bHhrSEd2aExKS0xycnFoYmxPS01xVVdaRVMyc2UyVFhNaU5qdWhNS24wX2djQk4tTVZlSUJNaW51STJkYWctOXg4OW9TcXfSAWRBVV95cUxQZWY4TFoxMEdPRzZsakw4cjE1NW96UDdYdUlDNFR1SDFDclJFTFRpc2RHM3liamdDc0l2bDVCVlNEcG51cGZ3bUJDRVhGd3NGMHZQOVhEb3dVemxESW9qYmRYZGw1?oc=5",
+      "source": "Book bans and curriculum",
+      "state": null,
+      "bucket": "keep",
+      "score": 6.2,
+      "tags": [
+        "anti-dei",
+        "book-bans"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "MAGA fans freak out over Trump's secret new appointment: 'DEI on steroids' rawstory.com",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T19:26:00+00:00"
+    },
+    {
+      "title": "Idaho House passes criminal transgender bathroom ban in business, government buildings",
+      "url": "https://idahocapitalsun.com/2026/03/16/idaho-house-passes-criminal-transgender-bathroom-ban-in-business-government-buildings/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "The Idaho House on Monday widely passed a bill to criminalize “willfully” entering public and government bathrooms and changing rooms designated for another sex. The bill would effectively block transgender people from using their preferred public bathrooms in Idaho, expanding on the state’s transgender bathroom ban in public schools. House Bill 752 would create criminal […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T18:03:49+00:00"
+    },
+    {
+      "title": "Monday bond hearing in Louisiana set for Nashville reporter detained by ICE",
+      "url": "https://tennesseelookout.com/2026/03/16/monday-bond-hearing-in-louisiana-set-for-nashville-reporter-detained-by-ice/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Estefany Rodríguez, a Nashville Spanish-language news reporter detained earlier this month by ICE agents, is scheduled to appear in a Louisiana immigration court for a bond hearing today, court records show. Separately, a federal judge set a hearing in Nashville on Tuesday to consider constitutional challenges to the detention brought by Rodríguez’ attorneys. Rodríguez was […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T10:01:09+00:00"
+    },
+    {
+      "title": "Idaho House to consider bills amending 2024 ‘harmful to minors’ library law",
+      "url": "https://idahocapitalsun.com/2026/03/12/idaho-house-to-consider-bills-amending-2024-harmful-to-minors-library-law/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 3.6,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "Amid two lawsuits challenging Idaho’s 2024 law restricting access to library materials deemed harmful for minors, a House committee advanced two bills amending definitions in the law. Together they would remove some vague language in the existing law and create different standards for private and public school libraries books. Nampa Republican Rep. Jaron Crane said […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T22:04:01+00:00"
+    },
+    {
+      "title": "Immigration judges speeding up removal cases involving Somali people",
+      "url": "https://arkansasadvocate.com/2026/03/14/repub/immigration-judges-speeding-up-removal-cases-involving-somali-people/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "On Jan. 30, as immigration attorney Matthew Mockenhaupt was representing a client in a hearing, his email inbox flooded with calendar invites from the court. He’d never seen the court schedule so many hearings on such short notice — and, even stranger, all of the cases involved people from Somalia. Since then, the pattern has […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-14T10:00:15+00:00"
+    },
+    {
+      "title": "Tennessee Congressman sparks outrage with anti-Muslim rant - ArabAmericanNews",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNUlJNM2Qta1NGZmh3WVBKVGVfVmJKNUg0YnIxZlROQk1IWGRpVlg5QmNIdFpTeHRLUFNUX0dvendxRG5CZ2ROQ3phalpxTVVsbzRlZFpCaW1sX29PQjBBYXpIUWh2VE9mNEVrX0NyUTlydXhkTy1oTnUtSVpVYU5rQmxQVlk3Y0NjNHQwaU9OOWlvdVNvUk5Ma2RfLXduX0hf?oc=5",
+      "source": "Religious liberty pluralism backlash",
+      "state": null,
+      "bucket": "keep",
+      "score": 5.6,
+      "tags": [
+        "anti-muslim",
+        "religious-liberty"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Tennessee Congressman sparks outrage with anti-Muslim rant ArabAmericanNews",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T09:48:09+00:00"
+    },
+    {
+      "title": "This tale of a Chicago school book ban was inspired by true events",
+      "url": "https://www.npr.org/2026/03/12/nx-s1-5744667/wake-now-in-the-fire-book-review",
+      "source": "NPR Education",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "Librarian Jarrett Dapier's graphic novel tells a fictionalized account of real-life events in 2013 that restricted access to Marjane Satrapi's memoir Persepolis in Chicago Public Schools.",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T17:36:51+00:00"
+    },
+    {
+      "title": "United CEO’s Merit Hiring Comment Spurs DEI Backlash - thetraveler.org",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOWnRkLWJTSklqT0JSMFRza1NmR045VHBzWUJhd2lLNndlSHhTVGE1Vi14OTZkcTVFS0Z5ZldxTFhGQXIzellYRkJYdkxtTXpfVXZ5aWFmRVpoZkVlaGc5Q0pkeFZabEI0WEZKc2FhYnFmWXNtczVucG5GQzliemNka1lMUjg1Vmc?oc=5",
+      "source": "DEI backlash",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [
+        "anti-dei"
+      ],
+      "angle": "anti-dei backlash",
+      "summary": "United CEO’s Merit Hiring Comment Spurs DEI Backlash thetraveler.org",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T09:14:35+00:00"
+    },
+    {
+      "title": "Oklahoma officials announce candidacy for Congressional seats in wake of Mullin DHS nomination",
+      "url": "https://oklahomavoice.com/briefs/oklahoma-officials-announce-candidacy-for-congressional-seats-in-wake-of-mullin-dhs-nomination/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "OKLAHOMA CITY — Candidates are lining up to run for open Oklahoma Congressional seats following a recent White House appointment. President Donald Trump announced U.S. Sen. Markwayne Mullin as his replacement for Kristi Noem as the next head of the Department of Homeland Security, which has faced scrutiny for enforcement of immigration policy. His Senate […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T20:23:51+00:00"
+    },
+    {
+      "title": "Bill advances to remove next year’s BESE elections from closed primary system",
+      "url": "https://lailluminator.com/2026/03/15/bese-closed-primary/",
+      "source": "Louisiana Illuminator",
+      "state": "LA",
+      "bucket": "wings",
+      "score": 2.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "A proposal to remove state school board elections from Louisiana’s closed party primaries has advanced in the Louisiana Legislature, just weeks ahead of the first races to use the new system. Senate Bill 49, by Sen. Alan Seabaugh, R-Many, would move next year’s elections for the Board of Elementary and Secondary Education into the open […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-15T20:00:23+00:00"
+    },
+    {
+      "title": "Supreme Court takes up Trump efforts to curtail protections for Haitians, Syrians",
+      "url": "https://thehill.com/regulation/court-battles/5786518-supreme-court-tps-trump-battle/",
+      "source": "The Hill",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "The Supreme Court agreed on Monday to review the Trump administration’s power to curtail temporary protections for migrants from countries experiencing extraordinary conditions, setting the stage for a high-stakes battle over the president’s immigration crackdown this spring. Until they hear oral arguments the week of April 27, the justices will keep intact lower rulings that block the administration from terminating Syria and Haiti’s designations for the Temporary…",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T19:38:39+00:00"
+    },
+    {
+      "title": "Appeals court allows Trump to swiftly deport migrants to third countries",
+      "url": "https://thehill.com/regulation/court-battles/5786361-trump-administration-deportations-appeal/",
+      "source": "The Hill",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "A federal appeals court ruled Monday that the Trump administration may keep swiftly deporting migrants to countries where they have no ties as a legal challenge unfolds. The 2-1 vote on the U.S. Court of Appeals for the 1st Circuit contained no explanation. The panel also expedited the schedule for the case’s next stage. The Trump administration as part of its aggressive immigration…",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T18:21:34+00:00"
+    },
+    {
+      "title": "Immigration enforcement threatens housing security, rippling through local economies",
+      "url": "https://michiganadvance.com/2026/03/16/repub/immigration-enforcement-threatens-housing-security-rippling-through-local-economies/",
+      "source": "Michigan Advance",
+      "state": "MI",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "As federal immigration officers made more “at-large” arrests in communities across the country in the first year of the current Trump administration — including at homes, places of worship and workplaces — more than 1,100 Nebraska families developed family safety plans in the event a parent or breadwinner faced detention or deportation. These plans help […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T17:17:22+00:00"
+    },
+    {
+      "title": "ICE buys a Salt Lake City warehouse with plans for a new detention center",
+      "url": "https://idahocapitalsun.com/2026/03/16/repub/ice-buys-a-salt-lake-city-warehouse-with-plans-for-a-new-detention-center/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "A Salt Lake City warehouse is the latest in the nation to be purchased by U.S. Immigration and Customs Enforcement as the Trump administration plans a $45 billion expansion of detention centers. The U.S. Department of Homeland Security, which oversees ICE, and a Delaware company on Wednesday finalized the $145.4 million deal, county property records […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T10:00:00+00:00"
+    },
+    {
+      "title": "Iranian Americans rally in Detroit both supporting effort to topple Tehran regime and in opposition",
+      "url": "https://oklahomavoice.com/2026/03/16/repub/iranian-americans-rally-in-detroit-both-supporting-effort-to-topple-tehran-regime-and-in-opposition/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "identity-outrage story",
+      "summary": "While many Americans remain opposed to the undeclared war launched against Iran last month by President Donald Trump and Israeli Prime Minister Benjamin Netanyahu, downtown Detroit Sunday featured supporters of the military action against the Islamic regime and its proxies. Mark Masoud, 63, wearing a Trump hat and holding a Persian flag, arrived with his […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T20:22:56+00:00"
+    },
+    {
+      "title": "Emotional Erika Kirk Torched Over Bizarre Remarks About 'Young White Men' During Speech — 'She's So Repulsive' - RadarOnline",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQMVFzZ3Q2bFlVOEJOUTlCSzRQa1YtNUdxNDl3c1lDU0NwMnFDaUl5Z3E5bjRjb3hES1Byd2tuQ3lqeGdqMlo5ZnRndGF3TmFVTU0zQVoyWC1DZE0xNHJSN19Hd2tWTWlXbDdwdjZnVGNDSnQ5LWw1enpZUkZKUU1NdmdvQnc3ZW5pNUJ4SjAzODNFUkpfQTZpWkdn?oc=5",
+      "source": "White grievance personalities",
+      "state": null,
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "white-grievance"
+      ],
+      "angle": "white grievance rhetoric",
+      "summary": "Emotional Erika Kirk Torched Over Bizarre Remarks About 'Young White Men' During Speech — 'She's So Repulsive' RadarOnline",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T21:56:55+00:00"
+    },
+    {
+      "title": "Multiple Republicans in Congress post openly anti-Muslim statements - NBC News",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNcVhVdGhtRk9VMWZZWkxIVVVwV2NWdW1iVi1kNURCVkRrSFFxMG03QmMtSjY4UXhGTjlGZ2p6TmlGd3h5Z2gybVB1dDJ6X0lRUTdraHY2R0VkMUJVVjg2ZUVDR2pIdDZiSFFjME9wUjFXQkRVNnVrOFJMdnE3Tm1SdW03djh5cTZkZTdJX3BOMmRLYk9LUU1VMTJnbjlQLUgxdVdtdzFFWkxxQ3UtcHhWZ1loMTI?oc=5",
+      "source": "Sharia and anti-Muslim rhetoric",
+      "state": null,
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Multiple Republicans in Congress post openly anti-Muslim statements NBC News",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T20:00:09+00:00"
+    },
+    {
+      "title": "Helping refugees in Wisconsin navigate upheaval, uncertainty and fear",
+      "url": "https://wisconsinexaminer.com/2026/03/13/helping-refugees-in-wisconsin-navigate-upheaval-uncertainty-and-fear/",
+      "source": "Wisconsin Examiner",
+      "state": "WI",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Zabi Sahibzada, refugee resettlement director for Jewish Social Services (JSS) in Madison, Wisconsin, has lived through war, displacement, the collapse of Afghanistan and the cataclysmic consequences of shifting U.S. policies abroad and at home. Today, even as our country plunges into a new war in the Middle East, the Trump administration has pulled back from […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T10:15:55+00:00"
+    },
+    {
+      "title": "Oklahoma AG challenges Jewish charter school vote",
+      "url": "https://oklahomavoice.com/2026/03/12/oklahoma-ag-challenges-jewish-charter-school-vote/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [],
+      "angle": "book bans and curriculum",
+      "summary": "OKLAHOMA CITY — Attorney General Gentner Drummond again took a state board to court over its vote on a religious charter school. The Statewide Charter School Board on Monday rejected an application to open Ben Gamla Jewish Charter School because its curriculum would include religious teaching. Drummond alleged the vote was deliberately rigged to benefit […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T16:34:05+00:00"
+    },
+    {
+      "title": "Republicans Risk Wiping Out Gains With Muslim Voters - Newsweek",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPcllPVlRkazJTbjRudGh5elh4Zi13TDNkY01ia3VDUlVjM19wVVM1b3pLTkxwd2I4QlY3SVdhd2E1SldsVzlzR1Rtak1lQzFnbTZsYkxVNnF1OFRpNS1fbFBnbEZoU05fUG9DWlEweDBOTjlXUjVKVy0zYWozWG5LRE5KRzV6RDZSUDVv?oc=5",
+      "source": "Sharia and anti-Muslim rhetoric",
+      "state": null,
+      "bucket": "keep",
+      "score": 4.4,
+      "tags": [
+        "anti-muslim"
+      ],
+      "angle": "anti-muslim backlash",
+      "summary": "Republicans Risk Wiping Out Gains With Muslim Voters Newsweek",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T15:45:00+00:00"
+    },
+    {
+      "title": "Tennessee Republican ‘Immigration 2026’ agenda bills advance in legislature",
+      "url": "https://tennesseelookout.com/2026/03/12/tennessee-republican-immigration-2026-agenda-bills-advance-in-legislature/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Republican House members on Wednesday advanced a bill to create a new state crime for immigrants who remain in Tennessee after receiving a final deportation order — a measure that, by design, is intended to trigger a Supreme Court challenge. The bill (HB1704/SB 1779) by House Leader William Lamberth, a Gallatin Republican, would create a […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T10:02:34+00:00"
+    },
+    {
+      "title": "Tennessee senators move amended English-only driver’s license testing",
+      "url": "https://tennesseelookout.com/2026/03/12/tennessee-senators-move-amended-english-only-drivers-license-testing/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Tennessee lawmakers are pushing a watered-down version of an English-only driver’s license testing bill as part of their 2026 immigration package formulated with the White House. Senate Bill 1889 sponsored by Republican Sen. Brent Taylor of Shelby County passed the Transportation Committee Wednesday with an amendment that allows applicants to take the initial test in […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T10:01:06+00:00"
+    },
+    {
+      "title": "Trump’s DHS pick Markwayne Mullin would inherit Kristi Noem’s messes",
+      "url": "https://azmirror.com/2026/03/13/repub/trumps-dhs-pick-markwayne-mullin-would-inherit-kristi-noems-messes/",
+      "source": "Arizona Mirror",
+      "state": "AZ",
+      "bucket": "wings",
+      "score": 3.4,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "WASHINGTON — If Oklahoma GOP Sen. Markwayne Mullin is confirmed by the Senate to lead the Department of Homeland Security, he will take over an agency that has faced a weeks-long funding lapse, public blowback to its immigration enforcement strategy and a bottleneck of disaster relief awards left by his predecessor that drew bipartisan ire. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-13T19:24:10+00:00"
+    },
+    {
+      "title": "Bill requiring immigration status checks in Tennessee public schools advances in legislature",
+      "url": "https://tennesseelookout.com/briefs/bill-requiring-immigration-status-checks-in-tennessee-public-schools-advances-in-legislature/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "A bill requiring Tennessee public schools to gather data on student immigration status and report it to the state education department advanced out of a House legislative committee Tuesday. The bill (HB073/SB0836) was introduced last year as part of a Republican effort to challenge Supreme Court precedent requiring public schools to enroll all children regardless […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T10:11:22+00:00"
+    },
+    {
+      "title": "University of Arkansas law school narrows interim dean search",
+      "url": "https://arkansasadvocate.com/briefs/university-of-arkansas-law-school-narrows-interim-dean-search/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "University of Arkansas law school faculty and staff were asked Tuesday to provide feedback on two candidates for interim dean. University officials requested recommendations for the position last month after the law school abruptly rescinded its offer to the incoming dean following complaints from key Republicans about her background and legal positions on transgender athletes. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T21:00:53+00:00"
+    },
+    {
+      "title": "Pa. House panel advances package of bills to codify LGBTQ protections",
+      "url": "https://penncapital-star.com/civil-rights-social-justice/pa-house-panel-advances-package-of-bills-to-codify-lgbtq-protections/",
+      "source": "Pennsylvania Capital-Star",
+      "state": "PA",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "lgbtq-panic"
+      ],
+      "angle": "identity-outrage story",
+      "summary": "Almost all the measures passed on partisan lines, with the bill codifying same sex marriage protections receiving two Republican votes.",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T20:32:30+00:00"
+    },
+    {
+      "title": "Conservative groups escalate Title IX complaint against Kansas school district over trans policies",
+      "url": "https://kansasreflector.com/2026/03/10/conservative-groups-escalate-title-ix-complaint-against-kansas-school-district-over-trans-policies/",
+      "source": "Kansas Reflector",
+      "state": "KS",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "TOPEKA — Conservative nonprofits added pressure to the federal investigation into the Shawnee Mission school district that began last year by sending a supplemental complaint outlining the “emotional distress” cisgender students face around transgender students and district policies. The supplemental Title IX complaint they sent to the U.S. Department of Education outlines a then-first-grader’s distress […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T13:00:28+00:00"
+    },
+    {
+      "title": "Court cases alleging unlawful immigration detention skyrocket in Louisiana",
+      "url": "https://lailluminator.com/2026/03/10/immigration-courts/",
+      "source": "Louisiana Illuminator",
+      "state": "LA",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "As the number of people held inside immigration detention centers in the United States climbs to record highs under the Trump administration, so have the amount of federal court cases from immigrants claiming that their detention is unlawful.",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-10T10:00:00+00:00"
+    },
+    {
+      "title": "Federal judge blocks Arkansas’ Ten Commandments law",
+      "url": "https://arkansasadvocate.com/2026/03/16/federal-judge-blocks-arkansas-ten-commandments-law/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "reject",
+      "score": 2.0,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "A federal judge on Monday permanently blocked six Arkansas school districts from enforcing a state law requiring displays of the Ten Commandments in every classroom, declaring the 2025 measure unconstitutional. Seven families of various religious and nonreligious backgrounds filed the original lawsuit last June against the Fayetteville, Springdale, Bentonville and Siloam Springs school districts. They […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-16T21:21:27+00:00"
+    },
+    {
+      "title": "Oklahoma senators warn effort to ban sexually explicit books could block students’ Bible access",
+      "url": "https://oklahomavoice.com/2026/03/11/senate-fights-over-bill-banning-sexually-explicit-library-books-in-oklahoma-schools/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "wings",
+      "score": 3.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "OKLAHOMA CITY – A bill advancing through the Legislature aimed at removing sexually explicit books from schools could take the Bible off of library shelves and would be a nightmare to navigate, critics said. Senate Bill 1250 creates a process where a parent or guardian could seek to remove books deemed offensive from the library […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-11T20:10:44+00:00"
+    },
+    {
+      "title": "New book restrictions cost Alabama libraries hundreds of hours, thousands of dollars",
+      "url": "https://alabamareflector.com/2026/03/16/new-book-restrictions-cost-alabama-libraries-hundreds-of-hours-thousands-of-dollars/",
+      "source": "Alabama Reflector",
+      "state": "AL",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "Changes to state library regulations over the past two years have created confusion among Alabama libraries, forcing them to reallocate resources to comply with code changes and causing dismay among those who believed they had to choose between receiving state aid or adhering to their ethical principles. The new restrictions, targeting what the Alabama Public […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-16T12:01:51+00:00"
+    },
+    {
+      "title": "Texas clarifies voucher rules to help more families access future special ed support",
+      "url": "https://feeds.texastribune.org/link/16799/17298519/texas-school-vouchers-disability-students-comptroller",
+      "source": "Texas Tribune",
+      "state": "TX",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "After reporting from The Texas Tribune, the office tasked with handing out vouchers clarified that families who do not complete a special education evaluation this year may have a chance to qualify for more funding in future years.",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-12T23:50:13+00:00"
+    },
+    {
+      "title": "Texas students with disabilities struggle to qualify for extra school voucher funds",
+      "url": "https://feeds.texastribune.org/link/16799/17298008/texas-vouchers-students-disabilities-assessment",
+      "source": "Texas Tribune",
+      "state": "TX",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Confusion over the program’s special education requirements is making it difficult for families to meet a looming deadline — and creating more work for Texas school districts.",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-12T10:00:00+00:00"
+    },
+    {
+      "title": "Idaho House passes bill to force schools and doctors to out transgender minors to their parents",
+      "url": "https://idahocapitalsun.com/2026/03/11/idaho-house-passes-bill-to-force-schools-and-doctors-to-out-transgender-minors-to-their-parents/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "The Idaho House widely passed a bill Wednesday that would require school officials and health professionals to out transgender minors to their parents, or face lawsuits. House Bill 822 would require schools, health care providers and child care providers to notify parents within three days after the entities receive “any request by the minor student […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-11T21:53:52+00:00"
+    },
+    {
+      "title": "GOP push to expand Tennessee voucher program to 40K students clears first hurdle",
+      "url": "https://tennesseelookout.com/2026/03/12/gop-push-to-expand-tennessee-voucher-program-to-40k-students-clears-first-hurdle/",
+      "source": "Tennessee Lookout",
+      "state": "TN",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "This story was originally published by Chalkbeat. Sign up for their newsletters at ckbe.at/newsletters Sign up for Chalkbeat Tennessee’s free newsletter to keep up with statewide education policy and Memphis-Shelby County Schools. A GOP push to double the number of students in Tennessee’s voucher program cleared its first hurdle in the General Assembly on Tuesday. […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-12T09:59:44+00:00"
+    },
+    {
+      "title": "Arkansas education department accepting applications for voucher program’s fourth year",
+      "url": "https://arkansasadvocate.com/briefs/arkansas-education-department-accepting-applications-for-voucher-programs-fourth-year/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Applications for Arkansas’ school voucher program are now open, the state’s education department announced Tuesday. This marks the fourth year of the program and the second year it’s been open to all Arkansas K-12 students after being phased in with increasing eligibility. Created under an expansive 2023 education law, the Educational Freedom Account program permits […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-10T18:29:15+00:00"
+    },
+    {
+      "title": "Idaho bill would force schools, doctors to out transgender minors to their parents",
+      "url": "https://idahocapitalsun.com/2026/03/10/idaho-bill-would-force-schools-doctors-to-out-transgender-minors-to-their-parents/",
+      "source": "Idaho Capital Sun",
+      "state": "ID",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "anti-trans"
+      ],
+      "angle": "anti-trans panic",
+      "summary": "Under a bill headed to the Idaho House, health care providers, schools and child care providers would be required to out transgender minors to their parents, or face lawsuits. House Bill 822 would require schools, health care providers and child care providers to notify parents within three days after the entities receive “any request by […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-10T17:49:51+00:00"
+    },
+    {
+      "title": "First Lady nears fundraising goal for Dolly Parton library program",
+      "url": "https://indianacapitalchronicle.com/briefs/first-lady-nears-fundraising-goal-for-dolly-parton-library-program/",
+      "source": "Indiana Capital Chronicle",
+      "state": "IN",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "First Lady Maureen Braun on Tuesday hosted her second annual Indiana First Lady’s Breakfast and announced she has almost reached a goal to fund Dolly Parton’s Imagination Library of Indiana. The breakfast supported the fundraising initiative, which launched in 2025 is now 90% of the way to its goal for funding cycle running from July […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-10T17:15:42+00:00"
+    },
+    {
+      "title": "New exhibit at Clinton presidential library focuses on Constitutional amendments",
+      "url": "https://arkansasadvocate.com/2026/03/10/new-exhibit-at-clinton-presidential-library-focuses-on-constitutional-amendments/",
+      "source": "Arkansas Advocate",
+      "state": "AR",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [
+        "book-bans"
+      ],
+      "angle": "book bans and curriculum",
+      "summary": "The 1957 executive order signed by President Dwight Eisenhower to enforce the desegregation of Little Rock Central High School is one of the documents on display at the Clinton Presidential Center at a new exhibit chronicling the history of the 27 amendments to the Constitution. “Making Amends,” which opens Tuesday at the Little Rock museum […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-10T10:00:20+00:00"
+    },
+    {
+      "title": "Meet the Republican candidates running in Ohio’s 9th Congressional District primary",
+      "url": "https://ohiocapitaljournal.com/2026/03/16/meet-the-republican-candidates-running-in-ohios-9th-congressional-district-primary/",
+      "source": "Ohio Capital Journal",
+      "state": "OH",
+      "bucket": "wings",
+      "score": 2.6,
+      "tags": [
+        "immigration"
+      ],
+      "angle": "anti-immigrant panic",
+      "summary": "Five candidates are running in Ohio’s 9th Congressional District’s Republican Primary to challenge the long-time incumbent Marcy Kaptur. The candidates are Ohio state Rep. Josh Williams, former Ohio state Rep. Derek Merrin, former Air National Guard Lieutenant Colonel in the Alea Nadeem, former deputy director of U.S. Immigration and Customs Enforcement Madison Sheahan, and health […]",
+      "reason": "On-theme identity/pluralism backlash story.",
+      "published": "2026-03-16T08:55:47+00:00"
+    },
+    {
+      "title": "Wauwatosa middle school student leads charge for a state ban on animal tests for cosmetics",
+      "url": "https://wisconsinexaminer.com/2026/03/11/wauwatosa-middle-school-student-leads-charge-for-a-state-ban-on-animal-tests-for-cosmetics/",
+      "source": "Wisconsin Examiner",
+      "state": "WI",
+      "bucket": "reject",
+      "score": 1.0,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Abby Wurzburger, a 14-year-old from Wauwatosa, is leading the charge on a bill to ban animal testing by cosmetics manufacturers in Wisconsin. “Although the total number of animals and testing facilities are not disclosed to the public, this doesn’t stop the fact that any amount of unnecessary testing is too much,” Wurzburger said at a […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-11T10:45:58+00:00"
+    },
+    {
+      "title": "WV lawmakers give schools flexibility to shorten their school calendar length",
+      "url": "https://westvirginiawatch.com/briefs/wv-lawmakers-give-schools-flexibility-to-shorten-their-school-calendar-length/",
+      "source": "West Virginia Watch",
+      "state": "WV",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "West Virginia public schools would have more flexibility to change the length of the school year, according to a bill that is nearing the governor’s desk for consideration. The House of Delegates passed Senate Bill 890 on Wednesday allowing schools to have students meet for a total 954 hours of instructional time in a school […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-12T18:37:14+00:00"
+    },
+    {
+      "title": "Braun backs more Turning Point school clubs in Indiana to balance ‘the other side’",
+      "url": "https://indianacapitalchronicle.com/2026/03/12/braun-backs-more-turning-point-school-clubs-in-indiana-to-balance-the-other-side/",
+      "source": "Indiana Capital Chronicle",
+      "state": "IN",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Gov. Mike Braun endorsed establishing student chapters of the conservative group Turning Point USA at all Indiana schools in starkly political terms, even while saying he wanted to protect free speech rights for all.",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-12T18:09:44+00:00"
+    },
+    {
+      "title": "Kansas attorney general enters Indiana fight on student’s right to post political fliers at school",
+      "url": "https://kansasreflector.com/briefs/kansas-attorney-general-enters-indiana-fight-on-students-right-to-post-political-fliers-at-school/",
+      "source": "Kansas Reflector",
+      "state": "KS",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Kansas' attorney general wades into Indiana fight over alleged violation of student's First Amendment right to post anti-abortion posters in a high school.",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-11T19:08:17+00:00"
+    },
+    {
+      "title": "How a High School Librarian in Abilene Fought Back Against Moms for Liberty - The Texas Observer",
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB4OUVPNHFIN3hfb1RMOVhETGdYX0FYcVhQUlB2anpDN3pXS3prRXBIRUFjeEc1U2tfblF1c0JtdU9ZMXdnVC00ZFJqTFZzU2UxNGhRSWlac3NZTENOLWFfMUlvd194N2hCNkVWUExn?oc=5",
+      "source": "Texas",
+      "state": "TX",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "How a High School Librarian in Abilene Fought Back Against Moms for Liberty The Texas Observer",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-11T16:17:45+00:00"
+    },
+    {
+      "title": "Ohio bill would compel online education resource providers to police ‘obscene’ materials",
+      "url": "https://ohiocapitaljournal.com/2026/03/11/ohio-bill-would-compel-online-education-resource-providers-to-police-obscene-materials/",
+      "source": "Ohio Capital Journal",
+      "state": "OH",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "A new Ohio bill seeks to regulate some of the companies who provide online resources for the state’s public schools and libraries. Republican lawmakers leading the bill claim “inappropriate” content has been leaking through. Ohio House Bill 583 would target the two vendors used for online information databases in a majority of public schools and […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-11T08:50:36+00:00"
+    },
+    {
+      "title": "Court review of Calcasieu desegregation order takes school board by surprise",
+      "url": "https://lailluminator.com/2026/03/11/school-desegregation/",
+      "source": "Louisiana Illuminator",
+      "state": "LA",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "Retired Judge Ron Ware still remembers driving by Lake Charles High School’s campus with his sister Frances and his dad, admiring the stately oak trees framing its grounds. “I’d like to go to that high school,” he remembers Frances saying, the picturesque campus a perfect fit for his older sister’s artistic sensibilities. There was just […]",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-11T10:00:21+00:00"
+    },
+    {
+      "title": "Supporters of the new federal school choice tax credit pressure Gov. Shapiro to opt in",
+      "url": "https://penncapital-star.com/education/supporters-of-the-new-federal-school-choice-tax-credit-pressure-gov-shapiro-to-opt-in/",
+      "source": "Pennsylvania Capital-Star",
+      "state": "PA",
+      "bucket": "wings",
+      "score": 1.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "The strategy from Shapiro and other Democratic governors to put off making a yes-or-no decision on the tax credits reflects the barrage of political pressures they are facing.",
+      "reason": "Borderline but worth a second look.",
+      "published": "2026-03-16T19:00:11+00:00"
+    },
+    {
+      "title": "DeSantis’ resolve to pass his vaccine policies strengthens as measles cases continue to rise",
+      "url": "https://alabamareflector.com/2026/03/16/repub/desantis-resolve-to-pass-his-vaccine-policies-strengthens-as-measles-cases-continue-to-rise/",
+      "source": "Alabama Reflector",
+      "state": "AL",
+      "bucket": "reject",
+      "score": 1.6,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "His attempt to alter the state’s vaccine policies for school children failed during the now-concluded legislative session, but Gov. Ron DeSantis said late Friday that he remains committed to seeing his policies pass before having to leave his post in January 2027. The 2026 regular session was DeSantis’ last as governor, but the Republican could […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-16T20:01:28+00:00"
+    },
+    {
+      "title": "Lawmakers grapple with future of Oklahoma high school sports governing body",
+      "url": "https://oklahomavoice.com/2026/03/10/lawmakers-divided-over-path-forward-for-oklahoma-high-school-sports-governing-body/",
+      "source": "Oklahoma Voice",
+      "state": "OK",
+      "bucket": "reject",
+      "score": 0.8,
+      "tags": [],
+      "angle": "identity-outrage story",
+      "summary": "OKLAHOMA CITY — Over a month after Oklahoma’s governor called for the abolition of an organization that governs high school athletics, lawmakers remain divided over whether the century-old body needs an overhaul. Supporters of the Oklahoma Secondary School Activities Association contend that the body has become a scapegoat for providing unpopular, but needed, regulatory oversight. […]",
+      "reason": "Generic scandal, real-world crime, violence, or off-theme politics.",
+      "published": "2026-03-10T10:30:31+00:00"
     }
   ]
 }
