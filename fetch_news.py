@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 import datetime as dt
 import html
@@ -92,11 +93,7 @@ def build_google_news_rss(query: str) -> str:
     return f"https://news.google.com/rss/search?q={quoted}+when:{ROLLING_DAYS}d&hl=en-US&gl=US&ceid=US:en"
 
 def parse_date(entry) -> str:
-    for raw in (
-        getattr(entry, "published", None),
-        getattr(entry, "updated", None),
-        getattr(entry, "created", None),
-    ):
+    for raw in (getattr(entry, "published", None), getattr(entry, "updated", None), getattr(entry, "created", None)):
         if raw:
             try:
                 return parsedate_to_datetime(raw).astimezone(dt.timezone.utc).isoformat()
@@ -140,22 +137,18 @@ def analyze_text(text: str) -> dict:
     a = collect_matches(ACTORS, t)
     c = collect_matches(CRIME, t)
     s = collect_matches(SCANDAL, t)
-
     score = round(len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6, 1)
-
     schoolish = any(term_matches(x, t) for x in [
         "school", "schools", "school board", "curriculum", "library",
         "book ban", "banned books", "voucher", "religious liberty",
         "parents' rights", "parents rights"
     ])
-
     maybe = (
         ((i and o) or (i and a) or len(i) >= 2 or (score >= 2.2 and i))
         or (schoolish and (i or o or a))
         or (len(i) >= 1 and len(o) >= 1)
         or (len(i) >= 1 and len(a) >= 1)
     ) and len(c) < 1 and not (s and not i)
-
     return {"maybe_relevant": maybe, "lexical_score": score}
 
 def article_key(item: dict) -> str:
@@ -178,13 +171,8 @@ def fetch_candidates(spec: dict) -> list[dict]:
         if not analysis["maybe_relevant"]:
             continue
         out.append({
-            "title": title,
-            "url": url,
-            "summary": summary[:1000],
-            "published": published,
-            "source": spec["label"],
-            "state": spec.get("state"),
-            "prefilter": analysis,
+            "title": title, "url": url, "summary": summary[:1000], "published": published,
+            "source": spec["label"], "state": spec.get("state"), "prefilter": analysis,
         })
     return out
 
@@ -201,18 +189,13 @@ def story_card(item: dict, compact: bool = False) -> str:
     summary_html = "" if compact else f'<p class="summary">{html.escape(item.get("summary", ""))}</p>'
     tags_html = "" if compact else f'<div class="tags">{tags}</div>'
     return (
-        f'<article class="{cls}">'
-        f'<div class="story-meta">'
+        f'<article class="{cls}"><div class="story-meta">'
         f'<span class="angle">{html.escape(item.get("angle", "identity-outrage story"))}</span>'
         f'<span>{html.escape(item.get("state") or "US")}</span>'
         f'<span>{html.escape(format_date(item.get("published", "")))}</span>'
-        f'<span>score {float(item.get("score", 0)):.1f}</span>'
-        f'</div>'
+        f'<span>score {float(item.get("score", 0)):.1f}</span></div>'
         f'<h3><a href="{html.escape(item.get("url", ""))}" target="_blank" rel="noopener noreferrer">{html.escape(item.get("title", ""))}</a></h3>'
-        f'{summary_html}'
-        f'{tags_html}'
-        f'<div class="source">{html.escape(item.get("source", ""))}</div>'
-        f'</article>'
+        f'{summary_html}{tags_html}<div class="source">{html.escape(item.get("source", ""))}</div></article>'
     )
 
 def render_lead(lead: dict | None, side_items: list[dict]) -> str:
@@ -221,43 +204,24 @@ def render_lead(lead: dict | None, side_items: list[dict]) -> str:
     lead_tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in lead.get("tags", [])[:5])
     right = "".join(story_card(x, compact=True) for x in side_items) or '<article class="story-card compact"><h3>No secondary stories</h3></article>'
     return (
-        '<section class="lead-grid"><article class="lead-story">'
-        '<div class="eyebrow">Lead story</div>'
+        '<section class="lead-grid"><article class="lead-story"><div class="eyebrow">Lead story</div>'
         f'<div class="story-meta"><span class="angle">{html.escape(lead.get("angle", "identity-outrage story"))}</span>'
         f'<span>{html.escape(lead.get("state") or "US")}</span>'
         f'<span>{html.escape(format_date(lead.get("published", "")))}</span>'
         f'<span>score {float(lead.get("score", 0)):.1f}</span></div>'
         f'<h2><a href="{html.escape(lead.get("url", ""))}" target="_blank" rel="noopener noreferrer">{html.escape(lead.get("title", ""))}</a></h2>'
-        f'<p>{html.escape(lead.get("summary", ""))}</p>'
-        f'<div class="tags">{lead_tags}</div>'
-        f'<div class="source">{html.escape(lead.get("source", ""))}</div>'
-        '</article>'
+        f'<p>{html.escape(lead.get("summary", ""))}</p><div class="tags">{lead_tags}</div>'
+        f'<div class="source">{html.escape(lead.get("source", ""))}</div></article>'
         f'<div class="lead-side">{right}</div></section>'
     )
 
 def render_section(title: str, subtitle: str, items: list[dict], compact: bool = False) -> str:
     body = "".join(story_card(x, compact=compact) for x in items) if items else '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
     extra = " compact-grid" if compact else ""
-    return (
-        '<section class="section">'
-        '<div class="section-head"><div>'
-        f'<h2>{html.escape(title)}</h2><p>{html.escape(subtitle)}</p>'
-        '</div></div>'
-        f'<div class="grid{extra}">{body}</div></section>'
-    )
-
-def render_sidebar(note_text: str) -> str:
-    return (
-        '<aside class="sidebar">'
-        '<div class="sidebar-card logo-card"><img src="images/nawwp_seal_logo.png" alt="NAWWP seal logo"></div>'
-        '<div class="sidebar-card"><div class="sidebar-title">About this edition</div>'
-        f'<p>{html.escape(note_text)}</p>'
-        '</div></aside>'
-    )
+    return f'<section class="section"><div class="section-head"><div><h2>{html.escape(title)}</h2><p>{html.escape(subtitle)}</p></div></div><div class="grid{extra}">{body}</div></section>'
 
 def dedupe_rows(items: list[dict]) -> list[dict]:
-    out = []
-    seen = set()
+    out, seen = [], set()
     for item in items:
         key = article_key(item)
         title_key = re.sub(r"\W+", " ", item.get("title", "").lower()).strip()
@@ -272,7 +236,6 @@ def section_name(item: dict) -> str:
     tags = set(item.get("tags", []))
     angle = (item.get("angle") or "").lower()
     blob = " ".join([item.get("title", ""), item.get("summary", ""), angle]).lower()
-
     if {"book-bans", "parents-rights"} & tags or any(x in blob for x in ["school", "curriculum", "school board", "library", "voucher"]):
         return "Education & Schools"
     if {"anti-trans", "lgbtq-panic"} & tags or any(x in blob for x in ["transgender", "gender ideology", "pronoun", "drag", "pride"]):
@@ -285,20 +248,17 @@ def section_name(item: dict) -> str:
 
 def build_sections(kept: list[dict]) -> dict:
     lead = kept[0] if kept else None
-    rest = kept[1:] if len(kept) > 1 else []
-    sections = {
-        "Top Stories": [],
-        "Education & Schools": [],
-        "Gender & Sexuality": [],
-        "Religion & Pluralism": [],
-        "Race, DEI & Immigration": [],
-    }
-    for item in rest:
+    remainder = kept[1:] if len(kept) > 1 else []
+    top_story_pool = remainder[:8]
+    lead_side = top_story_pool[:4]
+    top_stories = top_story_pool[4:8]
+    used_keys = {article_key(x) for x in top_story_pool}
+    remaining_for_sections = [x for x in remainder if article_key(x) not in used_keys]
+    sections = {"Education & Schools": [], "Gender & Sexuality": [], "Religion & Pluralism": [], "Race, DEI & Immigration": []}
+    for item in remaining_for_sections:
         sections.setdefault(section_name(item), []).append(item)
     return {
-        "lead": lead,
-        "lead_side": sections["Top Stories"][:4],
-        "top_stories": sections["Top Stories"][4:12],
+        "lead": lead, "lead_side": lead_side, "top_stories": top_stories,
         "education": sections["Education & Schools"][:16],
         "gender": sections["Gender & Sexuality"][:16],
         "religion": sections["Religion & Pluralism"][:16],
@@ -312,7 +272,7 @@ def nav_html(current_file: str) -> str:
         links.append(f'<a href="{filename}"{cls}>{html.escape(label)}</a>')
     return '<nav class="section-nav" aria-label="Sections">' + "".join(links) + '</nav>'
 
-def page_shell(title: str, current_file: str, main_html: str, payload: dict, about_text: str) -> str:
+def page_shell(title: str, current_file: str, main_html: str, payload: dict) -> str:
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -322,7 +282,7 @@ def page_shell(title: str, current_file: str, main_html: str, payload: dict, abo
 <meta name="description" content="Tracking fear-based narratives, misinformation, and identity grievance in U.S. politics, media, education, and public life.">
 <link rel="icon" type="image/png" href="images/nawwp_favicon_256.png">
 <style>
-:root{{--bg:#f5f1e8;--paper:#fffdf9;--ink:#151515;--muted:#666;--line:#ddd3c4;--accent:#931b1d;--accent2:#1b457d;--tag:#f3e7d5}}
+:root{{--bg:#f5f1e8;--paper:#fffdf9;--ink:#151515;--muted:#666;--line:#ddd3c4;--accent:#931b1d;--tag:#f3e7d5}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}}
 .wrap{{max-width:1420px;margin:0 auto;padding:0 22px 70px}}
@@ -334,9 +294,8 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
 .section-nav a{{color:var(--ink);text-decoration:none}}
 .section-nav a.current{{color:var(--accent)}}
 .section-nav a:hover{{text-decoration:underline;color:var(--accent)}}
-.layout{{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px;margin-top:10px}}
 .lead-grid{{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:24px}}
-.lead-story,.story-card,.sidebar-card{{background:var(--paper);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.04)}}
+.lead-story,.story-card{{background:var(--paper);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.04)}}
 .lead-story{{padding:24px 26px}}
 .lead-story h2{{font-size:42px;line-height:1.05;margin:10px 0 12px}}
 .lead-story p{{font-size:20px;line-height:1.5;color:#2d2d2d}}
@@ -359,14 +318,7 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
 .section p{{margin:0;color:var(--muted);font:15px/1.4 Arial,Helvetica,sans-serif}}
 .grid{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
 .compact-grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.sidebar{{display:grid;gap:18px}}
-.sidebar-card{{padding:18px 18px 14px}}
-.logo-card{{display:flex;align-items:center;justify-content:center;padding:22px}}
-.logo-card img{{max-width:180px;height:auto;display:block}}
-.sidebar-title{{font:700 13px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:14px}}
-.sidebar-card p{{color:var(--muted);font:14px/1.55 Arial,Helvetica,sans-serif}}
 .footer{{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font:14px/1.5 Arial,Helvetica,sans-serif;color:var(--muted)}}
-@media (max-width:1180px){{.layout{{grid-template-columns:1fr}}.sidebar{{order:-1}}}}
 @media (max-width:980px){{.lead-grid{{grid-template-columns:1fr}}.grid,.compact-grid{{grid-template-columns:1fr}}.lead-story h2{{font-size:34px}}.deck{{font-size:18px}}}}
 </style>
 </head>
@@ -376,15 +328,10 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
     <div>National Association of Worried White People</div>
     <div>Latest edition · <span id="latest-edition-time" data-generated="{html.escape(payload["generated_at"])}">loading…</span></div>
   </div>
-  <div class="hero-image">
-    <img src="images/nawwp_masthead_social_1200w.png" alt="NAWWP masthead">
-  </div>
+  <div class="hero-image"><img src="images/nawwp_masthead_social_1200w.png" alt="NAWWP masthead"></div>
   <div class="deck">Tracking fear-based narratives, misinformation, and identity grievance in U.S. politics, media, education, and public life.</div>
   {nav_html(current_file)}
-  <div class="layout">
-    <main>{main_html}</main>
-    {render_sidebar(about_text)}
-  </div>
+  {main_html}
   <div class="footer">Generated automatically from RSS and Google News RSS sources. Stories remain visible for a rolling 7-day window and age out automatically.</div>
 </div>
 <script>
@@ -394,9 +341,7 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
   const raw = el.getAttribute("data-generated");
   const d = new Date(raw);
   if (isNaN(d.getTime())) {{ el.textContent = raw; return; }}
-  el.textContent = d.toLocaleString([], {{
-    year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit"
-  }});
+  el.textContent = d.toLocaleString([], {{year:"numeric",month:"long",day:"numeric",hour:"numeric",minute:"2-digit"}});
 }})();
 </script>
 </body>
@@ -406,13 +351,6 @@ def build_page_html(payload: dict) -> dict:
     kept = payload["kept"]
     wings = payload["in_the_wings"]
     parts = build_sections(kept)
-    about_text = (
-        "This project tracks culture-war stories built around identity panic, symbolic grievance, "
-        "and fear-driven backlash involving race, religion, immigration, LGBTQ people, schools, "
-        "book bans, and DEI. The point is not to amplify the panic itself, but to show how often "
-        "people are steered by fear, misinformation, and manufactured outrage."
-    )
-
     front_main = (
         render_lead(parts["lead"], parts["lead_side"])
         + render_section("Top Stories", "The strongest stories in the current 7-day window.", parts["top_stories"], compact=True)
@@ -422,19 +360,17 @@ def build_page_html(payload: dict) -> dict:
         + render_section("Race, DEI & Immigration", "Anti-DEI backlash, white grievance rhetoric, and immigrant or refugee panic narratives.", parts["race"][:6])
         + render_section("In the Wings", "Borderline or adjacent stories from the last 7 days.", wings[:12], compact=True)
     )
-
     return {
-        "index.html": page_shell("Front Page", "index.html", front_main, payload, about_text),
-        "education.html": page_shell("Education & Schools", "education.html", render_section("Education & Schools", "Book bans, curriculum fights, DEI in schools, school boards, and parents’ rights campaigns.", parts["education"]), payload, about_text),
-        "gender.html": page_shell("Gender & Sexuality", "gender.html", render_section("Gender & Sexuality", "Anti-trans panic, drag and pride backlash, pronoun fights, and gender-based outrage politics.", parts["gender"]), payload, about_text),
-        "religion.html": page_shell("Religion & Pluralism", "religion.html", render_section("Religion & Pluralism", "Muslim school targeting, religious-liberty weaponization, and pluralism backlash.", parts["religion"]), payload, about_text),
-        "race.html": page_shell("Race, DEI & Immigration", "race.html", render_section("Race, DEI & Immigration", "Anti-DEI backlash, white grievance rhetoric, and immigrant or refugee panic narratives.", parts["race"]), payload, about_text),
-        "wings.html": page_shell("In the Wings", "wings.html", render_section("In the Wings", "Borderline or adjacent stories from the last 7 days.", wings[:40], compact=True), payload, about_text),
+        "index.html": page_shell("Front Page", "index.html", front_main, payload),
+        "education.html": page_shell("Education & Schools", "education.html", render_section("Education & Schools", "Book bans, curriculum fights, DEI in schools, school boards, and parents’ rights campaigns.", parts["education"]), payload),
+        "gender.html": page_shell("Gender & Sexuality", "gender.html", render_section("Gender & Sexuality", "Anti-trans panic, drag and pride backlash, pronoun fights, and gender-based outrage politics.", parts["gender"]), payload),
+        "religion.html": page_shell("Religion & Pluralism", "religion.html", render_section("Religion & Pluralism", "Muslim school targeting, religious-liberty weaponization, and pluralism backlash.", parts["religion"]), payload),
+        "race.html": page_shell("Race, DEI & Immigration", "race.html", render_section("Race, DEI & Immigration", "Anti-DEI backlash, white grievance rhetoric, and immigrant or refugee panic narratives.", parts["race"]), payload),
+        "wings.html": page_shell("In the Wings", "wings.html", render_section("In the Wings", "Borderline or adjacent stories from the last 7 days.", wings[:40], compact=True), payload),
     }
 
 def write_pages(payload: dict) -> None:
-    pages = build_page_html(payload)
-    for filename, content in pages.items():
+    for filename, content in build_page_html(payload).items():
         (DOCS_DIR / filename).write_text(content, encoding="utf-8")
 
 def main():
@@ -445,7 +381,6 @@ def main():
     reviews = archive.get("reviews", []) if isinstance(archive, dict) else []
     if IGNORE_SEEN:
         seen = set()
-
     raw = []
     with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as ex:
         futures = {ex.submit(fetch_candidates, spec): spec for spec in specs}
@@ -457,9 +392,7 @@ def main():
                 print(f'{spec["label"]}: {len(items)} candidates')
             except Exception as e:
                 print(f'{spec["label"]}: ERROR {e}')
-
     raw.sort(key=lambda x: (x["prefilter"]["lexical_score"], x.get("published", "")), reverse=True)
-
     candidates = []
     seen_local = set()
     for item in raw:
@@ -469,17 +402,9 @@ def main():
             continue
         if key in seen_local or title_key in seen_local:
             continue
-        seen_local.add(key)
-        seen_local.add(title_key)
-        candidates.append(item)
-
+        seen_local.add(key); seen_local.add(title_key); candidates.append(item)
     candidates = candidates[:MAX_AI_REVIEWS_PER_RUN]
-
-    reviewed = []
-    current_kept = []
-    current_wings = []
-    current_rejected = []
-
+    reviewed, current_kept, current_wings, current_rejected = [], [], [], []
     with ThreadPoolExecutor(max_workers=AI_WORKERS) as ex:
         futures = {ex.submit(evaluate_article, item): item for item in candidates}
         for fut in as_completed(futures):
@@ -496,56 +421,33 @@ def main():
                 current_wings.append(row)
             else:
                 current_rejected.append(row)
-
     for item in reviewed:
         seen.add(article_key(item))
         seen.add(re.sub(r"\W+", " ", item.get("title", "").lower()).strip())
-
-    review_rows = [
-        {
-            "title": r.get("title"),
-            "url": r.get("url"),
-            "source": r.get("source"),
-            "state": r.get("state"),
-            "bucket": r.get("bucket"),
-            "score": r.get("score"),
-            "tags": r.get("tags", []),
-            "angle": r.get("angle"),
-            "summary": r.get("summary"),
-            "reason": r.get("reason"),
-            "published": r.get("published"),
-        }
-        for r in reviewed
-    ]
-    reviews.extend(review_rows)
-    reviews = reviews[-8000:]
-
+    review_rows = [{
+        "title": r.get("title"), "url": r.get("url"), "source": r.get("source"), "state": r.get("state"),
+        "bucket": r.get("bucket"), "score": r.get("score"), "tags": r.get("tags", []),
+        "angle": r.get("angle"), "summary": r.get("summary"), "reason": r.get("reason"),
+        "published": r.get("published"),
+    } for r in reviewed]
+    reviews.extend(review_rows); reviews = reviews[-8000:]
     archived_kept = [r for r in reviews if r.get("bucket") == "keep" and is_within_days(r.get("published", ""), ROLLING_DAYS)]
     archived_wings = [r for r in reviews if r.get("bucket") == "wings" and is_within_days(r.get("published", ""), ROLLING_DAYS)]
-
     merged_kept = sorted(dedupe_rows(current_kept + archived_kept), key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
     merged_wings = sorted(dedupe_rows(current_wings + archived_wings), key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
-
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "counts": {
-            "kept": len(merged_kept),
-            "wings": len(merged_wings),
-            "rejected": len(current_rejected),
-            "reviewed": len(reviewed),
-            "new_kept_this_run": len(current_kept),
-            "new_wings_this_run": len(current_wings),
-            "rolling_days": ROLLING_DAYS,
+            "kept": len(merged_kept), "wings": len(merged_wings), "rejected": len(current_rejected),
+            "reviewed": len(reviewed), "new_kept_this_run": len(current_kept),
+            "new_wings_this_run": len(current_wings), "rolling_days": ROLLING_DAYS,
         },
-        "kept": merged_kept,
-        "in_the_wings": merged_wings,
+        "kept": merged_kept, "in_the_wings": merged_wings,
         "rejected": sorted(current_rejected, key=lambda x: x.get("score", 0), reverse=True)[:200],
     }
-
     save_json(ARCHIVE_FILE, {"seen": sorted(seen), "reviews": reviews})
     save_json(OUTPUT_FILE, payload)
     write_pages(payload)
-
     print(f"Reviewed this run: {len(reviewed)}")
     print(f"Published rolling window: kept={len(merged_kept)} wings={len(merged_wings)} days={ROLLING_DAYS}")
     for filename, _ in SECTION_PAGES:
