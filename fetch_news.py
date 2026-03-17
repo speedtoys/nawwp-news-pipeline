@@ -1,3 +1,4 @@
+\
 #!/usr/bin/env python3
 import datetime as dt
 import html
@@ -18,21 +19,23 @@ DOCS_DIR = Path("docs")
 OUTPUT_FILE = DOCS_DIR / "news.json"
 INDEX_FILE = DOCS_DIR / "index.html"
 
-MAX_CANDIDATES_PER_FEED = int(os.getenv("MAX_CANDIDATES_PER_FEED", "60"))
-MAX_AI_REVIEWS_PER_RUN = int(os.getenv("MAX_AI_REVIEWS_PER_RUN", "220"))
+MAX_CANDIDATES_PER_FEED = int(os.getenv("MAX_CANDIDATES_PER_FEED", "80"))
+MAX_AI_REVIEWS_PER_RUN = int(os.getenv("MAX_AI_REVIEWS_PER_RUN", "260"))
 KEEP_MIN_SCORE = float(os.getenv("KEEP_MIN_SCORE", "4.0"))
 WINGS_MIN_SCORE = float(os.getenv("WINGS_MIN_SCORE", "2.5"))
 FETCH_WORKERS = int(os.getenv("FETCH_WORKERS", "10"))
 AI_WORKERS = int(os.getenv("AI_WORKERS", "4"))
 IGNORE_SEEN = os.getenv("IGNORE_SEEN", "0").lower() in {"1", "true", "yes", "y"}
+ROLLING_DAYS = int(os.getenv("ROLLING_DAYS", "7"))
 
 IDENTITY = [
-    "dei", "diversity", "equity", "inclusion", "anti-woke", "woke", "trans", "transgender",
-    "pronoun", "drag", "pride", "lgbt", "lgbtq", "book ban", "banned books", "library",
-    "school board", "parents' rights", "voucher", "school choice", "religious liberty",
-    "christian values", "traditional values", "western civilization", "white people",
-    "white boys", "young white men", "muslim", "islamic", "muslim school", "islamic school",
-    "immigrant", "immigration", "cair", "sharia"
+    "dei", "diversity", "equity", "inclusion", "anti-woke", "woke", "transgender",
+    "gender ideology", "pronoun", "trans rights", "trans student", "trans athlete",
+    "drag", "pride", "lgbt", "lgbtq", "book ban", "banned books", "library",
+    "school board", "parents' rights", "parents rights", "voucher", "school choice",
+    "religious liberty", "christian values", "traditional values", "western civilization",
+    "white people", "white boys", "young white men", "muslim", "islamic", "muslim school",
+    "islamic school", "immigrant", "immigration", "refugee", "illegal alien", "cair", "sharia"
 ]
 OUTRAGE = [
     "backlash", "outrage", "criticized", "criticizes", "slams", "targets", "opposes", "ban",
@@ -45,12 +48,11 @@ ACTORS = [
     "attorney general", "state lawmakers", "christian nationalist"
 ]
 CRIME = [
-    "shooting", "shot", "shot up", "gunman", "gunfire", "opened fire",
-    "murder", "murdered", "killed", "dead", "injured", "wounded",
-    "bombing", "terror", "terrorist", "arrested", "charged with",
-    "indicted", "convicted", "sentenced", "assault", "attacked", "attack",
-    "rape", "sexual assault", "trafficking", "abuse", "homicide",
-    "stabbing", "stabbed"
+    "shooting", "shot", "shot up", "gunman", "gunfire", "opened fire", "murder",
+    "murdered", "killed", "dead", "injured", "wounded", "bombing", "terror",
+    "terrorist", "arrested", "charged with", "indicted", "convicted", "sentenced",
+    "assault", "attacked", "attack", "rape", "sexual assault", "trafficking", "abuse",
+    "homicide", "stabbing", "stabbed"
 ]
 SCANDAL = [
     "fake electors", "alternate electors", "electors", "election fraud", "campaign finance",
@@ -69,10 +71,7 @@ def load_json(path: str, default):
 
 
 def save_json(path: Path | str, payload) -> None:
-    Path(path).write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
+    Path(path).write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def strip_html(text: str) -> str:
@@ -89,7 +88,7 @@ def normalize_url(url: str) -> str:
 
 def build_google_news_rss(query: str) -> str:
     quoted = urllib.parse.quote(query)
-    return f"https://news.google.com/rss/search?q={quoted}+when:30d&hl=en-US&gl=US&ceid=US:en"
+    return f"https://news.google.com/rss/search?q={quoted}+when:{ROLLING_DAYS}d&hl=en-US&gl=US&ceid=US:en"
 
 
 def parse_date(entry) -> str:
@@ -104,6 +103,15 @@ def parse_date(entry) -> str:
             except Exception:
                 pass
     return dt.datetime.now(dt.timezone.utc).isoformat()
+
+
+def is_within_days(iso_str: str, days: int) -> bool:
+    try:
+        d = dt.datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+        cutoff = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=days)
+        return d >= cutoff
+    except Exception:
+        return False
 
 
 def load_feed_specs() -> list[dict]:
@@ -129,20 +137,35 @@ def load_feed_specs() -> list[dict]:
     return out
 
 
+def term_matches(term: str, blob: str) -> bool:
+    term = term.lower().strip()
+    blob = blob.lower()
+    if " " in term or "-" in term or "'" in term:
+        return term in blob
+    return re.search(rf"\b{re.escape(term)}\b", blob) is not None
+
+
+def collect_matches(terms: list[str], blob: str) -> list[str]:
+    return [term for term in terms if term_matches(term, blob)]
+
+
 def analyze_text(text: str) -> dict:
     t = (text or "").lower()
-    i = [x for x in IDENTITY if x in t]
-    o = [x for x in OUTRAGE if x in t]
-    a = [x for x in ACTORS if x in t]
-    c = [x for x in CRIME if x in t]
-    s = [x for x in SCANDAL if x in t]
+    i = collect_matches(IDENTITY, t)
+    o = collect_matches(OUTRAGE, t)
+    a = collect_matches(ACTORS, t)
+    c = collect_matches(CRIME, t)
+    s = collect_matches(SCANDAL, t)
 
     score = round(len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6, 1)
-    maybe = ((i and o) or (i and a) or len(i) >= 2 or (score >= 2.8 and i)) and len(c) < 2 and not (s and not i)
+    maybe = ((i and o) or (i and a) or len(i) >= 2 or (score >= 2.8 and i)) and len(c) < 1 and not (s and not i)
 
     return {
         "maybe_relevant": maybe,
         "lexical_score": score,
+        "identity_hits": i[:8],
+        "outrage_hits": o[:8],
+        "actor_hits": a[:8],
     }
 
 
@@ -159,8 +182,11 @@ def fetch_candidates(spec: dict) -> list[dict]:
         title = strip_html(getattr(entry, "title", ""))
         summary = strip_html(getattr(entry, "summary", "") or getattr(entry, "description", ""))
         url = normalize_url(getattr(entry, "link", ""))
-
         if not title or not url:
+            continue
+
+        published = parse_date(entry)
+        if not is_within_days(published, ROLLING_DAYS):
             continue
 
         analysis = analyze_text(title + "\n" + summary)
@@ -171,7 +197,7 @@ def fetch_candidates(spec: dict) -> list[dict]:
             "title": title,
             "url": url,
             "summary": summary[:1000],
-            "published": parse_date(entry),
+            "published": published,
             "source": spec["label"],
             "state": spec.get("state"),
             "prefilter": analysis,
@@ -254,7 +280,6 @@ def render_section(title: str, subtitle: str, items: list[dict], compact: bool =
         '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
     )
     extra = " compact-grid" if compact else ""
-
     return (
         '<section class="section">'
         '<div class="section-head"><div>'
@@ -272,6 +297,20 @@ def render_sidebar(note_text: str) -> str:
         '</div>'
         '</aside>'
     )
+
+
+def dedupe_rows(items: list[dict]) -> list[dict]:
+    out = []
+    seen = set()
+    for item in items:
+        key = article_key(item)
+        title_key = re.sub(r"\W+", " ", item.get("title", "").lower()).strip()
+        if key in seen or title_key in seen:
+            continue
+        seen.add(key)
+        seen.add(title_key)
+        out.append(item)
+    return out
 
 
 def render_html(payload: dict) -> str:
@@ -354,13 +393,13 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
   <div class="layout">
     <main>
       {render_lead(kept)}
-      {render_section("Features", "Clear on-theme stories from this edition.", features)}
-      {render_section("In the wings", "Borderline or adjacent stories worth a second look.", wings[:12], compact=True)}
+      {render_section("Features", "Clear on-theme stories from the last 7 days.", features)}
+      {render_section("In the wings", "Borderline or adjacent stories from the last 7 days.", wings[:12], compact=True)}
     </main>
     {render_sidebar(about_text)}
   </div>
 
-  <div class="footer">Generated automatically from RSS and Google News RSS sources. Stories are filtered for identity-focused backlash and downgraded or rejected when they look like generic scandal, crime, or unrelated politics.</div>
+  <div class="footer">Generated automatically from RSS and Google News RSS sources. Stories remain visible for a rolling 7-day window and age out automatically.</div>
 </div>
 
 <script>
@@ -429,9 +468,9 @@ def main():
     candidates = candidates[:MAX_AI_REVIEWS_PER_RUN]
 
     reviewed: list[dict] = []
-    kept: list[dict] = []
-    wings: list[dict] = []
-    rejected: list[dict] = []
+    current_kept: list[dict] = []
+    current_wings: list[dict] = []
+    current_rejected: list[dict] = []
 
     with ThreadPoolExecutor(max_workers=AI_WORKERS) as ex:
         futures = {ex.submit(evaluate_article, item): item for item in candidates}
@@ -444,46 +483,74 @@ def main():
             bucket = row.get("bucket", "reject")
 
             if bucket == "keep" and score >= KEEP_MIN_SCORE:
-                kept.append(row)
+                current_kept.append(row)
             elif bucket in {"keep", "wings"} and score >= WINGS_MIN_SCORE:
                 if bucket == "keep":
                     row["bucket"] = "wings"
-                wings.append(row)
+                current_wings.append(row)
             else:
-                rejected.append(row)
+                current_rejected.append(row)
 
     for item in reviewed:
         seen.add(article_key(item))
         seen.add(re.sub(r"\W+", " ", item.get("title", "").lower()).strip())
 
-    reviews.extend([
+    review_rows = [
         {
             "title": r.get("title"),
             "url": r.get("url"),
             "source": r.get("source"),
+            "state": r.get("state"),
             "bucket": r.get("bucket"),
             "score": r.get("score"),
+            "tags": r.get("tags", []),
+            "angle": r.get("angle"),
+            "summary": r.get("summary"),
+            "reason": r.get("reason"),
             "published": r.get("published"),
         }
         for r in reviewed
-    ])
+    ]
+    reviews.extend(review_rows)
+    reviews = reviews[-8000:]
+
+    archived_kept = [
+        r for r in reviews
+        if r.get("bucket") == "keep" and is_within_days(r.get("published", ""), ROLLING_DAYS)
+    ]
+    archived_wings = [
+        r for r in reviews
+        if r.get("bucket") == "wings" and is_within_days(r.get("published", ""), ROLLING_DAYS)
+    ]
+
+    merged_kept = dedupe_rows(current_kept + archived_kept)
+    merged_wings = dedupe_rows(current_wings + archived_wings)
+
+    merged_kept = sorted(merged_kept, key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
+    merged_wings = sorted(merged_wings, key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
 
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "counts": {
-            "kept": len(kept),
-            "wings": len(wings),
-            "rejected": len(rejected),
+            "kept": len(merged_kept),
+            "wings": len(merged_wings),
+            "rejected": len(current_rejected),
             "reviewed": len(reviewed),
+            "new_kept_this_run": len(current_kept),
+            "new_wings_this_run": len(current_wings),
+            "rolling_days": ROLLING_DAYS,
         },
-        "kept": sorted(kept, key=lambda x: x.get("score", 0), reverse=True),
-        "in_the_wings": sorted(wings, key=lambda x: x.get("score", 0), reverse=True),
-        "rejected": sorted(rejected, key=lambda x: x.get("score", 0), reverse=True)[:200],
+        "kept": merged_kept,
+        "in_the_wings": merged_wings,
+        "rejected": sorted(current_rejected, key=lambda x: x.get("score", 0), reverse=True)[:200],
     }
 
-    save_json(ARCHIVE_FILE, {"seen": sorted(seen), "reviews": reviews[-5000:]})
+    save_json(ARCHIVE_FILE, {"seen": sorted(seen), "reviews": reviews})
     save_json(OUTPUT_FILE, payload)
     INDEX_FILE.write_text(render_html(payload), encoding="utf-8")
+
+    print(f"Reviewed this run: {len(reviewed)}")
+    print(f"Published rolling window: kept={len(merged_kept)} wings={len(merged_wings)} days={ROLLING_DAYS}")
     print(f"Saved {INDEX_FILE}")
     print(f"Saved {OUTPUT_FILE}")
 
