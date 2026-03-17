@@ -27,34 +27,35 @@ AI_WORKERS = int(os.getenv("AI_WORKERS", "4"))
 IGNORE_SEEN = os.getenv("IGNORE_SEEN", "0").lower() in {"1", "true", "yes", "y"}
 
 IDENTITY = [
-    "dei","diversity","equity","inclusion","anti-woke","woke","trans","transgender",
-    "pronoun","drag","pride","lgbt","lgbtq","book ban","banned books","library",
-    "school board","parents' rights","voucher","school choice","religious liberty",
-    "christian values","traditional values","western civilization","white people",
-    "white boys","young white men","muslim","islamic","muslim school","islamic school",
-    "immigrant","immigration","cair","sharia"
+    "dei", "diversity", "equity", "inclusion", "anti-woke", "woke", "trans", "transgender",
+    "pronoun", "drag", "pride", "lgbt", "lgbtq", "book ban", "banned books", "library",
+    "school board", "parents' rights", "voucher", "school choice", "religious liberty",
+    "christian values", "traditional values", "western civilization", "white people",
+    "white boys", "young white men", "muslim", "islamic", "muslim school", "islamic school",
+    "immigrant", "immigration", "cair", "sharia"
 ]
 OUTRAGE = [
-    "backlash","outrage","criticized","criticizes","slams","targets","opposes","ban",
-    "bans","blocks","defund","exclude","excluded","remove","pull funding","lawsuit",
-    "sues","debate","hearing","boycott","pressure campaign"
+    "backlash", "outrage", "criticized", "criticizes", "slams", "targets", "opposes", "ban",
+    "bans", "blocks", "defund", "exclude", "excluded", "remove", "pull funding", "lawsuit",
+    "sues", "debate", "hearing", "boycott", "pressure campaign"
 ]
 ACTORS = [
-    "maga","trump","republican","republicans","gop","conservative","conservatives",
-    "fox news","moms for liberty","charlie kirk","erika kirk","governor",
-    "attorney general","state lawmakers","christian nationalist"
+    "maga", "trump", "republican", "republicans", "gop", "conservative", "conservatives",
+    "fox news", "moms for liberty", "charlie kirk", "erika kirk", "governor",
+    "attorney general", "state lawmakers", "christian nationalist"
 ]
 CRIME = [
-    "shooting","murder","bombing","terror","arrested","charged with","indicted",
-    "convicted","sentenced","assault","rape","sexual assault","trafficking",
-    "abuse","homicide","stabbing"
+    "shooting", "murder", "bombing", "terror", "arrested", "charged with", "indicted",
+    "convicted", "sentenced", "assault", "rape", "sexual assault", "trafficking",
+    "abuse", "homicide", "stabbing"
 ]
 SCANDAL = [
-    "fake electors","alternate electors","electors","election fraud","campaign finance",
-    "bribery","corruption","indictment","prosecution","felony","embezzlement"
+    "fake electors", "alternate electors", "electors", "election fraud", "campaign finance",
+    "bribery", "corruption", "indictment", "prosecution", "felony", "embezzlement"
 ]
 
-def load_json(path, default):
+
+def load_json(path: str, default):
     p = Path(path)
     if not p.exists():
         return default
@@ -63,24 +64,37 @@ def load_json(path, default):
     except Exception:
         return default
 
-def save_json(path, payload):
-    Path(path).write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
-def strip_html(text):
+def save_json(path: Path | str, payload) -> None:
+    Path(path).write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+
+def strip_html(text: str) -> str:
     text = re.sub(r"<[^>]+>", " ", text or "")
     return re.sub(r"\s+", " ", html.unescape(text)).strip()
 
-def normalize_url(url):
+
+def normalize_url(url: str) -> str:
     url = (url or "").strip()
     if url.startswith("http://"):
         url = "https://" + url[len("http://"):]
     return url
 
-def build_google_news_rss(query):
-    return f"https://news.google.com/rss/search?q={urllib.parse.quote(query)}+when:30d&hl=en-US&gl=US&ceid=US:en"
 
-def parse_date(entry):
-    for raw in [getattr(entry, "published", None), getattr(entry, "updated", None), getattr(entry, "created", None)]:
+def build_google_news_rss(query: str) -> str:
+    quoted = urllib.parse.quote(query)
+    return f"https://news.google.com/rss/search?q={quoted}+when:30d&hl=en-US&gl=US&ceid=US:en"
+
+
+def parse_date(entry) -> str:
+    for raw in (
+        getattr(entry, "published", None),
+        getattr(entry, "updated", None),
+        getattr(entry, "created", None),
+    ):
         if raw:
             try:
                 return parsedate_to_datetime(raw).astimezone(dt.timezone.utc).isoformat()
@@ -88,44 +102,68 @@ def parse_date(entry):
                 pass
     return dt.datetime.now(dt.timezone.utc).isoformat()
 
-def load_feed_specs():
+
+def load_feed_specs() -> list[dict]:
     cfg = load_json(CONFIG_FILE, {})
-    out = []
+    out: list[dict] = []
+
     for item in cfg.get("rss_feeds", []):
         if item.get("enabled", True):
-            out.append({"label": item["label"], "url": item["url"], "state": item.get("state")})
+            out.append({
+                "label": item["label"],
+                "url": item["url"],
+                "state": item.get("state"),
+            })
+
     for item in cfg.get("google_news_queries", []):
         if item.get("enabled", True):
-            out.append({"label": item["label"], "url": build_google_news_rss(item["query"]), "state": item.get("state")})
+            out.append({
+                "label": item["label"],
+                "url": build_google_news_rss(item["query"]),
+                "state": item.get("state"),
+            })
+
     return out
 
-def analyze_text(text):
+
+def analyze_text(text: str) -> dict:
     t = (text or "").lower()
     i = [x for x in IDENTITY if x in t]
     o = [x for x in OUTRAGE if x in t]
     a = [x for x in ACTORS if x in t]
     c = [x for x in CRIME if x in t]
     s = [x for x in SCANDAL if x in t]
+
     score = round(len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6, 1)
     maybe = ((i and o) or (i and a) or len(i) >= 2 or (score >= 2.8 and i)) and len(c) < 2 and not (s and not i)
-    return {"maybe_relevant": maybe, "lexical_score": score}
 
-def article_key(item):
+    return {
+        "maybe_relevant": maybe,
+        "lexical_score": score,
+    }
+
+
+def article_key(item: dict) -> str:
     return normalize_url(item.get("url")) or re.sub(r"\W+", "-", item.get("title", "").lower()).strip("-")
 
-def fetch_candidates(spec):
+
+def fetch_candidates(spec: dict) -> list[dict]:
     parsed = feedparser.parse(spec["url"])
     entries = getattr(parsed, "entries", [])[:MAX_CANDIDATES_PER_FEED]
-    out = []
+    out: list[dict] = []
+
     for entry in entries:
         title = strip_html(getattr(entry, "title", ""))
         summary = strip_html(getattr(entry, "summary", "") or getattr(entry, "description", ""))
         url = normalize_url(getattr(entry, "link", ""))
+
         if not title or not url:
             continue
+
         analysis = analyze_text(title + "\n" + summary)
         if not analysis["maybe_relevant"]:
             continue
+
         out.append({
             "title": title,
             "url": url,
@@ -135,37 +173,61 @@ def fetch_candidates(spec):
             "state": spec.get("state"),
             "prefilter": analysis,
         })
+
     return out
 
-def format_date(iso_str):
+
+def format_date(iso_str: str) -> str:
     try:
         d = dt.datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
         return d.strftime("%b %d, %Y")
     except Exception:
         return ""
 
-def story_card(item, compact=False):
-    tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in item.get("tags", [])[:4])
+
+def story_card(item: dict, compact: bool = False) -> str:
+    tags = "".join(
+        f'<span class="tag">{html.escape(str(tag))}</span>'
+        for tag in item.get("tags", [])[:4]
+    )
     cls = "story-card compact" if compact else "story-card"
     summary_html = "" if compact else f'<p class="summary">{html.escape(item.get("summary", ""))}</p>'
     tags_html = "" if compact else f'<div class="tags">{tags}</div>'
+
     return (
-        f'<article class="{cls}">' 
-        f'<div class="story-meta"><span class="angle">{html.escape(item.get("angle", "identity-outrage story"))}</span>'
+        f'<article class="{cls}">'
+        f'<div class="story-meta">'
+        f'<span class="angle">{html.escape(item.get("angle", "identity-outrage story"))}</span>'
         f'<span>{html.escape(item.get("state") or "US")}</span>'
         f'<span>{html.escape(format_date(item.get("published", "")))}</span>'
-        f'<span>score {float(item.get("score", 0)):.1f}</span></div>'
+        f'<span>score {float(item.get("score", 0)):.1f}</span>'
+        f'</div>'
         f'<h3><a href="{html.escape(item.get("url", ""))}" target="_blank" rel="noopener noreferrer">{html.escape(item.get("title", ""))}</a></h3>'
-        f'{summary_html}{tags_html}<div class="source">{html.escape(item.get("source", ""))}</div></article>'
+        f'{summary_html}'
+        f'{tags_html}'
+        f'<div class="source">{html.escape(item.get("source", ""))}</div>'
+        f'</article>'
     )
 
-def render_lead(kept):
+
+def render_lead(kept: list[dict]) -> str:
     if not kept:
-        return '<section class="lead-grid"><article class="lead-story"><h2>No lead story yet</h2><p>Run the pipeline to generate the next edition.</p></article></section>'
+        return (
+            '<section class="lead-grid">'
+            '<article class="lead-story"><h2>No lead story yet</h2><p>Run the pipeline to generate the next edition.</p></article>'
+            '</section>'
+        )
+
     lead = kept[0]
     secondary = kept[1:5]
-    lead_tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in lead.get("tags", [])[:5])
-    right = "".join(story_card(x, compact=True) for x in secondary) or '<article class="story-card compact"><h3>No secondary stories</h3></article>'
+    lead_tags = "".join(
+        f'<span class="tag">{html.escape(str(tag))}</span>'
+        for tag in lead.get("tags", [])[:5]
+    )
+    right = "".join(story_card(x, compact=True) for x in secondary) or (
+        '<article class="story-card compact"><h3>No secondary stories</h3></article>'
+    )
+
     return (
         '<section class="lead-grid">'
         '<article class="lead-story">'
@@ -183,9 +245,13 @@ def render_lead(kept):
         '</section>'
     )
 
-def render_section(title, subtitle, items, compact=False):
-    body = "".join(story_card(x, compact=compact) for x in items) if items else '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
+
+def render_section(title: str, subtitle: str, items: list[dict], compact: bool = False) -> str:
+    body = "".join(story_card(x, compact=compact) for x in items) if items else (
+        '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
+    )
     extra = " compact-grid" if compact else ""
+
     return (
         '<section class="section">'
         '<div class="section-head"><div>'
@@ -193,9 +259,11 @@ def render_section(title, subtitle, items, compact=False):
         f'</div></div><div class="grid{extra}">{body}</div></section>'
     )
 
-def render_sidebar(payload, before_dedupe, after_dedupe):
+
+def render_sidebar(payload: dict, before_dedupe: int, after_dedupe: int) -> str:
     counts = payload["counts"]
     note = "archive ignored for this run" if IGNORE_SEEN else "archive dedupe enabled"
+
     return (
         '<aside class="sidebar">'
         '<div class="sidebar-card logo-card"><img src="images/nawwp_seal_logo.png" alt="NAWWP seal logo"></div>'
@@ -209,26 +277,28 @@ def render_sidebar(payload, before_dedupe, after_dedupe):
         '</div>'
         '<div class="sidebar-card"><div class="sidebar-title">About this edition</div>'
         '<p>A satire-flavored tracker for white grievance rhetoric, anti-DEI backlash, anti-Muslim school targeting, anti-trans panic, book bans, “parents’ rights” campaigns, and other symbolic identity outrage.</p>'
-        f'<p class="muted">{html.escape(note)}</p></div></aside>'
+        f'<p class="muted">{html.escape(note)}</p></div>'
+        '</aside>'
     )
 
-def render_html(payload, before_dedupe, after_dedupe):
+
+def render_html(payload: dict, before_dedupe: int, after_dedupe: int) -> str:
     kept = payload["kept"]
     wings = payload["in_the_wings"]
     features = kept[5:17]
-    now = dt.datetime.now().strftime("%B %d, %Y %I:%M %p")
+
     return f"""<!doctype html>
-<html lang=\"en\">
+<html lang="en">
 <head>
-<meta charset=\"utf-8\">
-<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>National Association of Worried White People</title>
-<meta name=\"description\" content=\"A satire-flavored tracker for white grievance rhetoric, anti-DEI backlash, anti-Muslim targeting, anti-trans panic, book bans, and symbolic U.S. identity outrage.\">
-<link rel=\"icon\" type=\"image/png\" href=\"images/nawwp_favicon_256.png\">
+<meta name="description" content="A satire-flavored tracker for white grievance rhetoric, anti-DEI backlash, anti-Muslim targeting, anti-trans panic, book bans, and symbolic U.S. identity outrage.">
+<link rel="icon" type="image/png" href="images/nawwp_favicon_256.png">
 <style>
 :root{{--bg:#f5f1e8;--paper:#fffdf9;--ink:#151515;--muted:#666;--line:#ddd3c4;--accent:#931b1d;--accent2:#1b457d;--tag:#f3e7d5}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,\"Times New Roman\",serif}}
+body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}}
 .wrap{{max-width:1420px;margin:0 auto;padding:0 22px 70px}}
 .topbar{{border-bottom:1px solid var(--line);padding:14px 0 10px;color:var(--muted);font:13px/1.4 Arial,Helvetica,sans-serif;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}}
 .hero-image{{margin:18px 0 18px}}
@@ -274,16 +344,19 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,\"Ti
 </style>
 </head>
 <body>
-<div class=\"wrap\">
-  <div class=\"topbar\">
+<div class="wrap">
+  <div class="topbar">
     <div>National Association of Worried White People</div>
-    <div>Latest edition · {html.escape(now)}</div>
+    <div>Latest edition · <span id="latest-edition-time" data-generated="{html.escape(payload["generated_at"])}">loading…</span></div>
   </div>
-  <div class=\"hero-image\">
-    <img src=\"images/nawwp_masthead_original.png\" alt=\"NAWWP masthead\">
+
+  <div class="hero-image">
+    <img src="images/nawwp_masthead_original.png" alt="NAWWP masthead">
   </div>
-  <div class=\"deck\">A satire-flavored tracker for U.S. culture-war stories centered on white grievance rhetoric, anti-DEI backlash, anti-Muslim school targeting, anti-trans panic, book bans, “parents’ rights” campaigns, and other symbolic identity outrage.</div>
-  <div class=\"layout\">
+
+  <div class="deck">A satire-flavored tracker for U.S. culture-war stories centered on white grievance rhetoric, anti-DEI backlash, anti-Muslim school targeting, anti-trans panic, book bans, “parents’ rights” campaigns, and other symbolic identity outrage.</div>
+
+  <div class="layout">
     <main>
       {render_lead(kept)}
       {render_section("Features", "Clear on-theme stories from this edition.", features)}
@@ -291,10 +364,36 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,\"Ti
     </main>
     {render_sidebar(payload, before_dedupe, after_dedupe)}
   </div>
-  <div class=\"footer\">Generated automatically from RSS and Google News RSS sources. Stories are filtered for identity-focused backlash and downgraded or rejected when they look like generic scandal, crime, or unrelated politics.</div>
+
+  <div class="footer">Generated automatically from RSS and Google News RSS sources. Stories are filtered for identity-focused backlash and downgraded or rejected when they look like generic scandal, crime, or unrelated politics.</div>
 </div>
+
+<script>
+(function () {{
+  const el = document.getElementById("latest-edition-time");
+  if (!el) return;
+
+  const raw = el.getAttribute("data-generated");
+  const d = new Date(raw);
+
+  if (isNaN(d.getTime())) {{
+    el.textContent = raw;
+    return;
+  }}
+
+  el.textContent = d.toLocaleString([], {{
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  }});
+}})();
+</script>
+
 </body>
 </html>"""
+
 
 def main():
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
@@ -302,10 +401,11 @@ def main():
     archive = load_json(ARCHIVE_FILE, {"seen": [], "reviews": []})
     seen = set(archive.get("seen", [])) if isinstance(archive, dict) else set()
     reviews = archive.get("reviews", []) if isinstance(archive, dict) else []
+
     if IGNORE_SEEN:
         seen = set()
 
-    raw = []
+    raw: list[dict] = []
     with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as ex:
         futures = {ex.submit(fetch_candidates, spec): spec for spec in specs}
         for fut in as_completed(futures):
@@ -320,14 +420,17 @@ def main():
     raw.sort(key=lambda x: (x["prefilter"]["lexical_score"], x.get("published", "")), reverse=True)
     before_dedupe = len(raw)
 
-    candidates, seen_local = [], set()
+    candidates: list[dict] = []
+    seen_local: set[str] = set()
     for item in raw:
         key = article_key(item)
         title_key = re.sub(r"\W+", " ", item.get("title", "").lower()).strip()
+
         if not IGNORE_SEEN and (key in seen or title_key in seen):
             continue
         if key in seen_local or title_key in seen_local:
             continue
+
         seen_local.add(key)
         seen_local.add(title_key)
         candidates.append(item)
@@ -335,15 +438,21 @@ def main():
     after_dedupe = len(candidates)
     candidates = candidates[:MAX_AI_REVIEWS_PER_RUN]
 
-    reviewed, kept, wings, rejected = [], [], [], []
+    reviewed: list[dict] = []
+    kept: list[dict] = []
+    wings: list[dict] = []
+    rejected: list[dict] = []
+
     with ThreadPoolExecutor(max_workers=AI_WORKERS) as ex:
         futures = {ex.submit(evaluate_article, item): item for item in candidates}
         for fut in as_completed(futures):
             item = futures[fut]
             row = {**item, **fut.result()}
             reviewed.append(row)
+
             score = float(row.get("score", 0))
             bucket = row.get("bucket", "reject")
+
             if bucket == "keep" and score >= KEEP_MIN_SCORE:
                 kept.append(row)
             elif bucket in {"keep", "wings"} and score >= WINGS_MIN_SCORE:
@@ -358,13 +467,25 @@ def main():
         seen.add(re.sub(r"\W+", " ", item.get("title", "").lower()).strip())
 
     reviews.extend([
-        {"title": r.get("title"), "url": r.get("url"), "source": r.get("source"), "bucket": r.get("bucket"), "score": r.get("score"), "published": r.get("published")}
+        {
+            "title": r.get("title"),
+            "url": r.get("url"),
+            "source": r.get("source"),
+            "bucket": r.get("bucket"),
+            "score": r.get("score"),
+            "published": r.get("published"),
+        }
         for r in reviewed
     ])
 
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "counts": {"kept": len(kept), "wings": len(wings), "rejected": len(rejected), "reviewed": len(reviewed)},
+        "counts": {
+            "kept": len(kept),
+            "wings": len(wings),
+            "rejected": len(rejected),
+            "reviewed": len(reviewed),
+        },
         "kept": sorted(kept, key=lambda x: x.get("score", 0), reverse=True),
         "in_the_wings": sorted(wings, key=lambda x: x.get("score", 0), reverse=True),
         "rejected": sorted(rejected, key=lambda x: x.get("score", 0), reverse=True)[:200],
@@ -375,6 +496,7 @@ def main():
     INDEX_FILE.write_text(render_html(payload, before_dedupe, after_dedupe), encoding="utf-8")
     print(f"Saved {INDEX_FILE}")
     print(f"Saved {OUTPUT_FILE}")
+
 
 if __name__ == "__main__":
     main()
