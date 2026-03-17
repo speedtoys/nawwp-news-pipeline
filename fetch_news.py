@@ -16,7 +16,6 @@ CONFIG_FILE = "rss_sources.json"
 ARCHIVE_FILE = "archive.json"
 DOCS_DIR = Path("docs")
 OUTPUT_FILE = DOCS_DIR / "news.json"
-INDEX_FILE = DOCS_DIR / "index.html"
 
 MAX_CANDIDATES_PER_FEED = int(os.getenv("MAX_CANDIDATES_PER_FEED", "80"))
 MAX_AI_REVIEWS_PER_RUN = int(os.getenv("MAX_AI_REVIEWS_PER_RUN", "260"))
@@ -55,6 +54,15 @@ CRIME = [
 SCANDAL = [
     "fake electors","alternate electors","electors","election fraud","campaign finance",
     "bribery","corruption","indictment","prosecution","felony","embezzlement"
+]
+
+SECTION_PAGES = [
+    ("index.html", "Front Page"),
+    ("education.html", "Education & Schools"),
+    ("gender.html", "Gender & Sexuality"),
+    ("religion.html", "Religion & Pluralism"),
+    ("race.html", "Race, DEI & Immigration"),
+    ("wings.html", "In the Wings"),
 ]
 
 def load_json(path: str, default):
@@ -213,8 +221,7 @@ def render_lead(lead: dict | None, side_items: list[dict]) -> str:
     lead_tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in lead.get("tags", [])[:5])
     right = "".join(story_card(x, compact=True) for x in side_items) or '<article class="story-card compact"><h3>No secondary stories</h3></article>'
     return (
-        '<section class="lead-grid" id="top">'
-        '<article class="lead-story">'
+        '<section class="lead-grid"><article class="lead-story">'
         '<div class="eyebrow">Lead story</div>'
         f'<div class="story-meta"><span class="angle">{html.escape(lead.get("angle", "identity-outrage story"))}</span>'
         f'<span>{html.escape(lead.get("state") or "US")}</span>'
@@ -225,18 +232,18 @@ def render_lead(lead: dict | None, side_items: list[dict]) -> str:
         f'<div class="tags">{lead_tags}</div>'
         f'<div class="source">{html.escape(lead.get("source", ""))}</div>'
         '</article>'
-        f'<div class="lead-side">{right}</div>'
-        '</section>'
+        f'<div class="lead-side">{right}</div></section>'
     )
 
-def render_section(title: str, subtitle: str, items: list[dict], section_id: str, compact: bool = False) -> str:
+def render_section(title: str, subtitle: str, items: list[dict], compact: bool = False) -> str:
     body = "".join(story_card(x, compact=compact) for x in items) if items else '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
     extra = " compact-grid" if compact else ""
     return (
-        f'<section class="section" id="{section_id}">'
+        '<section class="section">'
         '<div class="section-head"><div>'
-        f'<h2><a href="#{section_id}">{html.escape(title)}</a></h2><p>{html.escape(subtitle)}</p>'
-        f'</div><a class="back-top" href="#top">Back to top</a></div><div class="grid{extra}">{body}</div></section>'
+        f'<h2>{html.escape(title)}</h2><p>{html.escape(subtitle)}</p>'
+        '</div></div>'
+        f'<div class="grid{extra}">{body}</div></section>'
     )
 
 def render_sidebar(note_text: str) -> str:
@@ -245,8 +252,7 @@ def render_sidebar(note_text: str) -> str:
         '<div class="sidebar-card logo-card"><img src="images/nawwp_seal_logo.png" alt="NAWWP seal logo"></div>'
         '<div class="sidebar-card"><div class="sidebar-title">About this edition</div>'
         f'<p>{html.escape(note_text)}</p>'
-        '</div>'
-        '</aside>'
+        '</div></aside>'
     )
 
 def dedupe_rows(items: list[dict]) -> list[dict]:
@@ -267,26 +273,14 @@ def section_name(item: dict) -> str:
     angle = (item.get("angle") or "").lower()
     blob = " ".join([item.get("title", ""), item.get("summary", ""), angle]).lower()
 
-    if {"book-bans", "parents-rights"} & tags:
+    if {"book-bans", "parents-rights"} & tags or any(x in blob for x in ["school", "curriculum", "school board", "library", "voucher"]):
         return "Education & Schools"
-    if "school" in blob or "curriculum" in blob or "school board" in blob or "library" in blob or "voucher" in blob:
-        return "Education & Schools"
-
-    if {"anti-trans", "lgbtq-panic"} & tags:
+    if {"anti-trans", "lgbtq-panic"} & tags or any(x in blob for x in ["transgender", "gender ideology", "pronoun", "drag", "pride"]):
         return "Gender & Sexuality"
-    if "transgender" in blob or "gender ideology" in blob or "pronoun" in blob or "drag" in blob or "pride" in blob:
-        return "Gender & Sexuality"
-
-    if {"anti-muslim", "religious-liberty"} & tags:
+    if {"anti-muslim", "religious-liberty"} & tags or any(x in blob for x in ["muslim", "islamic school", "religious liberty", "christian values", "traditional values"]):
         return "Religion & Pluralism"
-    if "muslim" in blob or "islamic school" in blob or "religious liberty" in blob or "christian values" in blob or "traditional values" in blob:
-        return "Religion & Pluralism"
-
-    if {"anti-dei", "white-grievance", "immigration"} & tags:
+    if {"anti-dei", "white-grievance", "immigration"} & tags or any(x in blob for x in ["dei", "diversity", "equity", "white people", "white boys", "immigrant", "immigration", "refugee"]):
         return "Race, DEI & Immigration"
-    if "dei" in blob or "diversity" in blob or "equity" in blob or "white people" in blob or "white boys" in blob or "immigrant" in blob or "immigration" in blob or "refugee" in blob:
-        return "Race, DEI & Immigration"
-
     return "Top Stories"
 
 def build_sections(kept: list[dict]) -> dict:
@@ -301,41 +295,34 @@ def build_sections(kept: list[dict]) -> dict:
     }
     for item in rest:
         sections.setdefault(section_name(item), []).append(item)
-
-    side_items = sections["Top Stories"][:4]
-    remaining_top = sections["Top Stories"][4:10]
-
     return {
         "lead": lead,
-        "lead_side": side_items,
-        "top_stories": remaining_top,
-        "education": sections["Education & Schools"][:8],
-        "gender": sections["Gender & Sexuality"][:8],
-        "religion": sections["Religion & Pluralism"][:8],
-        "race": sections["Race, DEI & Immigration"][:8],
+        "lead_side": sections["Top Stories"][:4],
+        "top_stories": sections["Top Stories"][4:12],
+        "education": sections["Education & Schools"][:16],
+        "gender": sections["Gender & Sexuality"][:16],
+        "religion": sections["Religion & Pluralism"][:16],
+        "race": sections["Race, DEI & Immigration"][:16],
     }
 
-def render_html(payload: dict) -> str:
-    kept = payload["kept"]
-    wings = payload["in_the_wings"]
-    parts = build_sections(kept)
-    about_text = (
-        "This project tracks culture-war stories built around identity panic, symbolic grievance, "
-        "and fear-driven backlash involving race, religion, immigration, LGBTQ people, schools, "
-        "book bans, and DEI. The point is not to amplify the panic itself, but to show how often "
-        "people are steered by fear, misinformation, and manufactured outrage."
-    )
+def nav_html(current_file: str) -> str:
+    links = []
+    for filename, label in SECTION_PAGES:
+        cls = ' class="current"' if filename == current_file else ""
+        links.append(f'<a href="{filename}"{cls}>{html.escape(label)}</a>')
+    return '<nav class="section-nav" aria-label="Sections">' + "".join(links) + '</nav>'
+
+def page_shell(title: str, current_file: str, main_html: str, payload: dict, about_text: str) -> str:
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>National Association of Worried White People</title>
+<title>{html.escape(title)} - National Association of Worried White People</title>
 <meta name="description" content="Tracking fear-based narratives, misinformation, and identity grievance in U.S. politics, media, education, and public life.">
 <link rel="icon" type="image/png" href="images/nawwp_favicon_256.png">
 <style>
 :root{{--bg:#f5f1e8;--paper:#fffdf9;--ink:#151515;--muted:#666;--line:#ddd3c4;--accent:#931b1d;--accent2:#1b457d;--tag:#f3e7d5}}
-html{{scroll-behavior:smooth}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}}
 .wrap{{max-width:1420px;margin:0 auto;padding:0 22px 70px}}
@@ -345,6 +332,7 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
 .deck{{max-width:980px;color:#3d3d3d;font-size:21px;line-height:1.45;margin:0 0 14px}}
 .section-nav{{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:0 0 20px;font:700 12px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.10em;text-transform:uppercase;display:flex;gap:18px;flex-wrap:wrap}}
 .section-nav a{{color:var(--ink);text-decoration:none}}
+.section-nav a.current{{color:var(--accent)}}
 .section-nav a:hover{{text-decoration:underline;color:var(--accent)}}
 .layout{{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px;margin-top:10px}}
 .lead-grid{{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:24px}}
@@ -368,11 +356,7 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
 .section{{margin-top:34px}}
 .section-head{{display:flex;justify-content:space-between;gap:16px;align-items:end;border-top:3px solid var(--ink);padding-top:12px;margin-bottom:14px}}
 .section h2{{margin:0;font-size:34px}}
-.section h2 a{{color:inherit;text-decoration:none}}
-.section h2 a:hover{{text-decoration:underline}}
 .section p{{margin:0;color:var(--muted);font:15px/1.4 Arial,Helvetica,sans-serif}}
-.back-top{{font:12px/1.2 Arial,Helvetica,sans-serif;color:var(--muted);text-decoration:none;white-space:nowrap}}
-.back-top:hover{{text-decoration:underline;color:var(--accent)}}
 .grid{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
 .compact-grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .sidebar{{display:grid;gap:18px}}
@@ -392,60 +376,66 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
     <div>National Association of Worried White People</div>
     <div>Latest edition · <span id="latest-edition-time" data-generated="{html.escape(payload["generated_at"])}">loading…</span></div>
   </div>
-
-  <div class="hero-image" id="masthead">
+  <div class="hero-image">
     <img src="images/nawwp_masthead_social_1200w.png" alt="NAWWP masthead">
   </div>
-
   <div class="deck">Tracking fear-based narratives, misinformation, and identity grievance in U.S. politics, media, education, and public life.</div>
-
-  <nav class="section-nav" aria-label="Sections">
-    <a href="#top-stories">Top Stories</a>
-    <a href="#education">Education &amp; Schools</a>
-    <a href="#gender">Gender &amp; Sexuality</a>
-    <a href="#religion">Religion &amp; Pluralism</a>
-    <a href="#race">Race, DEI &amp; Immigration</a>
-    <a href="#wings">In the Wings</a>
-  </nav>
-
+  {nav_html(current_file)}
   <div class="layout">
-    <main>
-      {render_lead(parts["lead"], parts["lead_side"])}
-      {render_section("Top Stories", "The strongest stories in the current 7-day window.", parts["top_stories"], "top-stories", compact=True)}
-      {render_section("Education & Schools", "Book bans, curriculum fights, DEI in schools, school boards, and parents’ rights campaigns.", parts["education"], "education")}
-      {render_section("Gender & Sexuality", "Anti-trans panic, drag and pride backlash, pronoun fights, and gender-based outrage politics.", parts["gender"], "gender")}
-      {render_section("Religion & Pluralism", "Muslim school targeting, religious-liberty weaponization, and pluralism backlash.", parts["religion"], "religion")}
-      {render_section("Race, DEI & Immigration", "Anti-DEI backlash, white grievance rhetoric, and immigrant or refugee panic narratives.", parts["race"], "race")}
-      {render_section("In the Wings", "Borderline or adjacent stories from the last 7 days.", wings[:16], "wings", compact=True)}
-    </main>
+    <main>{main_html}</main>
     {render_sidebar(about_text)}
   </div>
-
   <div class="footer">Generated automatically from RSS and Google News RSS sources. Stories remain visible for a rolling 7-day window and age out automatically.</div>
 </div>
-
 <script>
 (function () {{
   const el = document.getElementById("latest-edition-time");
   if (!el) return;
   const raw = el.getAttribute("data-generated");
   const d = new Date(raw);
-  if (isNaN(d.getTime())) {{
-    el.textContent = raw;
-    return;
-  }}
+  if (isNaN(d.getTime())) {{ el.textContent = raw; return; }}
   el.textContent = d.toLocaleString([], {{
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit"
+    year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit"
   }});
 }})();
 </script>
-
 </body>
 </html>"""
+
+def build_page_html(payload: dict) -> dict:
+    kept = payload["kept"]
+    wings = payload["in_the_wings"]
+    parts = build_sections(kept)
+    about_text = (
+        "This project tracks culture-war stories built around identity panic, symbolic grievance, "
+        "and fear-driven backlash involving race, religion, immigration, LGBTQ people, schools, "
+        "book bans, and DEI. The point is not to amplify the panic itself, but to show how often "
+        "people are steered by fear, misinformation, and manufactured outrage."
+    )
+
+    front_main = (
+        render_lead(parts["lead"], parts["lead_side"])
+        + render_section("Top Stories", "The strongest stories in the current 7-day window.", parts["top_stories"], compact=True)
+        + render_section("Education & Schools", "Book bans, curriculum fights, DEI in schools, school boards, and parents’ rights campaigns.", parts["education"][:6])
+        + render_section("Gender & Sexuality", "Anti-trans panic, drag and pride backlash, pronoun fights, and gender-based outrage politics.", parts["gender"][:6])
+        + render_section("Religion & Pluralism", "Muslim school targeting, religious-liberty weaponization, and pluralism backlash.", parts["religion"][:6])
+        + render_section("Race, DEI & Immigration", "Anti-DEI backlash, white grievance rhetoric, and immigrant or refugee panic narratives.", parts["race"][:6])
+        + render_section("In the Wings", "Borderline or adjacent stories from the last 7 days.", wings[:12], compact=True)
+    )
+
+    return {
+        "index.html": page_shell("Front Page", "index.html", front_main, payload, about_text),
+        "education.html": page_shell("Education & Schools", "education.html", render_section("Education & Schools", "Book bans, curriculum fights, DEI in schools, school boards, and parents’ rights campaigns.", parts["education"]), payload, about_text),
+        "gender.html": page_shell("Gender & Sexuality", "gender.html", render_section("Gender & Sexuality", "Anti-trans panic, drag and pride backlash, pronoun fights, and gender-based outrage politics.", parts["gender"]), payload, about_text),
+        "religion.html": page_shell("Religion & Pluralism", "religion.html", render_section("Religion & Pluralism", "Muslim school targeting, religious-liberty weaponization, and pluralism backlash.", parts["religion"]), payload, about_text),
+        "race.html": page_shell("Race, DEI & Immigration", "race.html", render_section("Race, DEI & Immigration", "Anti-DEI backlash, white grievance rhetoric, and immigrant or refugee panic narratives.", parts["race"]), payload, about_text),
+        "wings.html": page_shell("In the Wings", "wings.html", render_section("In the Wings", "Borderline or adjacent stories from the last 7 days.", wings[:40], compact=True), payload, about_text),
+    }
+
+def write_pages(payload: dict) -> None:
+    pages = build_page_html(payload)
+    for filename, content in pages.items():
+        (DOCS_DIR / filename).write_text(content, encoding="utf-8")
 
 def main():
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
@@ -533,16 +523,8 @@ def main():
     archived_kept = [r for r in reviews if r.get("bucket") == "keep" and is_within_days(r.get("published", ""), ROLLING_DAYS)]
     archived_wings = [r for r in reviews if r.get("bucket") == "wings" and is_within_days(r.get("published", ""), ROLLING_DAYS)]
 
-    merged_kept = sorted(
-        dedupe_rows(current_kept + archived_kept),
-        key=lambda x: (float(x.get("score", 0)), x.get("published", "")),
-        reverse=True,
-    )
-    merged_wings = sorted(
-        dedupe_rows(current_wings + archived_wings),
-        key=lambda x: (float(x.get("score", 0)), x.get("published", "")),
-        reverse=True,
-    )
+    merged_kept = sorted(dedupe_rows(current_kept + archived_kept), key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
+    merged_wings = sorted(dedupe_rows(current_wings + archived_wings), key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
 
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -562,11 +544,12 @@ def main():
 
     save_json(ARCHIVE_FILE, {"seen": sorted(seen), "reviews": reviews})
     save_json(OUTPUT_FILE, payload)
-    INDEX_FILE.write_text(render_html(payload), encoding="utf-8")
+    write_pages(payload)
 
     print(f"Reviewed this run: {len(reviewed)}")
     print(f"Published rolling window: kept={len(merged_kept)} wings={len(merged_wings)} days={ROLLING_DAYS}")
-    print(f"Saved {INDEX_FILE}")
+    for filename, _ in SECTION_PAGES:
+        print(f"Saved {DOCS_DIR / filename}")
     print(f"Saved {OUTPUT_FILE}")
 
 if __name__ == "__main__":
