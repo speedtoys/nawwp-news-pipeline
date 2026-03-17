@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Education &amp; Schools - National Association of Worried White People</title>
+<meta name="description" content="Tracking fear-based narratives, misinformation, and identity grievance in U.S. politics, media, education, and public life.">
+<link rel="icon" type="image/png" href="images/nawwp_favicon_256.png">
+<style>
+:root{--bg:#f5f1e8;--paper:#fffdf9;--ink:#151515;--muted:#666;--line:#ddd3c4;--accent:#931b1d;--accent2:#1b457d;--tag:#f3e7d5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.wrap{max-width:1420px;margin:0 auto;padding:0 22px 70px}
+.topbar{border-bottom:1px solid var(--line);padding:14px 0 10px;color:var(--muted);font:13px/1.4 Arial,Helvetica,sans-serif;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.hero-image{margin:14px 0 10px;text-align:center}
+.hero-image img{width:100%;max-width:1200px;height:auto;display:inline-block;border:1px solid #cdbfa9;box-shadow:0 3px 18px rgba(0,0,0,.06);background:#fffdf9}
+.deck{max-width:980px;color:#3d3d3d;font-size:21px;line-height:1.45;margin:0 0 14px}
+.section-nav{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:0 0 20px;font:700 12px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.10em;text-transform:uppercase;display:flex;gap:18px;flex-wrap:wrap}
+.section-nav a{color:var(--ink);text-decoration:none}
+.section-nav a.current{color:var(--accent)}
+.section-nav a:hover{text-decoration:underline;color:var(--accent)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px;margin-top:10px}
+.lead-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:24px}
+.lead-story,.story-card,.sidebar-card{background:var(--paper);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.04)}
+.lead-story{padding:24px 26px}
+.lead-story h2{font-size:42px;line-height:1.05;margin:10px 0 12px}
+.lead-story p{font-size:20px;line-height:1.5;color:#2d2d2d}
+.lead-side{display:grid;gap:16px}
+.story-card{padding:18px 20px}
+.story-card.compact h3{font-size:24px}
+.story-card h3{margin:8px 0 10px;font-size:28px;line-height:1.12}
+.story-card a,.lead-story a{color:inherit;text-decoration:none}
+.story-card a:hover,.lead-story a:hover{text-decoration:underline}
+.story-meta{display:flex;gap:10px;flex-wrap:wrap;font:13px/1.4 Arial,Helvetica,sans-serif;color:var(--muted)}
+.story-meta .angle{color:var(--accent);font-weight:700}
+.eyebrow{font:700 11px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.summary{margin:0 0 12px;color:#2c2c2c}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tag{background:var(--tag);border:1px solid #e4d3b8;border-radius:999px;padding:5px 9px;font:12px/1.2 Arial,Helvetica,sans-serif;color:#6a4b20}
+.source{margin-top:12px;font:13px/1.4 Arial,Helvetica,sans-serif;color:var(--muted)}
+.section{margin-top:34px}
+.section-head{display:flex;justify-content:space-between;gap:16px;align-items:end;border-top:3px solid var(--ink);padding-top:12px;margin-bottom:14px}
+.section h2{margin:0;font-size:34px}
+.section p{margin:0;color:var(--muted);font:15px/1.4 Arial,Helvetica,sans-serif}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.compact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sidebar{display:grid;gap:18px}
+.sidebar-card{padding:18px 18px 14px}
+.logo-card{display:flex;align-items:center;justify-content:center;padding:22px}
+.logo-card img{max-width:180px;height:auto;display:block}
+.sidebar-title{font:700 13px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:14px}
+.sidebar-card p{color:var(--muted);font:14px/1.55 Arial,Helvetica,sans-serif}
+.footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font:14px/1.5 Arial,Helvetica,sans-serif;color:var(--muted)}
+@media (max-width:1180px){.layout{grid-template-columns:1fr}.sidebar{order:-1}}
+@media (max-width:980px){.lead-grid{grid-template-columns:1fr}.grid,.compact-grid{grid-template-columns:1fr}.lead-story h2{font-size:34px}.deck{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>National Association of Worried White People</div>
+    <div>Latest edition · <span id="latest-edition-time" data-generated="2026-03-17T08:30:55.073615+00:00">loading…</span></div>
+  </div>
+  <div class="hero-image">
+    <img src="images/nawwp_masthead_social_1200w.png" alt="NAWWP masthead">
+  </div>
+  <div class="deck">Tracking fear-based narratives, misinformation, and identity grievance in U.S. politics, media, education, and public life.</div>
+  <nav class="section-nav" aria-label="Sections"><a href="index.html">Front Page</a><a href="education.html" class="current">Education &amp; Schools</a><a href="gender.html">Gender &amp; Sexuality</a><a href="religion.html">Religion &amp; Pluralism</a><a href="race.html">Race, DEI &amp; Immigration</a><a href="wings.html">In the Wings</a></nav>
+  <div class="layout">
+    <main><section class="section"><div class="section-head"><div><h2>Education &amp; Schools</h2><p>Book bans, curriculum fights, DEI in schools, school boards, and parents’ rights campaigns.</p></div></div><div class="grid"><article class="story-card"><div class="story-meta"><span class="angle">book bans and curriculum</span><span>IA</span><span>Mar 13, 2026</span><span>score 6.4</span></div><h3><a href="https://news.google.com/rss/articles/CBMi3AFBVV95cUxOdEc1aTZEbG5wTXRBVnFucUZrSkl2aUkzS25uSlRuSGFUelJpS0dLUjdLWGYtX2ZDNlJFQkc2Zl8wSV9xbGRkVkZRdjhWNXV5TDJFNk9zVkhtZ2xNUXZYSnRSeFBaUW1aZWg0bnlTYXAzaTBXZk5nMDJKdFdRZkJ3eTB1dUc3T2FqaE1mQWNoQUp3Q0NESkx4ZDFJUHRKVXBUTnVkcjBDRkthcTdFTzJoUG16RngtMVlMNGdtRVgwVC1HbWZHWVBuZkRBSHVmdzZXbUUzamRoSkp3Wm5D?oc=5" target="_blank" rel="noopener noreferrer">School library book bans seen as targeting LGBTQ content - thegazette.com</a></h3><p class="summary">School library book bans seen as targeting LGBTQ content thegazette.com</p><div class="tags"><span class="tag">book-bans</span><span class="tag">lgbtq-panic</span></div><div class="source">Iowa</div></article><article class="story-card"><div class="story-meta"><span class="angle">anti-dei backlash</span><span>US</span><span>Mar 10, 2026</span><span>score 6.2</span></div><h3><a href="https://news.google.com/rss/articles/CBMiUkFVX3lxTE0zVWF6bHhrSEd2aExKS0xycnFoYmxPS01xVVdaRVMyc2UyVFhNaU5qdWhNS24wX2djQk4tTVZlSUJNaW51STJkYWctOXg4OW9TcXfSAWRBVV95cUxQZWY4TFoxMEdPRzZsakw4cjE1NW96UDdYdUlDNFR1SDFDclJFTFRpc2RHM3liamdDc0l2bDVCVlNEcG51cGZ3bUJDRVhGd3NGMHZQOVhEb3dVemxESW9qYmRYZGw1?oc=5" target="_blank" rel="noopener noreferrer">MAGA fans freak out over Trump&#x27;s secret new appointment: &#x27;DEI on steroids&#x27; - rawstory.com</a></h3><p class="summary">MAGA fans freak out over Trump&#x27;s secret new appointment: &#x27;DEI on steroids&#x27; rawstory.com</p><div class="tags"><span class="tag">anti-dei</span><span class="tag">book-bans</span></div><div class="source">Book bans and curriculum</div></article><article class="story-card"><div class="story-meta"><span class="angle">identity-outrage story</span><span>OK</span><span>Mar 11, 2026</span><span>score 4.6</span></div><h3><a href="https://oklahomavoice.com/2026/03/11/oklahoma-house-approves-bill-banning-state-from-displaying-lgbtq-pride-flags/" target="_blank" rel="noopener noreferrer">Oklahoma House approves bill banning state from displaying LGBTQ+ pride flags</a></h3><p class="summary">OKLAHOMA CITY — House lawmakers advanced legislation Wednesday that would ban any Oklahoma state government entity, including public schools, from recognizing Pride Month and from displaying LGBTQ+ pride flags. The bill passed the House floor along party lines despite concerns it would harm and minimize LGBTQ+ Oklahomans. The House also approved a prohibition on changes […]</p><div class="tags"><span class="tag">lgbtq-panic</span></div><div class="source">Oklahoma Voice</div></article><article class="story-card"><div class="story-meta"><span class="angle">identity-outrage story</span><span>AZ</span><span>Mar 12, 2026</span><span>score 4.4</span></div><h3><a href="https://azmirror.com/2026/03/12/arizona-gop-moves-to-defund-teachers-union-after-it-targeted-school-voucher-program/" target="_blank" rel="noopener noreferrer">Arizona GOP moves to defund teachers union after it targeted school voucher program</a></h3><p class="summary">The Arizona Education Association is the state’s largest teachers union, and it frequently advocates for or against legislation and political candidates on behalf of its more than 22,000 members. Republican lawmakers want to make it harder for the union to exist. Last month, GOP legislators gutted a bill about minimum wage to create a proposal […]</p><div class="tags"></div><div class="source">Arizona Mirror</div></article><article class="story-card"><div class="story-meta"><span class="angle">anti-immigrant panic</span><span>US</span><span>Mar 17, 2026</span><span>score 4.2</span></div><h3><a href="https://www.newsfromthestates.com/article/tennessee-house-passes-bill-requiring-immigration-checks-public-schools" target="_blank" rel="noopener noreferrer">Tennessee House passes bill requiring immigration checks in public schools</a></h3><p class="summary">Legislation to require Tennessee public schools to check student immigration status and report it to the state education department moved one significant step closer to becoming law after passage Monday in the GOP-dominated House of Representatives. The bill ( HB073/SB0836 ) by House Majority Leader William Lamberth, a Portland Republican, and Sen. Bo Watson, a Hixson Republican, drew heated pushback from Democrats on the House floor, who unsuccessfully offered a series of amendments that includ</p><div class="tags"><span class="tag">immigration</span></div><div class="source">News From The States</div></article></div></section></main>
+    <aside class="sidebar"><div class="sidebar-card logo-card"><img src="images/nawwp_seal_logo.png" alt="NAWWP seal logo"></div><div class="sidebar-card"><div class="sidebar-title">About this edition</div><p>This project tracks culture-war stories built around identity panic, symbolic grievance, and fear-driven backlash involving race, religion, immigration, LGBTQ people, schools, book bans, and DEI. The point is not to amplify the panic itself, but to show how often people are steered by fear, misinformation, and manufactured outrage.</p></div></aside>
+  </div>
+  <div class="footer">Generated automatically from RSS and Google News RSS sources. Stories remain visible for a rolling 7-day window and age out automatically.</div>
+</div>
+<script>
+(function () {
+  const el = document.getElementById("latest-edition-time");
+  if (!el) return;
+  const raw = el.getAttribute("data-generated");
+  const d = new Date(raw);
+  if (isNaN(d.getTime())) { el.textContent = raw; return; }
+  el.textContent = d.toLocaleString([], {
+    year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit"
+  });
+})();
+</script>
+</body>
+</html>
