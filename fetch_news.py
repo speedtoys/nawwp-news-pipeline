@@ -57,7 +57,6 @@ SCANDAL = [
     "bribery","corruption","indictment","prosecution","felony","embezzlement"
 ]
 
-
 def load_json(path: str, default):
     p = Path(path)
     if not p.exists():
@@ -67,15 +66,12 @@ def load_json(path: str, default):
     except Exception:
         return default
 
-
 def save_json(path: Path | str, payload) -> None:
     Path(path).write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-
 
 def strip_html(text: str) -> str:
     text = re.sub(r"<[^>]+>", " ", text or "")
     return re.sub(r"\s+", " ", html.unescape(text)).strip()
-
 
 def normalize_url(url: str) -> str:
     url = (url or "").strip()
@@ -83,11 +79,9 @@ def normalize_url(url: str) -> str:
         url = "https://" + url[len("http://"):]
     return url
 
-
 def build_google_news_rss(query: str) -> str:
     quoted = urllib.parse.quote(query)
     return f"https://news.google.com/rss/search?q={quoted}+when:{ROLLING_DAYS}d&hl=en-US&gl=US&ceid=US:en"
-
 
 def parse_date(entry) -> str:
     for raw in (
@@ -102,7 +96,6 @@ def parse_date(entry) -> str:
                 pass
     return dt.datetime.now(dt.timezone.utc).isoformat()
 
-
 def is_within_days(iso_str: str, days: int) -> bool:
     try:
         d = dt.datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
@@ -111,7 +104,6 @@ def is_within_days(iso_str: str, days: int) -> bool:
     except Exception:
         return False
 
-
 def term_matches(term: str, blob: str) -> bool:
     term = term.lower().strip()
     blob = blob.lower()
@@ -119,14 +111,12 @@ def term_matches(term: str, blob: str) -> bool:
         return term in blob
     return re.search(rf"\b{re.escape(term)}\b", blob) is not None
 
-
 def collect_matches(terms: list[str], blob: str) -> list[str]:
     return [term for term in terms if term_matches(term, blob)]
 
-
 def load_feed_specs() -> list[dict]:
     cfg = load_json(CONFIG_FILE, {})
-    out: list[dict] = []
+    out = []
     for item in cfg.get("rss_feeds", []):
         if item.get("enabled", True):
             out.append({"label": item["label"], "url": item["url"], "state": item.get("state")})
@@ -135,7 +125,6 @@ def load_feed_specs() -> list[dict]:
             out.append({"label": item["label"], "url": build_google_news_rss(item["query"]), "state": item.get("state")})
     return out
 
-
 def analyze_text(text: str) -> dict:
     t = (text or "").lower()
     i = collect_matches(IDENTITY, t)
@@ -143,29 +132,31 @@ def analyze_text(text: str) -> dict:
     a = collect_matches(ACTORS, t)
     c = collect_matches(CRIME, t)
     s = collect_matches(SCANDAL, t)
+
     score = round(len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6, 1)
+
     schoolish = any(term_matches(x, t) for x in [
         "school", "schools", "school board", "curriculum", "library",
         "book ban", "banned books", "voucher", "religious liberty",
         "parents' rights", "parents rights"
     ])
+
     maybe = (
         ((i and o) or (i and a) or len(i) >= 2 or (score >= 2.2 and i))
         or (schoolish and (i or o or a))
         or (len(i) >= 1 and len(o) >= 1)
         or (len(i) >= 1 and len(a) >= 1)
     ) and len(c) < 1 and not (s and not i)
-    return {"maybe_relevant": maybe, "lexical_score": score}
 
+    return {"maybe_relevant": maybe, "lexical_score": score}
 
 def article_key(item: dict) -> str:
     return normalize_url(item.get("url")) or re.sub(r"\W+", "-", item.get("title", "").lower()).strip("-")
 
-
 def fetch_candidates(spec: dict) -> list[dict]:
     parsed = feedparser.parse(spec["url"])
     entries = getattr(parsed, "entries", [])[:MAX_CANDIDATES_PER_FEED]
-    out: list[dict] = []
+    out = []
     for entry in entries:
         title = strip_html(getattr(entry, "title", ""))
         summary = strip_html(getattr(entry, "summary", "") or getattr(entry, "description", ""))
@@ -189,14 +180,12 @@ def fetch_candidates(spec: dict) -> list[dict]:
         })
     return out
 
-
 def format_date(iso_str: str) -> str:
     try:
         d = dt.datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
         return d.strftime("%b %d, %Y")
     except Exception:
         return ""
-
 
 def story_card(item: dict, compact: bool = False) -> str:
     tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in item.get("tags", [])[:4])
@@ -218,14 +207,13 @@ def story_card(item: dict, compact: bool = False) -> str:
         f'</article>'
     )
 
-
 def render_lead(lead: dict | None, side_items: list[dict]) -> str:
     if not lead:
         return '<section class="lead-grid"><article class="lead-story"><h2>No lead story yet</h2><p>Run the pipeline to generate the next edition.</p></article></section>'
     lead_tags = "".join(f'<span class="tag">{html.escape(str(tag))}</span>' for tag in lead.get("tags", [])[:5])
     right = "".join(story_card(x, compact=True) for x in side_items) or '<article class="story-card compact"><h3>No secondary stories</h3></article>'
     return (
-        '<section class="lead-grid">'
+        '<section class="lead-grid" id="top">'
         '<article class="lead-story">'
         '<div class="eyebrow">Lead story</div>'
         f'<div class="story-meta"><span class="angle">{html.escape(lead.get("angle", "identity-outrage story"))}</span>'
@@ -241,17 +229,15 @@ def render_lead(lead: dict | None, side_items: list[dict]) -> str:
         '</section>'
     )
 
-
-def render_section(title: str, subtitle: str, items: list[dict], compact: bool = False) -> str:
+def render_section(title: str, subtitle: str, items: list[dict], section_id: str, compact: bool = False) -> str:
     body = "".join(story_card(x, compact=compact) for x in items) if items else '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
     extra = " compact-grid" if compact else ""
     return (
-        '<section class="section">'
+        f'<section class="section" id="{section_id}">'
         '<div class="section-head"><div>'
-        f'<h2>{html.escape(title)}</h2><p>{html.escape(subtitle)}</p>'
-        f'</div></div><div class="grid{extra}">{body}</div></section>'
+        f'<h2><a href="#{section_id}">{html.escape(title)}</a></h2><p>{html.escape(subtitle)}</p>'
+        f'</div><a class="back-top" href="#top">Back to top</a></div><div class="grid{extra}">{body}</div></section>'
     )
-
 
 def render_sidebar(note_text: str) -> str:
     return (
@@ -262,7 +248,6 @@ def render_sidebar(note_text: str) -> str:
         '</div>'
         '</aside>'
     )
-
 
 def dedupe_rows(items: list[dict]) -> list[dict]:
     out = []
@@ -277,29 +262,32 @@ def dedupe_rows(items: list[dict]) -> list[dict]:
         out.append(item)
     return out
 
-
 def section_name(item: dict) -> str:
     tags = set(item.get("tags", []))
     angle = (item.get("angle") or "").lower()
     blob = " ".join([item.get("title", ""), item.get("summary", ""), angle]).lower()
+
     if {"book-bans", "parents-rights"} & tags:
         return "Education & Schools"
-    if any(x in blob for x in ["school", "curriculum", "school board", "library", "voucher"]):
+    if "school" in blob or "curriculum" in blob or "school board" in blob or "library" in blob or "voucher" in blob:
         return "Education & Schools"
+
     if {"anti-trans", "lgbtq-panic"} & tags:
         return "Gender & Sexuality"
-    if any(x in blob for x in ["transgender", "gender ideology", "pronoun", "drag", "pride"]):
+    if "transgender" in blob or "gender ideology" in blob or "pronoun" in blob or "drag" in blob or "pride" in blob:
         return "Gender & Sexuality"
+
     if {"anti-muslim", "religious-liberty"} & tags:
         return "Religion & Pluralism"
-    if any(x in blob for x in ["muslim", "islamic school", "religious liberty", "christian values", "traditional values"]):
+    if "muslim" in blob or "islamic school" in blob or "religious liberty" in blob or "christian values" in blob or "traditional values" in blob:
         return "Religion & Pluralism"
+
     if {"anti-dei", "white-grievance", "immigration"} & tags:
         return "Race, DEI & Immigration"
-    if any(x in blob for x in ["dei", "diversity", "equity", "white people", "white boys", "immigrant", "immigration", "refugee"]):
+    if "dei" in blob or "diversity" in blob or "equity" in blob or "white people" in blob or "white boys" in blob or "immigrant" in blob or "immigration" in blob or "refugee" in blob:
         return "Race, DEI & Immigration"
-    return "Top Stories"
 
+    return "Top Stories"
 
 def build_sections(kept: list[dict]) -> dict:
     lead = kept[0] if kept else None
@@ -313,16 +301,19 @@ def build_sections(kept: list[dict]) -> dict:
     }
     for item in rest:
         sections.setdefault(section_name(item), []).append(item)
+
+    side_items = sections["Top Stories"][:4]
+    remaining_top = sections["Top Stories"][4:10]
+
     return {
         "lead": lead,
-        "lead_side": sections["Top Stories"][:4],
-        "top_stories": sections["Top Stories"][4:10],
+        "lead_side": side_items,
+        "top_stories": remaining_top,
         "education": sections["Education & Schools"][:8],
         "gender": sections["Gender & Sexuality"][:8],
         "religion": sections["Religion & Pluralism"][:8],
         "race": sections["Race, DEI & Immigration"][:8],
     }
-
 
 def render_html(payload: dict) -> str:
     kept = payload["kept"]
@@ -334,7 +325,7 @@ def render_html(payload: dict) -> str:
         "book bans, and DEI. The point is not to amplify the panic itself, but to show how often "
         "people are steered by fear, misinformation, and manufactured outrage."
     )
-    return f'''<!doctype html>
+    return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -344,14 +335,18 @@ def render_html(payload: dict) -> str:
 <link rel="icon" type="image/png" href="images/nawwp_favicon_256.png">
 <style>
 :root{{--bg:#f5f1e8;--paper:#fffdf9;--ink:#151515;--muted:#666;--line:#ddd3c4;--accent:#931b1d;--accent2:#1b457d;--tag:#f3e7d5}}
+html{{scroll-behavior:smooth}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}}
 .wrap{{max-width:1420px;margin:0 auto;padding:0 22px 70px}}
 .topbar{{border-bottom:1px solid var(--line);padding:14px 0 10px;color:var(--muted);font:13px/1.4 Arial,Helvetica,sans-serif;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}}
-.hero-image{{margin:12px 0 16px}}
-.hero-image img{{width:100%;max-height:260px;object-fit:cover;object-position:center;display:block;border:1px solid #cdbfa9;box-shadow:0 3px 18px rgba(0,0,0,.06)}}
-.deck{{max-width:980px;color:#3d3d3d;font-size:21px;line-height:1.45;margin:0 0 10px}}
-.layout{{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px;margin-top:24px}}
+.hero-image{{margin:14px 0 10px;text-align:center}}
+.hero-image img{{width:100%;max-width:1200px;height:auto;display:inline-block;border:1px solid #cdbfa9;box-shadow:0 3px 18px rgba(0,0,0,.06);background:#fffdf9}}
+.deck{{max-width:980px;color:#3d3d3d;font-size:21px;line-height:1.45;margin:0 0 14px}}
+.section-nav{{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:0 0 20px;font:700 12px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.10em;text-transform:uppercase;display:flex;gap:18px;flex-wrap:wrap}}
+.section-nav a{{color:var(--ink);text-decoration:none}}
+.section-nav a:hover{{text-decoration:underline;color:var(--accent)}}
+.layout{{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px;margin-top:10px}}
 .lead-grid{{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:24px}}
 .lead-story,.story-card,.sidebar-card{{background:var(--paper);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.04)}}
 .lead-story{{padding:24px 26px}}
@@ -373,7 +368,11 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
 .section{{margin-top:34px}}
 .section-head{{display:flex;justify-content:space-between;gap:16px;align-items:end;border-top:3px solid var(--ink);padding-top:12px;margin-bottom:14px}}
 .section h2{{margin:0;font-size:34px}}
+.section h2 a{{color:inherit;text-decoration:none}}
+.section h2 a:hover{{text-decoration:underline}}
 .section p{{margin:0;color:var(--muted);font:15px/1.4 Arial,Helvetica,sans-serif}}
+.back-top{{font:12px/1.2 Arial,Helvetica,sans-serif;color:var(--muted);text-decoration:none;white-space:nowrap}}
+.back-top:hover{{text-decoration:underline;color:var(--accent)}}
 .grid{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
 .compact-grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .sidebar{{display:grid;gap:18px}}
@@ -384,7 +383,7 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
 .sidebar-card p{{color:var(--muted);font:14px/1.55 Arial,Helvetica,sans-serif}}
 .footer{{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font:14px/1.5 Arial,Helvetica,sans-serif;color:var(--muted)}}
 @media (max-width:1180px){{.layout{{grid-template-columns:1fr}}.sidebar{{order:-1}}}}
-@media (max-width:980px){{.lead-grid{{grid-template-columns:1fr}}.grid,.compact-grid{{grid-template-columns:1fr}}.lead-story h2{{font-size:34px}}.deck{{font-size:18px}}.hero-image img{{max-height:220px}}}}
+@media (max-width:980px){{.lead-grid{{grid-template-columns:1fr}}.grid,.compact-grid{{grid-template-columns:1fr}}.lead-story h2{{font-size:34px}}.deck{{font-size:18px}}}}
 </style>
 </head>
 <body>
@@ -394,21 +393,30 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
     <div>Latest edition · <span id="latest-edition-time" data-generated="{html.escape(payload["generated_at"])}">loading…</span></div>
   </div>
 
-  <div class="hero-image">
+  <div class="hero-image" id="masthead">
     <img src="images/nawwp_masthead_social_1200w.png" alt="NAWWP masthead">
   </div>
 
   <div class="deck">Tracking fear-based narratives, misinformation, and identity grievance in U.S. politics, media, education, and public life.</div>
 
+  <nav class="section-nav" aria-label="Sections">
+    <a href="#top-stories">Top Stories</a>
+    <a href="#education">Education &amp; Schools</a>
+    <a href="#gender">Gender &amp; Sexuality</a>
+    <a href="#religion">Religion &amp; Pluralism</a>
+    <a href="#race">Race, DEI &amp; Immigration</a>
+    <a href="#wings">In the Wings</a>
+  </nav>
+
   <div class="layout">
     <main>
       {render_lead(parts["lead"], parts["lead_side"])}
-      {render_section("Top Stories", "The strongest stories in the current 7-day window.", parts["top_stories"], compact=True)}
-      {render_section("Education & Schools", "Book bans, curriculum fights, DEI in schools, school boards, and parents’ rights campaigns.", parts["education"])}
-      {render_section("Gender & Sexuality", "Anti-trans panic, drag and pride backlash, pronoun fights, and gender-based outrage politics.", parts["gender"])}
-      {render_section("Religion & Pluralism", "Muslim school targeting, religious-liberty weaponization, and pluralism backlash.", parts["religion"])}
-      {render_section("Race, DEI & Immigration", "Anti-DEI backlash, white grievance rhetoric, and immigrant or refugee panic narratives.", parts["race"])}
-      {render_section("In the Wings", "Borderline or adjacent stories from the last 7 days.", wings[:16], compact=True)}
+      {render_section("Top Stories", "The strongest stories in the current 7-day window.", parts["top_stories"], "top-stories", compact=True)}
+      {render_section("Education & Schools", "Book bans, curriculum fights, DEI in schools, school boards, and parents’ rights campaigns.", parts["education"], "education")}
+      {render_section("Gender & Sexuality", "Anti-trans panic, drag and pride backlash, pronoun fights, and gender-based outrage politics.", parts["gender"], "gender")}
+      {render_section("Religion & Pluralism", "Muslim school targeting, religious-liberty weaponization, and pluralism backlash.", parts["religion"], "religion")}
+      {render_section("Race, DEI & Immigration", "Anti-DEI backlash, white grievance rhetoric, and immigrant or refugee panic narratives.", parts["race"], "race")}
+      {render_section("In the Wings", "Borderline or adjacent stories from the last 7 days.", wings[:16], "wings", compact=True)}
     </main>
     {render_sidebar(about_text)}
   </div>
@@ -437,8 +445,7 @@ body{{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Tim
 </script>
 
 </body>
-</html>'''
-
+</html>"""
 
 def main():
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
@@ -449,7 +456,7 @@ def main():
     if IGNORE_SEEN:
         seen = set()
 
-    raw: list[dict] = []
+    raw = []
     with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as ex:
         futures = {ex.submit(fetch_candidates, spec): spec for spec in specs}
         for fut in as_completed(futures):
@@ -463,8 +470,8 @@ def main():
 
     raw.sort(key=lambda x: (x["prefilter"]["lexical_score"], x.get("published", "")), reverse=True)
 
-    candidates: list[dict] = []
-    seen_local: set[str] = set()
+    candidates = []
+    seen_local = set()
     for item in raw:
         key = article_key(item)
         title_key = re.sub(r"\W+", " ", item.get("title", "").lower()).strip()
@@ -478,10 +485,10 @@ def main():
 
     candidates = candidates[:MAX_AI_REVIEWS_PER_RUN]
 
-    reviewed: list[dict] = []
-    current_kept: list[dict] = []
-    current_wings: list[dict] = []
-    current_rejected: list[dict] = []
+    reviewed = []
+    current_kept = []
+    current_wings = []
+    current_rejected = []
 
     with ThreadPoolExecutor(max_workers=AI_WORKERS) as ex:
         futures = {ex.submit(evaluate_article, item): item for item in candidates}
@@ -526,8 +533,16 @@ def main():
     archived_kept = [r for r in reviews if r.get("bucket") == "keep" and is_within_days(r.get("published", ""), ROLLING_DAYS)]
     archived_wings = [r for r in reviews if r.get("bucket") == "wings" and is_within_days(r.get("published", ""), ROLLING_DAYS)]
 
-    merged_kept = sorted(dedupe_rows(current_kept + archived_kept), key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
-    merged_wings = sorted(dedupe_rows(current_wings + archived_wings), key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
+    merged_kept = sorted(
+        dedupe_rows(current_kept + archived_kept),
+        key=lambda x: (float(x.get("score", 0)), x.get("published", "")),
+        reverse=True,
+    )
+    merged_wings = sorted(
+        dedupe_rows(current_wings + archived_wings),
+        key=lambda x: (float(x.get("score", 0)), x.get("published", "")),
+        reverse=True,
+    )
 
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
