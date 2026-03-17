@@ -1,15 +1,17 @@
 Unzip this archive from the root of your repo.
 
-It replaces:
+This bundle replaces:
+- rss_sources.json
 - fetch_news.py
+- score_articles.py
 
-It expects these images to already exist:
-- docs/images/nawwp_masthead_social_1200w.png
-- docs/images/nawwp_seal_logo.png
-- docs/images/nawwp_favicon_256.png
+What it changes:
+- much broader source coverage
+- many more Google News query families
+- looser discovery prefilter
+- boundary-safe anti-trans matching
+- hard rejection of real crime / violence stories
+- rolling 7-day visible publication window
 
-Changes:
-- tighter masthead header
-- removes Edition Metrics
-- replaces About this edition with a clearer explanatory paragraph
-- Latest edition uses browser local time
+Recommended run:
+IGNORE_SEEN=1 python fetch_news.py

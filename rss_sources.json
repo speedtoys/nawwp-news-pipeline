@@ -1,19 +1,424 @@
 {
   "rss_feeds": [
-    { "label": "NPR Politics", "url": "https://feeds.npr.org/1014/rss.xml", "bucket": "national", "enabled": true },
-    { "label": "NPR Education", "url": "https://feeds.npr.org/1013/rss.xml", "bucket": "education", "enabled": true },
-    { "label": "The Hill", "url": "https://thehill.com/feed/", "bucket": "politics", "enabled": true },
-    { "label": "AP News Politics", "url": "https://apnews.com/hub/politics/rss", "bucket": "politics", "enabled": true },
-    { "label": "Texas Tribune", "url": "https://www.texastribune.org/feeds/main/", "bucket": "state", "state": "TX", "enabled": true },
-    { "label": "Florida Politics", "url": "https://floridapolitics.com/feed/", "bucket": "state", "state": "FL", "enabled": true },
-    { "label": "Alabama Reflector", "url": "https://alabamareflector.com/feed/", "bucket": "state", "state": "AL", "enabled": true },
-    { "label": "News From The States", "url": "https://www.newsfromthestates.com/rss.xml", "bucket": "states", "enabled": true }
+    {
+      "label": "NPR Politics",
+      "url": "https://feeds.npr.org/1014/rss.xml",
+      "enabled": true
+    },
+    {
+      "label": "NPR Education",
+      "url": "https://feeds.npr.org/1013/rss.xml",
+      "enabled": true
+    },
+    {
+      "label": "The Hill",
+      "url": "https://thehill.com/feed/",
+      "enabled": true
+    },
+    {
+      "label": "AP News Politics",
+      "url": "https://apnews.com/hub/politics/rss",
+      "enabled": true
+    },
+    {
+      "label": "Texas Tribune",
+      "url": "https://www.texastribune.org/feeds/main/",
+      "state": "TX",
+      "enabled": true
+    },
+    {
+      "label": "Florida Politics",
+      "url": "https://floridapolitics.com/feed/",
+      "state": "FL",
+      "enabled": true
+    },
+    {
+      "label": "Alabama Reflector",
+      "url": "https://alabamareflector.com/feed/",
+      "state": "AL",
+      "enabled": true
+    },
+    {
+      "label": "Tennessee Lookout",
+      "url": "https://tennesseelookout.com/feed/",
+      "state": "TN",
+      "enabled": true
+    },
+    {
+      "label": "Iowa Capital Dispatch",
+      "url": "https://iowacapitaldispatch.com/feed/",
+      "state": "IA",
+      "enabled": true
+    },
+    {
+      "label": "Missouri Independent",
+      "url": "https://missouriindependent.com/feed/",
+      "state": "MO",
+      "enabled": true
+    },
+    {
+      "label": "Oklahoma Voice",
+      "url": "https://oklahomavoice.com/feed/",
+      "state": "OK",
+      "enabled": true
+    },
+    {
+      "label": "Idaho Capital Sun",
+      "url": "https://idahocapitalsun.com/feed/",
+      "state": "ID",
+      "enabled": true
+    },
+    {
+      "label": "Ohio Capital Journal",
+      "url": "https://ohiocapitaljournal.com/feed/",
+      "state": "OH",
+      "enabled": true
+    },
+    {
+      "label": "Arizona Mirror",
+      "url": "https://azmirror.com/feed/",
+      "state": "AZ",
+      "enabled": true
+    },
+    {
+      "label": "Georgia Recorder",
+      "url": "https://georgiarecorder.com/feed/",
+      "state": "GA",
+      "enabled": true
+    },
+    {
+      "label": "Michigan Advance",
+      "url": "https://michiganadvance.com/feed/",
+      "state": "MI",
+      "enabled": true
+    },
+    {
+      "label": "Wisconsin Examiner",
+      "url": "https://wisconsinexaminer.com/feed/",
+      "state": "WI",
+      "enabled": true
+    },
+    {
+      "label": "Pennsylvania Capital-Star",
+      "url": "https://penncapital-star.com/feed/",
+      "state": "PA",
+      "enabled": true
+    },
+    {
+      "label": "NC Newsline",
+      "url": "https://ncnewsline.com/feed/",
+      "state": "NC",
+      "enabled": true
+    },
+    {
+      "label": "Nevada Current",
+      "url": "https://nevadacurrent.com/feed/",
+      "state": "NV",
+      "enabled": true
+    },
+    {
+      "label": "Kentucky Lantern",
+      "url": "https://kentuckylantern.com/feed/",
+      "state": "KY",
+      "enabled": true
+    },
+    {
+      "label": "Kansas Reflector",
+      "url": "https://kansasreflector.com/feed/",
+      "state": "KS",
+      "enabled": true
+    },
+    {
+      "label": "Utah News Dispatch",
+      "url": "https://utahnewsdispatch.com/feed/",
+      "state": "UT",
+      "enabled": true
+    },
+    {
+      "label": "Arkansas Advocate",
+      "url": "https://arkansasadvocate.com/feed/",
+      "state": "AR",
+      "enabled": true
+    },
+    {
+      "label": "Louisiana Illuminator",
+      "url": "https://lailluminator.com/feed/",
+      "state": "LA",
+      "enabled": true
+    },
+    {
+      "label": "Indiana Capital Chronicle",
+      "url": "https://indianacapitalchronicle.com/feed/",
+      "state": "IN",
+      "enabled": true
+    },
+    {
+      "label": "West Virginia Watch",
+      "url": "https://westvirginiawatch.com/feed/",
+      "state": "WV",
+      "enabled": true
+    },
+    {
+      "label": "South Carolina Daily Gazette",
+      "url": "https://scdailygazette.com/feed/",
+      "state": "SC",
+      "enabled": true
+    },
+    {
+      "label": "News From The States",
+      "url": "https://www.newsfromthestates.com/rss.xml",
+      "enabled": true
+    }
   ],
   "google_news_queries": [
-    { "label": "DEI backlash", "query": "\"DEI\" OR diversity OR equity OR inclusion conservative backlash", "bucket": "identity", "enabled": true },
-    { "label": "Anti-trans panic", "query": "transgender OR trans OR \"gender ideology\" conservative backlash schools", "bucket": "identity", "enabled": true },
-    { "label": "Anti-Muslim schools and vouchers", "query": "\"Islamic school\" OR \"Muslim school\" voucher OR funding Republicans backlash", "bucket": "religion", "enabled": true },
-    { "label": "White grievance personalities", "query": "\"young white men\" OR \"white boys\" OR \"western civilization\" conservative backlash", "bucket": "identity", "enabled": true },
-    { "label": "Parents rights culture war", "query": "\"parents' rights\" OR \"parents rights\" anti-woke schools gender curriculum", "bucket": "schools", "enabled": true }
+    {
+      "label": "DEI backlash",
+      "query": "\"DEI\" OR diversity OR equity OR inclusion conservative backlash",
+      "enabled": true
+    },
+    {
+      "label": "Anti-trans panic",
+      "query": "transgender OR \"gender ideology\" OR pronoun conservative backlash schools",
+      "enabled": true
+    },
+    {
+      "label": "Religion and schools",
+      "query": "\"Muslim school\" OR \"Islamic school\" OR \"religious liberty\" conservative school backlash",
+      "enabled": true
+    },
+    {
+      "label": "Anti-Muslim schools and vouchers",
+      "query": "\"Islamic school\" OR \"Muslim school\" voucher OR funding Republicans backlash",
+      "enabled": true
+    },
+    {
+      "label": "Sharia and anti-Muslim rhetoric",
+      "query": "Muslims OR Sharia OR Islamic Republicans backlash conservative",
+      "enabled": true
+    },
+    {
+      "label": "Book bans and curriculum",
+      "query": "\"book ban\" OR curriculum OR \"school board\" conservative outrage",
+      "enabled": true
+    },
+    {
+      "label": "Parents rights culture war",
+      "query": "\"parents' rights\" OR \"parents rights\" anti-woke schools gender curriculum",
+      "enabled": true
+    },
+    {
+      "label": "Immigrant identity panic",
+      "query": "immigration conservative outrage identity schools community values",
+      "enabled": true
+    },
+    {
+      "label": "White grievance rhetoric",
+      "query": "\"white people\" OR \"white boys\" OR \"western civilization\" conservative rhetoric",
+      "enabled": true
+    },
+    {
+      "label": "White grievance personalities",
+      "query": "\"young white men\" OR \"white male\" OR disenfranchise conservative backlash",
+      "enabled": true
+    },
+    {
+      "label": "Religious liberty pluralism backlash",
+      "query": "\"religious liberty\" conservative backlash LGBTQ OR Muslim OR pluralism",
+      "enabled": true
+    },
+    {
+      "label": "School board moral panic",
+      "query": "\"school board\" conservative backlash gender OR diversity OR books",
+      "enabled": true
+    },
+    {
+      "label": "Drag and pride panic",
+      "query": "drag OR pride conservative backlash schools community",
+      "enabled": true
+    },
+    {
+      "label": "Christian values grievance",
+      "query": "\"christian values\" OR \"traditional values\" conservative backlash schools OR culture",
+      "enabled": true
+    },
+    {
+      "label": "Anti-immigrant schools and housing",
+      "query": "immigrant OR refugee conservative backlash schools housing community values",
+      "enabled": true
+    },
+    {
+      "label": "Florida",
+      "query": "Florida conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "FL",
+      "enabled": true
+    },
+    {
+      "label": "Texas",
+      "query": "Texas conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "TX",
+      "enabled": true
+    },
+    {
+      "label": "Oklahoma",
+      "query": "Oklahoma conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "OK",
+      "enabled": true
+    },
+    {
+      "label": "Tennessee",
+      "query": "Tennessee conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "TN",
+      "enabled": true
+    },
+    {
+      "label": "Missouri",
+      "query": "Missouri conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "MO",
+      "enabled": true
+    },
+    {
+      "label": "Iowa",
+      "query": "Iowa conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "IA",
+      "enabled": true
+    },
+    {
+      "label": "Idaho",
+      "query": "Idaho conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "ID",
+      "enabled": true
+    },
+    {
+      "label": "Alabama",
+      "query": "Alabama conservative OR Republican trans OR DEI OR book bans OR religious liberty OR Islamic school",
+      "state": "AL",
+      "enabled": true
+    },
+    {
+      "label": "Arkansas",
+      "query": "Arkansas conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "AR",
+      "enabled": true
+    },
+    {
+      "label": "South Carolina",
+      "query": "South Carolina conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "SC",
+      "enabled": true
+    },
+    {
+      "label": "Utah",
+      "query": "Utah conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "UT",
+      "enabled": true
+    },
+    {
+      "label": "Kansas",
+      "query": "Kansas conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "KS",
+      "enabled": true
+    },
+    {
+      "label": "Kentucky",
+      "query": "Kentucky conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "KY",
+      "enabled": true
+    },
+    {
+      "label": "Louisiana",
+      "query": "Louisiana conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "LA",
+      "enabled": true
+    },
+    {
+      "label": "Indiana",
+      "query": "Indiana conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "IN",
+      "enabled": true
+    },
+    {
+      "label": "West Virginia",
+      "query": "West Virginia conservative OR Republican trans OR DEI OR book bans OR religious liberty",
+      "state": "WV",
+      "enabled": true
+    },
+    {
+      "label": "Ohio battleground",
+      "query": "Ohio Republican trans OR DEI OR book bans OR religious liberty OR anti-woke",
+      "state": "OH",
+      "enabled": true
+    },
+    {
+      "label": "Arizona battleground",
+      "query": "Arizona Republican trans OR DEI OR book bans OR religious liberty OR anti-woke",
+      "state": "AZ",
+      "enabled": true
+    },
+    {
+      "label": "Georgia battleground",
+      "query": "Georgia Republican trans OR DEI OR book bans OR religious liberty OR anti-woke",
+      "state": "GA",
+      "enabled": true
+    },
+    {
+      "label": "Michigan battleground",
+      "query": "Michigan Republican trans OR DEI OR book bans OR religious liberty OR anti-woke",
+      "state": "MI",
+      "enabled": true
+    },
+    {
+      "label": "Wisconsin battleground",
+      "query": "Wisconsin Republican trans OR DEI OR book bans OR religious liberty OR anti-woke",
+      "state": "WI",
+      "enabled": true
+    },
+    {
+      "label": "Pennsylvania battleground",
+      "query": "Pennsylvania Republican trans OR DEI OR book bans OR religious liberty OR anti-woke",
+      "state": "PA",
+      "enabled": true
+    },
+    {
+      "label": "North Carolina battleground",
+      "query": "North Carolina Republican trans OR DEI OR book bans OR religious liberty OR anti-woke",
+      "state": "NC",
+      "enabled": true
+    },
+    {
+      "label": "Nevada battleground",
+      "query": "Nevada Republican trans OR DEI OR book bans OR religious liberty OR anti-woke",
+      "state": "NV",
+      "enabled": true
+    },
+    {
+      "label": "Reuters US politics",
+      "query": "site:reuters.com/world/us/ OR site:reuters.com/world/us/politics/ U.S. politics OR Trump OR Republicans OR Congress OR immigration OR transgender OR DEI OR religious liberty",
+      "enabled": true
+    },
+    {
+      "label": "Guardian US politics",
+      "query": "site:theguardian.com/us-news U.S. politics OR Trump OR Republicans OR Congress OR immigration OR transgender OR DEI OR religious liberty",
+      "enabled": true
+    },
+    {
+      "label": "Guardian US schools and rights",
+      "query": "site:theguardian.com/us-news school board OR book bans OR parents' rights OR curriculum OR DEI OR transgender OR Muslim school",
+      "enabled": true
+    },
+    {
+      "label": "Al Jazeera US politics",
+      "query": "site:aljazeera.com/us-canada U.S. politics OR Trump OR Republicans OR Congress OR immigration OR transgender OR DEI OR religious liberty",
+      "enabled": true
+    },
+    {
+      "label": "Al Jazeera US identity issues",
+      "query": "site:aljazeera.com/us-canada book bans OR parents' rights OR transgender OR Muslim school OR DEI OR immigration backlash",
+      "enabled": true
+    },
+    {
+      "label": "International coverage of US culture war",
+      "query": "(site:reuters.com OR site:theguardian.com OR site:aljazeera.com) U.S. conservatives backlash OR DEI OR transgender OR Muslim school OR book bans OR parents' rights OR white grievance",
+      "enabled": true
+    }
   ]
 }

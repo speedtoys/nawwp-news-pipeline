@@ -1,4 +1,3 @@
-\
 #!/usr/bin/env python3
 import datetime as dt
 import html
@@ -38,25 +37,28 @@ IDENTITY = [
     "islamic school", "immigrant", "immigration", "refugee", "illegal alien", "cair", "sharia"
 ]
 OUTRAGE = [
-    "backlash", "outrage", "criticized", "criticizes", "slams", "targets", "opposes", "ban",
-    "bans", "blocks", "defund", "exclude", "excluded", "remove", "pull funding", "lawsuit",
-    "sues", "debate", "hearing", "boycott", "pressure campaign"
+    "backlash", "outrage", "criticized", "criticizes", "slams", "targets", "opposes",
+    "ban", "bans", "blocks", "defund", "exclude", "excluded", "remove",
+    "pull funding", "lawsuit", "sues", "debate", "hearing", "boycott",
+    "pressure campaign"
 ]
 ACTORS = [
-    "maga", "trump", "republican", "republicans", "gop", "conservative", "conservatives",
-    "fox news", "moms for liberty", "charlie kirk", "erika kirk", "governor",
-    "attorney general", "state lawmakers", "christian nationalist"
+    "maga", "trump", "republican", "republicans", "gop", "conservative",
+    "conservatives", "fox news", "moms for liberty", "charlie kirk",
+    "erika kirk", "governor", "attorney general", "state lawmakers",
+    "christian nationalist"
 ]
 CRIME = [
     "shooting", "shot", "shot up", "gunman", "gunfire", "opened fire", "murder",
     "murdered", "killed", "dead", "injured", "wounded", "bombing", "terror",
     "terrorist", "arrested", "charged with", "indicted", "convicted", "sentenced",
-    "assault", "attacked", "attack", "rape", "sexual assault", "trafficking", "abuse",
-    "homicide", "stabbing", "stabbed"
+    "assault", "attacked", "attack", "rape", "sexual assault", "trafficking",
+    "abuse", "homicide", "stabbing", "stabbed"
 ]
 SCANDAL = [
-    "fake electors", "alternate electors", "electors", "election fraud", "campaign finance",
-    "bribery", "corruption", "indictment", "prosecution", "felony", "embezzlement"
+    "fake electors", "alternate electors", "electors", "election fraud",
+    "campaign finance", "bribery", "corruption", "indictment", "prosecution",
+    "felony", "embezzlement"
 ]
 
 
@@ -71,7 +73,10 @@ def load_json(path: str, default):
 
 
 def save_json(path: Path | str, payload) -> None:
-    Path(path).write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    Path(path).write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
 
 
 def strip_html(text: str) -> str:
@@ -88,7 +93,10 @@ def normalize_url(url: str) -> str:
 
 def build_google_news_rss(query: str) -> str:
     quoted = urllib.parse.quote(query)
-    return f"https://news.google.com/rss/search?q={quoted}+when:{ROLLING_DAYS}d&hl=en-US&gl=US&ceid=US:en"
+    return (
+        f"https://news.google.com/rss/search?q={quoted}+when:{ROLLING_DAYS}d"
+        "&hl=en-US&gl=US&ceid=US:en"
+    )
 
 
 def parse_date(entry) -> str:
@@ -114,6 +122,18 @@ def is_within_days(iso_str: str, days: int) -> bool:
         return False
 
 
+def term_matches(term: str, blob: str) -> bool:
+    term = term.lower().strip()
+    blob = blob.lower()
+    if " " in term or "-" in term or "'" in term:
+        return term in blob
+    return re.search(rf"\b{re.escape(term)}\b", blob) is not None
+
+
+def collect_matches(terms: list[str], blob: str) -> list[str]:
+    return [term for term in terms if term_matches(term, blob)]
+
+
 def load_feed_specs() -> list[dict]:
     cfg = load_json(CONFIG_FILE, {})
     out: list[dict] = []
@@ -137,18 +157,6 @@ def load_feed_specs() -> list[dict]:
     return out
 
 
-def term_matches(term: str, blob: str) -> bool:
-    term = term.lower().strip()
-    blob = blob.lower()
-    if " " in term or "-" in term or "'" in term:
-        return term in blob
-    return re.search(rf"\b{re.escape(term)}\b", blob) is not None
-
-
-def collect_matches(terms: list[str], blob: str) -> list[str]:
-    return [term for term in terms if term_matches(term, blob)]
-
-
 def analyze_text(text: str) -> dict:
     t = (text or "").lower()
     i = collect_matches(IDENTITY, t)
@@ -157,15 +165,27 @@ def analyze_text(text: str) -> dict:
     c = collect_matches(CRIME, t)
     s = collect_matches(SCANDAL, t)
 
-    score = round(len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6, 1)
-    maybe = ((i and o) or (i and a) or len(i) >= 2 or (score >= 2.8 and i)) and len(c) < 1 and not (s and not i)
+    score = round(
+        len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6,
+        1,
+    )
+
+    schoolish = any(term_matches(x, t) for x in [
+        "school", "schools", "school board", "curriculum", "library",
+        "book ban", "banned books", "voucher", "religious liberty",
+        "parents' rights", "parents rights"
+    ])
+
+    maybe = (
+        ((i and o) or (i and a) or len(i) >= 2 or (score >= 2.2 and i))
+        or (schoolish and (i or o or a))
+        or (len(i) >= 1 and len(o) >= 1)
+        or (len(i) >= 1 and len(a) >= 1)
+    ) and len(c) < 1 and not (s and not i)
 
     return {
         "maybe_relevant": maybe,
         "lexical_score": score,
-        "identity_hits": i[:8],
-        "outrage_hits": o[:8],
-        "actor_hits": a[:8],
     }
 
 
@@ -182,6 +202,7 @@ def fetch_candidates(spec: dict) -> list[dict]:
         title = strip_html(getattr(entry, "title", ""))
         summary = strip_html(getattr(entry, "summary", "") or getattr(entry, "description", ""))
         url = normalize_url(getattr(entry, "link", ""))
+
         if not title or not url:
             continue
 
@@ -280,6 +301,7 @@ def render_section(title: str, subtitle: str, items: list[dict], compact: bool =
         '<article class="story-card empty"><h3>Nothing in this section this run</h3></article>'
     )
     extra = " compact-grid" if compact else ""
+
     return (
         '<section class="section">'
         '<div class="section-head"><div>'
@@ -523,11 +545,16 @@ def main():
         if r.get("bucket") == "wings" and is_within_days(r.get("published", ""), ROLLING_DAYS)
     ]
 
-    merged_kept = dedupe_rows(current_kept + archived_kept)
-    merged_wings = dedupe_rows(current_wings + archived_wings)
-
-    merged_kept = sorted(merged_kept, key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
-    merged_wings = sorted(merged_wings, key=lambda x: (float(x.get("score", 0)), x.get("published", "")), reverse=True)
+    merged_kept = sorted(
+        dedupe_rows(current_kept + archived_kept),
+        key=lambda x: (float(x.get("score", 0)), x.get("published", "")),
+        reverse=True,
+    )
+    merged_wings = sorted(
+        dedupe_rows(current_wings + archived_wings),
+        key=lambda x: (float(x.get("score", 0)), x.get("published", "")),
+        reverse=True,
+    )
 
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
