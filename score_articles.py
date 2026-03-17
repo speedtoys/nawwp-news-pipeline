@@ -11,42 +11,140 @@ except Exception:
 MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
 
 IDENTITY = [
-    "dei", "diversity", "equity", "inclusion", "anti-woke", "woke", "trans", "transgender",
-    "pronoun", "drag", "pride", "lgbt", "lgbtq", "book ban", "banned books", "library",
-    "school board", "parents' rights", "voucher", "school choice", "religious liberty",
-    "christian values", "traditional values", "western civilization", "white people",
-    "white boys", "young white men", "muslim", "islamic", "muslim school", "islamic school",
-    "immigrant", "immigration", "cair", "sharia"
+    "dei",
+    "diversity",
+    "equity",
+    "inclusion",
+    "anti-woke",
+    "woke",
+    "transgender",
+    "gender ideology",
+    "pronoun",
+    "trans rights",
+    "trans student",
+    "trans athlete",
+    "drag",
+    "pride",
+    "lgbt",
+    "lgbtq",
+    "book ban",
+    "banned books",
+    "library",
+    "school board",
+    "parents' rights",
+    "parents rights",
+    "voucher",
+    "school choice",
+    "religious liberty",
+    "christian values",
+    "traditional values",
+    "western civilization",
+    "white people",
+    "white boys",
+    "young white men",
+    "muslim",
+    "islamic",
+    "muslim school",
+    "islamic school",
+    "immigrant",
+    "immigration",
+    "refugee",
+    "illegal alien",
+    "cair",
+    "sharia",
 ]
 
 OUTRAGE = [
-    "backlash", "outrage", "criticized", "criticizes", "slams", "targets", "opposes", "ban",
-    "bans", "blocks", "defund", "exclude", "excluded", "remove", "pull funding", "lawsuit",
-    "sues", "debate", "hearing", "boycott", "pressure campaign"
+    "backlash",
+    "outrage",
+    "criticized",
+    "criticizes",
+    "slams",
+    "targets",
+    "opposes",
+    "ban",
+    "bans",
+    "blocks",
+    "defund",
+    "exclude",
+    "excluded",
+    "remove",
+    "pull funding",
+    "lawsuit",
+    "sues",
+    "debate",
+    "hearing",
+    "boycott",
+    "pressure campaign",
 ]
 
 ACTORS = [
-    "maga", "trump", "republican", "republicans", "gop", "conservative", "conservatives",
-    "fox news", "moms for liberty", "charlie kirk", "erika kirk", "governor",
-    "attorney general", "state lawmakers", "christian nationalist"
+    "maga",
+    "trump",
+    "republican",
+    "republicans",
+    "gop",
+    "conservative",
+    "conservatives",
+    "fox news",
+    "moms for liberty",
+    "charlie kirk",
+    "erika kirk",
+    "governor",
+    "attorney general",
+    "state lawmakers",
+    "christian nationalist",
 ]
 
 CRIME = [
-    "shooting", "shot", "shot up", "gunman", "gunfire", "opened fire",
-    "murder", "murdered", "killed", "dead", "injured", "wounded",
-    "bombing", "terror", "terrorist", "arrested", "charged with",
-    "indicted", "convicted", "sentenced", "assault", "attacked", "attack",
-    "rape", "sexual assault", "trafficking", "abuse", "homicide",
-    "stabbing", "stabbed"
+    "shooting",
+    "shot",
+    "shot up",
+    "gunman",
+    "gunfire",
+    "opened fire",
+    "murder",
+    "murdered",
+    "killed",
+    "dead",
+    "injured",
+    "wounded",
+    "bombing",
+    "terror",
+    "terrorist",
+    "arrested",
+    "charged with",
+    "indicted",
+    "convicted",
+    "sentenced",
+    "assault",
+    "attacked",
+    "attack",
+    "rape",
+    "sexual assault",
+    "trafficking",
+    "abuse",
+    "homicide",
+    "stabbing",
+    "stabbed",
 ]
 
 SCANDAL = [
-    "fake electors", "alternate electors", "electors", "election fraud", "campaign finance",
-    "bribery", "corruption", "indictment", "prosecution", "felony", "embezzlement"
+    "fake electors",
+    "alternate electors",
+    "electors",
+    "election fraud",
+    "campaign finance",
+    "bribery",
+    "corruption",
+    "indictment",
+    "prosecution",
+    "felony",
+    "embezzlement",
 ]
 
 ANGLE_RULES = [
-    ("anti-trans panic", ["trans", "transgender", "gender ideology", "pronoun"]),
+    ("anti-trans panic", ["transgender", "gender ideology", "pronoun", "trans rights", "trans student", "trans athlete"]),
     ("anti-dei backlash", ["dei", "diversity", "equity", "inclusion"]),
     ("anti-muslim backlash", ["muslim", "islamic school", "muslim school", "sharia", "cair"]),
     ("white grievance rhetoric", ["young white men", "white people", "white boys", "western civilization"]),
@@ -58,7 +156,7 @@ ANGLE_RULES = [
 
 TAG_RULES = [
     ("anti-dei", ["dei", "diversity", "equity", "inclusion"]),
-    ("anti-trans", ["trans", "transgender", "gender ideology", "pronoun"]),
+    ("anti-trans", ["transgender", "gender ideology", "pronoun", "trans rights", "trans student", "trans athlete"]),
     ("anti-muslim", ["muslim", "islamic", "islamic school", "muslim school", "sharia", "cair"]),
     ("white-grievance", ["white people", "white boys", "young white men", "western civilization"]),
     ("book-bans", ["book ban", "banned books", "library"]),
@@ -77,17 +175,35 @@ PROMPT = (
 )
 
 
+def term_matches(term: str, blob: str) -> bool:
+    term = term.lower().strip()
+    blob = blob.lower()
+
+    # Multi-word phrases and hyphen/apostrophe phrases are best handled as phrases
+    if " " in term or "-" in term or "'" in term:
+        return term in blob
+
+    # Single-token terms use word boundaries to avoid junk matches like:
+    # trans -> transportation
+    # dei -> inside other strings
+    return re.search(rf"\b{re.escape(term)}\b", blob) is not None
+
+
+def collect_matches(terms: list[str], blob: str) -> list[str]:
+    return [term for term in terms if term_matches(term, blob)]
+
+
 def build_tags(blob: str) -> list[str]:
     out = []
     for tag, needles in TAG_RULES:
-        if any(n in blob for n in needles):
+        if any(term_matches(n, blob) for n in needles):
             out.append(tag)
     return out[:6]
 
 
 def build_angle(blob: str) -> str:
     for angle, needles in ANGLE_RULES:
-        if any(n in blob for n in needles):
+        if any(term_matches(n, blob) for n in needles):
             return angle
     return "identity-outrage story"
 
@@ -96,27 +212,41 @@ def heuristic(article: dict) -> dict:
     blob = " ".join([
         article.get("title", ""),
         article.get("summary", ""),
-        article.get("source", "")
+        article.get("source", ""),
     ]).lower()
 
-    i = [x for x in IDENTITY if x in blob]
-    o = [x for x in OUTRAGE if x in blob]
-    a = [x for x in ACTORS if x in blob]
-    c = [x for x in CRIME if x in blob]
-    s = [x for x in SCANDAL if x in blob]
+    i = collect_matches(IDENTITY, blob)
+    o = collect_matches(OUTRAGE, blob)
+    a = collect_matches(ACTORS, blob)
+    c = collect_matches(CRIME, blob)
+    s = collect_matches(SCANDAL, blob)
 
     score = max(
         0.0,
         min(
             10.0,
-            round(len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6, 1)
+            round(len(i) * 1.8 + len(o) * 1.0 + len(a) * 0.8 - len(c) * 2.5 - len(s) * 2.6, 1),
         ),
     )
 
-    violent_crime_override = any(x in blob for x in [
-        "shot", "shot up", "shooting", "gunman", "gunfire", "opened fire",
-        "killed", "murder", "murdered", "dead", "injured", "wounded",
-        "assault", "attack", "attacked", "stabbing", "stabbed"
+    violent_crime_override = any(term_matches(x, blob) for x in [
+        "shot",
+        "shot up",
+        "shooting",
+        "gunman",
+        "gunfire",
+        "opened fire",
+        "killed",
+        "murder",
+        "murdered",
+        "dead",
+        "injured",
+        "wounded",
+        "assault",
+        "attack",
+        "attacked",
+        "stabbing",
+        "stabbed",
     ])
 
     if violent_crime_override:
@@ -141,8 +271,8 @@ def heuristic(article: dict) -> dict:
         "reason": {
             "keep": "On-theme identity/pluralism backlash story.",
             "wings": "Borderline but worth a second look.",
-            "reject": "Generic scandal, real-world crime, violence, or off-theme politics."
-        }[bucket]
+            "reject": "Generic scandal, real-world crime, violence, or off-theme politics.",
+        }[bucket],
     }
 
 
@@ -181,6 +311,32 @@ def evaluate_article(article: dict) -> dict:
             return heuristic(article)
 
         blob = (article.get("title", "") + " " + article.get("summary", "")).lower()
+
+        # Force crime-first stories out, even if model gets cute
+        violent_crime_override = any(term_matches(x, blob) for x in [
+            "shot",
+            "shot up",
+            "shooting",
+            "gunman",
+            "gunfire",
+            "opened fire",
+            "killed",
+            "murder",
+            "murdered",
+            "dead",
+            "injured",
+            "wounded",
+            "assault",
+            "attack",
+            "attacked",
+            "stabbing",
+            "stabbed",
+        ])
+
+        if violent_crime_override or collect_matches(CRIME, blob):
+            out["bucket"] = "reject"
+            out["reason"] = "Rejected because the story is centered on an actual crime or violent incident."
+
         out["tags"] = out.get("tags") or build_tags(blob)
         out["angle"] = out.get("angle") or build_angle(blob)
         out["summary"] = out.get("summary") or article.get("summary", "")[:500]
