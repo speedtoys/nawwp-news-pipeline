@@ -88,6 +88,21 @@
       "enabled": true
     },
     {
+      "label": "Law & Order - federal agencies lose in court",
+      "query": "(\"Trump administration\" OR DHS OR ICE OR DOJ OR HHS OR Education Department OR EPA OR federal agency OR administration official) (injunction OR ruling OR court order OR judge ordered OR blocked by court OR unlawful OR illegal OR unconstitutional OR contempt OR sanctions OR settlement OR civil penalty OR consent decree OR damages OR due process)",
+      "enabled": true
+    },
+    {
+      "label": "Law & Order - ICE detention and due process",
+      "query": "(ICE OR DHS OR immigration detention OR deportation OR asylum) (illegal detention OR unlawful detention OR due process OR habeas OR injunction OR federal judge OR court order OR blocked by court OR ordered release OR contempt)",
+      "enabled": true
+    },
+    {
+      "label": "Law & Order - elections and voting legality",
+      "query": "(election board OR county clerk OR secretary of state OR voting maps OR district maps OR ballot access OR voter purge OR elections office) (illegal OR unlawful OR unconstitutional OR injunction OR ruling OR court order OR sanctions OR indictment OR charged OR contempt)",
+      "enabled": true
+    },
+    {
       "label": "Law & Order - GOP governments",
       "query": "(\"Trump administration\" OR Republican governor OR Republican attorney general OR Republican legislature OR Republican sheriff OR Republican county OR Republican school board OR Republican mayor) (court order OR injunction OR ruling OR judge ordered OR unconstitutional OR unlawful OR illegal OR contempt OR settlement OR civil penalty OR consent decree OR damages)",
       "enabled": true
