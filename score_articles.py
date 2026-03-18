@@ -8,19 +8,8 @@ ACTORS = ["maga","trump","republican","republicans","gop","conservative","conser
 GENERAL_CRIME = ["shooting","shot","shot up","gunman","gunfire","opened fire","murder","murdered","killed","dead","injured","wounded","bombing","terror","terrorist","arrested","charged with","indicted","convicted","sentenced","assault","attacked","attack","rape","sexual assault","trafficking","abuse","homicide","stabbing","stabbed"]
 SEX_CRIME = ["rape","sexual assault","sex abuse","sexual abuse","child sexual abuse","molestation","molested","child pornography","csam","exploitation","grooming","solicitation","sentenced","convicted","arrested","charged with","guilty plea","pleaded guilty"]
 HYPOCRISY_ACTORS = ["republican","gop","maga","conservative","pastor","priest","church","church leader","youth pastor","minister","deacon","christian school","family values","parents' rights","anti-lgbt","anti-trans","religious leader"]
-LAW_ORDER_ACTORS = [
-    "trump administration","federal agency","administration official","dhs","ice","doj","hhs","education department","epa",
-    "republican governor","republican attorney general","republican legislature","republican sheriff","republican county",
-    "republican school board","republican mayor","republican official","gop official","republican legislator","republican officeholder",
-    "trump adviser","trump official","republican county clerk","attorney general","governor","sheriff","mayor","county clerk","school board",
-    "election board","secretary of state","elections office"
-]
-LAW_ORDER_EVENTS = [
-    "court order","injunction","ruling","judge ordered","blocked by court","federal judge","ordered release","ordered to comply",
-    "unconstitutional","unlawful","illegal","contempt","settlement","civil penalty","civil penalties","consent decree","damages",
-    "sanctions","sanctioned","ethics violation","ethics finding","indicted","charged","convicted","sentenced","pleaded guilty","guilty plea",
-    "due process","habeas","records law","voting rights","map ruled"
-]
+LAW_ORDER_ACTORS = ["trump administration","federal agency","administration official","dhs","ice","doj","hhs","education department","epa","republican governor","republican attorney general","republican legislature","republican sheriff","republican county","republican school board","republican mayor","republican official","gop official","republican legislator","republican officeholder","trump adviser","trump official","republican county clerk","attorney general","governor","sheriff","mayor","county clerk","school board","election board","secretary of state","elections office"]
+LAW_ORDER_EVENTS = ["court order","injunction","ruling","judge ordered","blocked by court","federal judge","ordered release","ordered to comply","unconstitutional","unlawful","illegal","contempt","settlement","civil penalty","civil penalties","consent decree","damages","sanctions","sanctioned","ethics violation","ethics finding","indicted","charged","convicted","sentenced","pleaded guilty","guilty plea","due process","habeas","records law","voting rights","map ruled"]
 SCANDAL = ["fake electors","alternate electors","electors","election fraud","campaign finance","bribery","corruption","indictment","prosecution","felony","embezzlement"]
 
 def term_matches(term, blob):
