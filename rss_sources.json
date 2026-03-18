@@ -39,12 +39,6 @@
       "enabled": true
     },
     {
-      "label": "Tennessee Lookout",
-      "url": "https://tennesseelookout.com/feed/",
-      "state": "TN",
-      "enabled": true
-    },
-    {
       "label": "News From The States",
       "url": "https://www.newsfromthestates.com/rss.xml",
       "enabled": true
@@ -85,16 +79,6 @@
       "label": "Reuters US politics",
       "query": "site:reuters.com/world/us/ OR site:reuters.com/world/us/politics/ U.S. politics OR Trump OR Republicans OR Congress OR immigration OR transgender OR DEI OR religious liberty",
       "enabled": true
-    },
-    {
-      "label": "Guardian US politics",
-      "query": "site:theguardian.com/us-news U.S. politics OR Trump OR Republicans OR Congress OR immigration OR transgender OR DEI OR religious liberty",
-      "enabled": true
-    },
-    {
-      "label": "Al Jazeera US politics",
-      "query": "site:aljazeera.com/us-canada U.S. politics OR Trump OR Republicans OR Congress OR immigration OR transgender OR DEI OR religious liberty",
-      "enabled": true
     }
   ],
   "google_news_queries_special": [
@@ -104,8 +88,13 @@
       "enabled": true
     },
     {
-      "label": "Not A Trans - pastors and church abuse",
-      "query": "(pastor OR priest OR church leader OR youth pastor OR minister OR deacon OR church) (arrested OR charged OR convicted OR sentenced OR \"guilty plea\") (rape OR \"sexual assault\" OR molestation OR abuse OR exploitation)",
+      "label": "Law & Order - GOP governments",
+      "query": "(\"Trump administration\" OR Republican governor OR Republican attorney general OR Republican legislature OR Republican sheriff OR Republican county OR Republican school board OR Republican mayor) (court order OR injunction OR ruling OR judge ordered OR unconstitutional OR unlawful OR illegal OR contempt OR settlement OR civil penalty OR consent decree OR damages)",
+      "enabled": true
+    },
+    {
+      "label": "Law & Order - GOP office holders",
+      "query": "(Republican official OR GOP official OR Republican mayor OR Republican sheriff OR Republican legislator OR Republican county clerk OR Republican attorney general OR Republican officeholder OR Trump adviser OR Trump official) (indicted OR charged OR convicted OR sentenced OR court order OR sanctions OR civil penalty OR ethics violation OR contempt OR settlement)",
       "enabled": true
     }
   ]
